@@ -9,13 +9,13 @@
 	<body>
 		<h1>Cadastro de usuários</h1>
 
-		<form action="receber-nome.jsp">
+		<form action="ServletLogin" method="post">
 			<label>Nome:</label>
 			<input type="text" name="nome"/>
-			<br>
+			<br><br>
 			<label>Idade:</label>
 			<input type="text" name="idade"/>
-			<br>
+			<br><br>
 			<input type="submit" value="Enviar"/> 
 		</form>
 		
