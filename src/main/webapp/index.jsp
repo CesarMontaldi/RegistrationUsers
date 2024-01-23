@@ -8,16 +8,36 @@
 	</head>
 	<body>
 		<h1>Cadastro de usuários</h1>
-
+		
 		<form action="ServletLogin" method="post">
-			<label>Nome:</label>
-			<input type="text" name="nome"/>
-			<br><br>
-			<label>Idade:</label>
-			<input type="text" name="idade"/>
-			<br><br>
-			<input type="submit" value="Enviar"/> 
+		
+			<table>
+			
+				<tr>
+					<td><label>Login:</label></td>
+				</tr>
+				
+				<tr>
+					<td><input type="text" name="login"/></td>
+				</tr>
+				
+				<tr>
+					<td><label>Senha:</label></td>
+				</tr>
+				
+				<tr>
+					<td><input type="password" name="senha"/></td>
+				</tr>
+				
+				<tr>
+					<td><input type="submit" value="Entrar"/></td>
+				</tr>
+				
+			</table>
+	 
 		</form>
+		
+		<h4>${msg}</h4>
 		
 	</body>
 </html>
