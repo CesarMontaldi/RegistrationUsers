@@ -28,7 +28,7 @@
 				<tr>
 					<td><input type="password" name="senha"/></td>
 				</tr>
-				
+				<tr></tr>
 				<tr>
 					<td><input type="submit" value="Entrar"/></td>
 				</tr>
@@ -37,7 +37,7 @@
 	 
 		</form>
 		
-		<h4>${msg}</h4>
+		<h4 style="color: red;">${msg}</h4>
 		
 	</body>
 </html>
