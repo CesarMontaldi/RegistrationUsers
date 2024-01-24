@@ -4,12 +4,13 @@
 <html>
 	<head>
 		<meta charset="ISO-8859-1">
-		<title>Cadastro de usuários</title>
+		<title>Pagina de login</title>
 	</head>
 	<body>
-		<h1>Cadastro de usuários</h1>
+		<h1>Pagina de login</h1>
 		
 		<form action="ServletLogin" method="post">
+		<input type="hidden" value="<%= request.getParameter("url") %>" name="url">
 		
 			<table>
 			
