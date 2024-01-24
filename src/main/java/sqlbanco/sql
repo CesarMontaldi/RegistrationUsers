@@ -1,0 +1,26 @@
+
+CREATE DATABASE "cadastro-user"
+  WITH OWNER = postgres
+       ENCODING = 'UTF8'
+       TABLESPACE = pg_default
+       LC_COLLATE = 'Portuguese_Brazil.1252'
+       LC_CTYPE = 'Portuguese_Brazil.1252'
+       CONNECTION LIMIT = -1;
+
+
+CREATE TABLE public."users"
+(
+  login character varying(255),
+  senha character varying(255),
+  CONSTRAINT login_unique UNIQUE (login)
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE public."users"
+  OWNER TO postgres; 
+  
+  
+  INSERT INTO public."users"(
+            login, senha)
+    VALUES ('admin', 'admin');
