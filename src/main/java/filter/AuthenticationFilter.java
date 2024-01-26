@@ -67,6 +67,10 @@ public class AuthenticationFilter implements Filter {
 		
 		}catch (Exception e) {
 			e.printStackTrace();
+			RequestDispatcher redirecionar = request.getRequestDispatcher("error.jsp");
+			request.setAttribute("msgError", e.getMessage());
+			redirecionar.forward(request, response);
+			
 			try {
 				connection.rollback();
 			} catch (SQLException c) {
