@@ -39,7 +39,7 @@
 	
 			<div class="col-8">
 		    	<label class="form-label" for="login">Login</label>
-		    	<input type="text" name="login" id="login" class="form-control" required="required">
+		    	<input type="text" name="email" id="email" class="form-control" required="required">
 		    	<div class="valid-feedback">
 			      	OK
 			    </div>

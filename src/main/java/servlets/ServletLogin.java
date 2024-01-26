@@ -9,7 +9,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import model.ModelLogin;
+import model.ModelUsuario;
 
 /* O chamado Controller são as servlets */
 @WebServlet(urlPatterns = {"/principal/ServletLogin", "/ServletLogin"})/* Mapeamento de URL que vem da tela. */
@@ -41,20 +41,20 @@ public class ServletLogin extends HttpServlet {
 	/* Recebe os dados enviados por um formulario */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		String login = request.getParameter("login");
+		String email = request.getParameter("email");
 		String senha = request.getParameter("senha");
 		String url = request.getParameter("url");
 		
 		try {
-				if (login != null && !login.isEmpty() && senha != null && !senha.isEmpty()) {
+				if (email != null && !email.isEmpty() && senha != null && !senha.isEmpty()) {
 				
-					ModelLogin modelLogin = new ModelLogin();
-					modelLogin.setLogin(login);
-					modelLogin.setSenha(senha);
+					ModelUsuario modelUsuario = new ModelUsuario();
+					modelUsuario.setEmail(email);
+					modelUsuario.setSenha(senha);
 					
-					if (daoLoginRepository.validarAutenticacao(modelLogin)) {/* Simulando login */
+					if (daoLoginRepository.validarAutenticacao(modelUsuario)) {/* Simulando login */
 						
-						request.getSession().setAttribute("usuario", modelLogin.getLogin()); /* Coloca o usuario na sessão para manter ele logado */
+						request.getSession().setAttribute("usuario", modelUsuario.getEmail()); /* Coloca o usuario na sessão para manter ele logado */
 						
 						/* Verifica se o usuario esta tentando acessar alguma pagina do sistema, senão redireciona ele para pagina inicial do sistema */
 						if (url == null || url.equals("null")) {

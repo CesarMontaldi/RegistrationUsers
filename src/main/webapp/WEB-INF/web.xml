@@ -15,4 +15,10 @@
     <filter-name>AuthenticationFilter</filter-name>
     <filter-class>filter.AuthenticationFilter</filter-class>
   </filter>
+  <servlet>
+    <description></description>
+    <display-name>ServletUsuarioController</display-name>
+    <servlet-name>ServletUsuarioController</servlet-name>
+    <servlet-class>servlets.ServletUsuarioController</servlet-class>
+  </servlet>
 </web-app>

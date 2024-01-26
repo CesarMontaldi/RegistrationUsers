@@ -6,7 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import connection.SingleConnection;
-import model.ModelLogin;
+import model.ModelUsuario;
 
 public class DAOLoginRepository {
 	
@@ -16,14 +16,14 @@ public class DAOLoginRepository {
 		connection = SingleConnection.getConnection();
 	}
 	
-	public boolean validarAutenticacao(ModelLogin modelLogin) throws SQLException {
+	public boolean validarAutenticacao(ModelUsuario modelUsuario) throws SQLException {
 		
-		String sql = "select * from users where upper(login) = upper(?) and upper(senha) = upper(?) ";
+		String sql = "select * from users where upper(email) = upper(?) and upper(senha) = upper(?) ";
 		
 		PreparedStatement statement = connection.prepareStatement(sql);
 		
-		statement.setString(1, modelLogin.getLogin());
-		statement.setString(2, modelLogin.getSenha());
+		statement.setString(1, modelUsuario.getEmail());
+		statement.setString(2, modelUsuario.getSenha());
 		
 		ResultSet resultSet = statement.executeQuery();
 		
