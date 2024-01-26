@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
    
 <!DOCTYPE html>
-<html>
+<html xmlns:f="http://xmlns.jcp.org/jsf/core">
 	<head>
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
