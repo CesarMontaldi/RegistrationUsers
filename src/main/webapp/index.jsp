@@ -31,6 +31,7 @@
 	</head>
 	<body>
 
+		
 		<form action="ServletLogin" method="post" class="row g-3 needs-validation d-flex col-6" novalidate>
 		<input type="hidden" value="<%= request.getParameter("url")%>" name="url">
 		
@@ -83,8 +84,11 @@
 			        form.classList.add('was-validated')
 			      }, false)
 			    })
+			   
 			})()
-					
+				
+			 
+				
 		</script>
 	</body>
 </html>
