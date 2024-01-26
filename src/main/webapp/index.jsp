@@ -32,7 +32,7 @@
 	<body>
 
 		
-		<form action="ServletLogin" method="post" class="row g-3 needs-validation d-flex col-6" novalidate>
+		<form action="<%=request.getContextPath()%>/ServletLogin" method="post" class="row g-3 needs-validation d-flex col-6" novalidate>
 		<input type="hidden" value="<%= request.getParameter("url")%>" name="url">
 		
 		<h2 class="col-8 d-flex justify-content-center">Bem vindo ao curso JSP</h2>
