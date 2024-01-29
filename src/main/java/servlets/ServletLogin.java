@@ -16,7 +16,7 @@ import model.ModelUsuario;
 public class ServletLogin extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
-	private DAOUsuarioRepository daoLoginRepository = new DAOUsuarioRepository();
+	private DAOUsuarioRepository daoUsuarioRepository = new DAOUsuarioRepository();
   
     public ServletLogin() {
 
@@ -40,10 +40,10 @@ public class ServletLogin extends HttpServlet {
 
 	/* Recebe os dados enviados por um formulario */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
 		String email = request.getParameter("email");
 		String senha = request.getParameter("senha");
 		String url = request.getParameter("url");
+		
 		
 		try {
 				if (email != null && !email.isEmpty() && senha != null && !senha.isEmpty()) {
@@ -52,7 +52,8 @@ public class ServletLogin extends HttpServlet {
 					modelUsuario.setEmail(email);
 					modelUsuario.setSenha(senha);
 					
-					if (daoLoginRepository.validarAutenticacao(modelUsuario)) {/* Simulando login */
+					
+					if (daoUsuarioRepository.validarAutenticacao(modelUsuario)) {/* Simulando login */
 						
 						request.getSession().setAttribute("usuario", modelUsuario.getEmail()); /* Coloca o usuario na sessão para manter ele logado */
 						
@@ -82,6 +83,7 @@ public class ServletLogin extends HttpServlet {
 			request.setAttribute("msgError", e.getMessage());
 			redirecionar.forward(request, response);
 			}
+		
 
 	}
 	

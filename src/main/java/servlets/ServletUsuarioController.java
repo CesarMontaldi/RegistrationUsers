@@ -38,12 +38,13 @@ public class ServletUsuarioController extends HttpServlet {
 			String senha = request.getParameter("senha");
 			
 			ModelUsuario modelUsuario = new ModelUsuario();
+			
 			modelUsuario.setId(id != null && !id.isEmpty() ? Long.parseLong(id) : null);
 			modelUsuario.setNome(nome);
 			modelUsuario.setEmail(email);
 			modelUsuario.setSenha(senha);
 			
-			daoUsuarioRepository.gravarUsuario(modelUsuario);
+			modelUsuario = daoUsuarioRepository.gravarUsuario(modelUsuario);
 			
 			request.setAttribute("msg", "Operação realizada com sucesso!");
 			RequestDispatcher redireciona = request.getRequestDispatcher("principal/cadastroUsuario.jsp");
