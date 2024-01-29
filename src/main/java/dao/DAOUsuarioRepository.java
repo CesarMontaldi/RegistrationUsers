@@ -43,16 +43,30 @@ public class DAOUsuarioRepository {
 	
 	public ModelUsuario gravarUsuario(ModelUsuario usuario) throws SQLException {
 		
+		if (usuario.isNovo()) {
 	
-		String sql = "insert into users(nome, email, senha) VALUES (?, ?, ?);";
-		PreparedStatement preparedSql = connection.prepareStatement(sql);
+			String sql = "insert into users(nome, email, senha) VALUES (?, ?, ?);";
+			PreparedStatement preparedSql = connection.prepareStatement(sql);
+				
+			preparedSql.setString(1, usuario.getNome());
+			preparedSql.setString(2, usuario.getEmail());
+			preparedSql.setString(3, usuario.getSenha());
 			
-		preparedSql.setString(1, usuario.getNome());
-		preparedSql.setString(2, usuario.getEmail());
-		preparedSql.setString(3, usuario.getSenha());
+			preparedSql.execute();
+			connection.commit();
 		
-		preparedSql.execute();
-		connection.commit();
+		}else {
+			String sql = "update users SET nome=?, email=?, senha=? WHERE id = "+usuario.getId()+";";
+			
+			PreparedStatement preparedSql = connection.prepareStatement(sql);
+			
+			preparedSql.setString(1, usuario.getNome());
+			preparedSql.setString(2, usuario.getEmail());
+			preparedSql.setString(3, usuario.getSenha());
+			
+			preparedSql.executeUpdate();
+			connection.commit();
+		}
 		
 		return this.consultaUsuario(usuario.getEmail());
 	}

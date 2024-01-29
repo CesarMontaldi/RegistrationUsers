@@ -51,6 +51,12 @@ public class ServletUsuarioController extends HttpServlet {
 				msg = "Já existe usuário com o mesmo login, informe outro.";
 				
 			}else {
+				if (modelUsuario.isNovo()) {
+					msg = "Usuário cadastrado com sucesso!";
+				}else {
+					msg = "Usuário atualizado com sucesso!";
+				}
+				
 				modelUsuario = daoUsuarioRepository.gravarUsuario(modelUsuario);
 			}
 			
