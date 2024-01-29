@@ -52,10 +52,11 @@ public class ServletLogin extends HttpServlet {
 					modelUsuario.setEmail(email);
 					modelUsuario.setSenha(senha);
 					
+					ModelUsuario user = daoUsuarioRepository.consultaUsuario(email);
 					
 					if (daoUsuarioRepository.validarAutenticacao(modelUsuario)) {/* Simulando login */
-						
-						request.getSession().setAttribute("usuario", modelUsuario.getEmail()); /* Coloca o usuario na sessão para manter ele logado */
+	
+						request.getSession().setAttribute("usuario", user.getNome()); /* Coloca o usuario na sessão para manter ele logado */
 						
 						/* Verifica se o usuario esta tentando acessar alguma pagina do sistema, senão redireciona ele para pagina inicial do sistema */
 						if (url == null || url.equals("null")) {

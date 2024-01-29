@@ -44,7 +44,7 @@ public class DAOUsuarioRepository {
 	public ModelUsuario gravarUsuario(ModelUsuario usuario) throws SQLException {
 		
 	
-		String sql = "INSERT INTO users(nome, email, senha) VALUES (?, ?, ?);";
+		String sql = "insert into users(nome, email, senha) VALUES (?, ?, ?);";
 		PreparedStatement preparedSql = connection.prepareStatement(sql);
 			
 		preparedSql.setString(1, usuario.getNome());
@@ -62,7 +62,7 @@ public class DAOUsuarioRepository {
 		
 		ModelUsuario user = new ModelUsuario();
 
-		String sql = "SELECT * from users where upper(email) = upper(?)";
+		String sql = "select * from users where upper(email) = upper(?)";
 		
 		PreparedStatement statement = connection.prepareStatement(sql);
 		
@@ -77,6 +77,21 @@ public class DAOUsuarioRepository {
 			user.setSenha(resultado.getString("senha"));
 		}
 		return user;
+	}
+	
+	public boolean validarLogin(String login) throws Exception {
+		
+		String sql = "select count(1) > 0 as existe from users where upper(email) = upper(?)";
+
+		PreparedStatement statement = connection.prepareStatement(sql);
+		
+		statement.setString(1, login);
+		
+		ResultSet resultado = statement.executeQuery();
+		
+		resultado.next();
+		return resultado.getBoolean("existe");
+
 	}
 
 }
