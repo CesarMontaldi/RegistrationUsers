@@ -39,7 +39,7 @@
 	
 			<div class="col-8">
 		    	<label class="form-label" for="login">Login</label>
-		    	<input type="text" name="email" id="email" class="form-control" required="required">
+		    	<input type="text" name="email" id="email" class="form-control" required="required" autofocus>
 		    	<div class="valid-feedback">
 			      	OK
 			    </div>
@@ -50,7 +50,7 @@
 		 	</div>
 		 	<div class="col-8">
 		    	<label class="form-label" for="senha">Senha</label>
-		    	<input type="password" name="senha" id="senha" class="form-control" required="required">
+		    	<input type="password" name="senha" id="senha" class="form-control" required="required" >
 		    	<div class="valid-feedback">
 			      	OK
 			    </div>

@@ -63,14 +63,14 @@
 														</div>
 														<button type="button" class="btn waves-effect waves-light btn-success" onclick="limparForm()">Novo</button>
 														<button type="submit" class="btn waves-effect waves-light btn-primary ml-3">Salvar</button>
-														<button type="button" class="btn waves-effect waves-light btn-danger ml-3" onclick="criarDelete()">Excluir</button>
+														<button type="button" class="btn waves-effect waves-light btn-danger ml-3" onclick="deleteAjax()">Excluir</button>
 													</form>
 
 												</div>
 											</div>
 										</div>
 									</div>
-										<span>${msg}</span>
+										<span id="msg">${msg}</span>
 								</div>
 								<div id="styleSelector"></div>
 							</div>
@@ -85,11 +85,40 @@
 	
 	<script type="text/javascript">
 
+		function deleteAjax() {
+
+			if (confirm("Deseja realmente excluir os dados?")) {
+
+					var urlAction = document.getElementById("formUser").action;
+					var idUser = document.getElementById("id").value;
+
+					$.ajax({
+
+						method: "GET",
+						url: urlAction,
+						data: "id=" + idUser + "&acao=deletarAjax",
+						success: function(response) {
+
+							document.getElementById("msg").textContent = response;
+							limparForm();
+						}
+						
+					}).fail(function(xhr, status, errorThrow){
+
+						alert("Erro ao deletar o usuário:" + xhr.responseText);
+					});
+				}
+		}
+
 		function criarDelete() {
-			document.getElementById("formUser").method = 'get';
-			document.getElementById("acao").value = 'deletar';
-			document.getElementById("formUser").submit();
+
+			if(confirm("Deseja realmente excluir os dados?")) {
+			
+				document.getElementById("formUser").method = 'get';
+				document.getElementById("acao").value = 'deletar';
+				document.getElementById("formUser").submit();
 			}
+		}
 
 		function limparForm() {
 			var elementos = document.getElementById("formUser").elements; /* Retorna os elementos html dentro do form */
