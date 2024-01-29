@@ -67,7 +67,7 @@
 											</div>
 										</div>
 									</div>
-
+										<span>${msg}</span>
 								</div>
 								<div id="styleSelector"></div>
 							</div>

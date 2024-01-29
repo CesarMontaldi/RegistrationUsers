@@ -10,10 +10,14 @@ import model.ModelUsuario;
 
 import java.io.IOException;
 
+import dao.DAOUsuarioRepository;
+
 
 @WebServlet("/ServletUsuarioController")
 public class ServletUsuarioController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	
+	private DAOUsuarioRepository daoUsuarioRepository = new DAOUsuarioRepository();
  
     public ServletUsuarioController() {
 
@@ -27,20 +31,32 @@ public class ServletUsuarioController extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		String id = request.getParameter("id");
-		String nome = request.getParameter("nome");
-		String email = request.getParameter("email");
-		String senha = request.getParameter("senha");
+		try {
+			String id = request.getParameter("id");
+			String nome = request.getParameter("nome");
+			String email = request.getParameter("email");
+			String senha = request.getParameter("senha");
+			
+			ModelUsuario modelUsuario = new ModelUsuario();
+			modelUsuario.setId(id != null && !id.isEmpty() ? Long.parseLong(id) : null);
+			modelUsuario.setNome(nome);
+			modelUsuario.setEmail(email);
+			modelUsuario.setSenha(senha);
+			
+			daoUsuarioRepository.gravarUsuario(modelUsuario);
+			
+			request.setAttribute("msg", "Operação realizada com sucesso!");
+			RequestDispatcher redireciona = request.getRequestDispatcher("principal/cadastroUsuario.jsp");
+			request.setAttribute("modelUsuario", modelUsuario);
+			redireciona.forward(request, response);
 		
-		ModelUsuario modelUsuario = new ModelUsuario();
-		modelUsuario.setId(id != null && !id.isEmpty() ? Long.parseLong(id) : null);
-		modelUsuario.setNome(nome);
-		modelUsuario.setEmail(email);
-		modelUsuario.setSenha(senha);
-		
-		RequestDispatcher redireciona = request.getRequestDispatcher("principal/cadastroUsuario.jsp");
-		request.setAttribute("modelUsuario", modelUsuario);
-		redireciona.forward(request, response);
+		}catch (Exception e) {
+			e.printStackTrace();
+			RequestDispatcher redirecionar = request.getRequestDispatcher("error.jsp");
+			request.setAttribute("msgError", e.getMessage());
+			redirecionar.forward(request, response);
+		}
+			
 	}
 
 }

@@ -8,11 +8,11 @@ import java.sql.SQLException;
 import connection.SingleConnection;
 import model.ModelUsuario;
 
-public class DAOLoginRepository {
+public class DAOUsuarioRepository {
 	
 	private Connection connection;
 	
-	public DAOLoginRepository() {
+	public DAOUsuarioRepository() {
 		connection = SingleConnection.getConnection();
 	}
 	
@@ -33,5 +33,23 @@ public class DAOLoginRepository {
 		
 		return false;/* não autenticado */
 	}
+	
+	public void gravarUsuario(ModelUsuario usuario) throws SQLException {
+		
+	
+		String sql = "INSERT INTO users(nome, email, senha) VALUES (?, ?, ?);";
+		PreparedStatement preparedSql = connection.prepareStatement(sql);
+			
+		preparedSql.setString(1, usuario.getNome());
+		preparedSql.setString(2, usuario.getEmail());
+		preparedSql.setString(3, usuario.getSenha());
+		
+		preparedSql.execute();
+		connection.commit();
+
+	}
 
 }
+
+
+
