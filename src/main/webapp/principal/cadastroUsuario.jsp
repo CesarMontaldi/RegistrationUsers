@@ -38,6 +38,9 @@
 													<h4 class="sub-title">Cadastro de usuário</h4>
 
 													<form class="form-material" action="<%= request.getContextPath() %>/ServletUsuarioController" method="post" id="formUser">
+														
+														<input type="hidden" name="acao" id="acao"/>
+													
 														<div class="form-group form-default form-static-label">
 															<input type="text" name="id" id="id" class="form-control" readonly="readonly" value="${modelUsuario.id}">
 															<span class="form-bar"></span> 
@@ -58,9 +61,9 @@
 															<span class="form-bar"></span> 
 															<label class="float-label">Senha:</label>
 														</div>
-														<button class="btn waves-effect waves-light btn-success" onclick="limparForm()">Novo</button>
-														<button class="btn waves-effect waves-light btn-primary ml-3">Salvar</button>
-														<button class="btn waves-effect waves-light btn-danger ml-3">Deletar</button>
+														<button type="button" class="btn waves-effect waves-light btn-success" onclick="limparForm()">Novo</button>
+														<button type="submit" class="btn waves-effect waves-light btn-primary ml-3">Salvar</button>
+														<button type="button" class="btn waves-effect waves-light btn-danger ml-3" onclick="criarDelete()">Excluir</button>
 													</form>
 
 												</div>
@@ -81,6 +84,12 @@
 	<jsp:include page="javaScriptFile.jsp"></jsp:include>
 	
 	<script type="text/javascript">
+
+		function criarDelete() {
+			document.getElementById("formUser").method = 'get';
+			document.getElementById("acao").value = 'deletar';
+			document.getElementById("formUser").submit();
+			}
 
 		function limparForm() {
 			var elementos = document.getElementById("formUser").elements; /* Retorna os elementos html dentro do form */
