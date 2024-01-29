@@ -37,10 +37,10 @@
 												<div class="card-block">
 													<h4 class="sub-title">Cadastro de usuário</h4>
 
-													<form class="form-material" action="<%= request.getContextPath() %>/ServletUsuarioController" method="post">
-														<div class="form-group form-default">
+													<form class="form-material" action="<%= request.getContextPath() %>/ServletUsuarioController" method="post" id="formUser">
+														<div class="form-group form-default form-static-label">
 															<input type="text" name="id" id="id" class="form-control" readonly="readonly" value="${modelUsuario.id}">
-															<spanclass="form-bar"></span> 
+															<span class="form-bar"></span> 
 															<label class="float-label">ID:</label>
 														</div>
 														<div class="form-group form-default">
@@ -58,7 +58,7 @@
 															<span class="form-bar"></span> 
 															<label class="float-label">Senha:</label>
 														</div>
-														<button class="btn waves-effect waves-light btn-success">Novo</button>
+														<button class="btn waves-effect waves-light btn-success" onclick="limparForm()">Novo</button>
 														<button class="btn waves-effect waves-light btn-primary ml-3">Salvar</button>
 														<button class="btn waves-effect waves-light btn-danger ml-3">Deletar</button>
 													</form>
@@ -79,6 +79,19 @@
 	</div>
 
 	<jsp:include page="javaScriptFile.jsp"></jsp:include>
+	
+	<script type="text/javascript">
+
+		function limparForm() {
+			var elementos = document.getElementById("formUser").elements; /* Retorna os elementos html dentro do form */
+
+			for (p = 0; p < elementos.length; p ++) {
+					elementos[p].value = '';
+				}
+			
+		}
+		
+	</script>
 </body>
 
 </html>
