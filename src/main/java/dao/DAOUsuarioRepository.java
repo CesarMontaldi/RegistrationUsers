@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.eclipse.jdt.internal.compiler.ast.ForeachStatement;
 
@@ -67,6 +69,31 @@ public class DAOUsuarioRepository {
 		}
 		
 		return this.consultaUsuario(usuario.getEmail());
+	}
+	
+	public List<ModelUsuario> consultaUsuarioList(String nome) throws SQLException{
+		
+		List<ModelUsuario> usuarios = new ArrayList<ModelUsuario>();
+		
+		String sql = "select * from users where upper(nome) like upper(?)";
+		
+		PreparedStatement preparedSql = connection.prepareStatement(sql);
+		
+		preparedSql.setString(1, "%" + nome + "%");
+		
+		ResultSet resultado = preparedSql.executeQuery();
+		
+		while (resultado.next()) {
+			ModelUsuario user = new ModelUsuario();
+			
+			user.setId(resultado.getLong("id"));
+			user.setNome(resultado.getString("nome"));
+			user.setEmail(resultado.getString("email"));
+	
+			usuarios.add(user);
+		}
+		
+		return usuarios;
 	}
 	
 	
