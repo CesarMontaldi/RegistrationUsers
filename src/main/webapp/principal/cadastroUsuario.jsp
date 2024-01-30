@@ -122,58 +122,72 @@
 	
 	<script type="text/javascript">
 
-		function buscarUsuario() {
+function buscarUsuario() {
 
-			var nomeBusca = document.getElementById("nomeBusca").value;
+	var nomeBusca = document.getElementById("nomeBusca").value;
 
-				if (nomeBusca != null && nomeBusca != '' && nomeBusca.trim() != ''){ /* Validando que tem que ter valor para buscar no banco */
-					alert(nomeBusca)
-				}
-			}
+		if (nomeBusca != null && nomeBusca != '' && nomeBusca.trim() != ''){ /* Validando que tem que ter valor para buscar no banco */
 
-		function deleteAjax() {
-
-			if (confirm("Deseja realmente excluir os dados?")) {
-
-					var urlAction = document.getElementById("formUser").action;
-					var idUser = document.getElementById("id").value;
-
-					$.ajax({
-
-						method: "GET",
-						url: urlAction,
-						data: "id=" + idUser + "&acao=deletarAjax",
-						success: function(response) {
-
-							document.getElementById("msg").textContent = response;
-							limparForm();
-						}
-						
-					}).fail(function(xhr, status, errorThrow){
-
-						alert("Erro ao deletar o usuário:" + xhr.responseText);
-					});
-				}
-		}
-
-		function criarDelete() {
-
-			if(confirm("Deseja realmente excluir os dados?")) {
+			var urlAction = document.getElementById("formUser").action;
 			
-				document.getElementById("formUser").method = 'get';
-				document.getElementById("acao").value = 'deletar';
-				document.getElementById("formUser").submit();
-			}
-		}
+			$.ajax({
 
-		function limparForm() {
-			var elementos = document.getElementById("formUser").elements; /* Retorna os elementos html dentro do form */
-
-			for (p = 0; p < elementos.length; p ++) {
-					elementos[p].value = '';
+				method: "GET",
+				url: urlAction,
+				data: "nomeBusca=" + nomeBusca + "&acao=buscarUserAjax",
+				success: function(response) {
+					
 				}
-			
+				
+			}).fail(function(xhr, status, errorThrow){
+				alert("Erro ao buscar o usuário:" + xhr.responseText);
+			});
 		}
+	}
+
+function deleteAjax() {
+
+	if (confirm("Deseja realmente excluir os dados?")) {
+
+			var urlAction = document.getElementById("formUser").action;
+			var idUser = document.getElementById("id").value;
+
+			$.ajax({
+
+				method: "GET",
+				url: urlAction,
+				data: "id=" + idUser + "&acao=deletarAjax",
+				success: function(response) {
+
+					document.getElementById("msg").textContent = response;
+					limparForm();
+				}
+				
+			}).fail(function(xhr, status, errorThrow){
+
+				alert("Erro ao deletar o usuário:" + xhr.responseText);
+			});
+		}
+}
+
+function criarDelete() {
+
+	if(confirm("Deseja realmente excluir os dados?")) {
+	
+		document.getElementById("formUser").method = 'get';
+		document.getElementById("acao").value = 'deletar';
+		document.getElementById("formUser").submit();
+	}
+}
+
+function limparForm() {
+	var elementos = document.getElementById("formUser").elements; /* Retorna os elementos html dentro do form */
+
+	for (p = 0; p < elementos.length; p ++) {
+			elementos[p].value = '';
+		}
+	
+}
 		
 	</script>
 </body>

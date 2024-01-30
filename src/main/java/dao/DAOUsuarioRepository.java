@@ -30,8 +30,6 @@ public class DAOUsuarioRepository {
 		
 		ResultSet resultSet = statement.executeQuery();
 		
-	
-		
 		
 		if (resultSet.next()) {
 			return true;/* autenticado */
