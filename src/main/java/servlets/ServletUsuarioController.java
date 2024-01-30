@@ -60,7 +60,7 @@ public class ServletUsuarioController extends HttpServlet {
 				
 				String json = mapper.writeValueAsString(dadosJsonUser);
 				
-				response.getWriter().write(json);
+				response.getWriter().write(json); 
 				
 			}
 			else {
