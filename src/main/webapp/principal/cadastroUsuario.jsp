@@ -62,8 +62,9 @@
 															<label class="float-label">Senha:</label>
 														</div>
 														<button type="button" class="btn waves-effect waves-light btn-success" onclick="limparForm()">Novo</button>
-														<button type="submit" class="btn waves-effect waves-light btn-primary ml-3">Salvar</button>
-														<button type="button" class="btn waves-effect waves-light btn-danger ml-3" onclick="deleteAjax()">Excluir</button>
+														<button type="submit" class="btn waves-effect waves-light btn-primary ml-2">Salvar</button>
+														<button type="button" class="btn waves-effect waves-light btn-danger ml-2" onclick="deleteAjax()">Excluir</button>
+														<button type="button" class="btn btn-secondary ml-2" data-toggle="modal" data-target="#exampleModalUser">Pesquisar</button>
 													</form>
 
 												</div>
@@ -83,7 +84,52 @@
 
 	<jsp:include page="javaScriptFile.jsp"></jsp:include>
 	
+		<!-- Modal -->
+	<div class="modal fade" id="exampleModalUser" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	  <div class="modal-dialog" role="document">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <h5 class="modal-title" id="exampleModalLabel">Pesquisa de usuário</h5>
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	          <span aria-hidden="true">&times;</span>
+	        </button>
+	      </div>
+	      <div class="modal-body">
+	        <div class="input-group mb-3">
+			  <input type="text" class="form-control" placeholder="Nome" aria-label="Nome" id="nomeBusca" aria-describedby="basic-addon2">
+			  <div class="input-group-append">
+			    <button class="btn btn-success" type="button" onclick="buscarUsuario()">Buscar</button>
+			  </div>
+			</div>
+			<table class="table">
+			  <thead>
+			    <tr>
+			      <th scope="col">ID</th>
+			      <th scope="col">Nome</th>
+			      <th scope="col">Ver</th>
+			    </tr>
+			  </thead>
+			  <tbody>
+			  </tbody>
+			</table>
+	      </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+	
 	<script type="text/javascript">
+
+		function buscarUsuario() {
+
+			var nomeBusca = document.getElementById("nomeBusca").value;
+
+				if (nomeBusca != null && nomeBusca != '' && nomeBusca.trim() != ''){ /* Validando que tem que ter valor para buscar no banco */
+					alert(nomeBusca)
+				}
+			}
 
 		function deleteAjax() {
 
