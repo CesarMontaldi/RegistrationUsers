@@ -37,6 +37,9 @@ public class ServletUsuarioController extends HttpServlet {
 				
 				daoUsuarioRepository.deletarUser(idUser);
 				
+				List<ModelUsuario> modelUsuarios = daoUsuarioRepository.consultaUsuarioList();
+				request.setAttribute("modelUsuarios", modelUsuarios);
+				
 				request.setAttribute("msg", "Excluido com sucesso!");
 				
 				RequestDispatcher redireciona = request.getRequestDispatcher("principal/cadastroUsuario.jsp");
@@ -68,20 +71,32 @@ public class ServletUsuarioController extends HttpServlet {
 				
 				ModelUsuario user = daoUsuarioRepository.consultaUsuarioId(id);
 				
+				List<ModelUsuario> modelUsuarios = daoUsuarioRepository.consultaUsuarioList();
+				request.setAttribute("modelUsuarios", modelUsuarios);
+				
 				request.setAttribute("msg", "Usuário em edição");
 				RequestDispatcher redireciona = request.getRequestDispatcher("principal/cadastroUsuario.jsp");
 				request.setAttribute("modelUsuario", user);
 				redireciona.forward(request, response);
 				
 			}
+			else if (acao != null && !acao.isEmpty() && acao.equalsIgnoreCase("listarUser")) {
+				
+				List<ModelUsuario> modelUsuarios = daoUsuarioRepository.consultaUsuarioList();
+
+				
+				request.setAttribute("msg", "Usuários carregados");
+				request.setAttribute("modelUsuarios", modelUsuarios);
+				request.getRequestDispatcher("principal/cadastroUsuario.jsp").forward(request, response);
+				
+			}
 			else {
+				List<ModelUsuario> modelUsuarios = daoUsuarioRepository.consultaUsuarioList();
+				request.setAttribute("modelUsuarios", modelUsuarios);
+				
 				RequestDispatcher redireciona = request.getRequestDispatcher("principal/cadastroUsuario.jsp");
 				redireciona.forward(request, response);
 			}
-				
-			
-			
-			
 			
 		}catch (Exception e) {
 			e.printStackTrace();
@@ -124,6 +139,8 @@ public class ServletUsuarioController extends HttpServlet {
 				modelUsuario = daoUsuarioRepository.gravarUsuario(modelUsuario);
 			}
 			
+			List<ModelUsuario> modelUsuarios = daoUsuarioRepository.consultaUsuarioList();
+			request.setAttribute("modelUsuarios", modelUsuarios);
 			
 			request.setAttribute("msg", msg);
 			RequestDispatcher redireciona = request.getRequestDispatcher("principal/cadastroUsuario.jsp");

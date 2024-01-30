@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
    
+   
+   
 <!DOCTYPE html>
 <html xmlns:f="http://xmlns.jcp.org/jsf/core">
 	<head>
@@ -30,7 +32,7 @@
 		
 	</head>
 	<body>
-
+		
 		
 		<form action="<%=request.getContextPath()%>/ServletLogin" method="post" class="row g-3 needs-validation d-flex col-6" novalidate>
 		<input type="hidden" value="<%= request.getParameter("url")%>" name="url">
@@ -64,13 +66,15 @@
 	 		</div>
 	 		
 		</form>
+		
 		<h5>${msg}</h5>
+		
 		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
 
 		<script>
 			(function () {
 			  'use strict'
-	
+				 
 			  var forms = document.querySelectorAll('.needs-validation')
 	
 			  Array.prototype.slice.call(forms)
@@ -84,11 +88,9 @@
 			        form.classList.add('was-validated')
 			      }, false)
 			    })
-			   
+			  
 			})()
-				
-			 
-				
+
 		</script>
 	</body>
 </html>
