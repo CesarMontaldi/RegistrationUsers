@@ -118,6 +118,27 @@ public class DAOUsuarioRepository {
 		return user;
 	}
 	
+public ModelUsuario consultaUsuarioId(String id) throws SQLException {
+		
+		ModelUsuario user = new ModelUsuario();
+
+		String sql = "select * from users where id = ?";
+		
+		PreparedStatement statement = connection.prepareStatement(sql);
+		
+		statement.setLong(1, Long.parseLong(id));
+		
+		ResultSet resultado = statement.executeQuery();
+		
+		while (resultado.next()) {
+			user.setId(resultado.getLong("id"));
+			user.setNome(resultado.getString("nome"));
+			user.setEmail(resultado.getString("email"));
+			user.setSenha(resultado.getString("senha"));
+		}
+		return user;
+	}
+	
 	public boolean validarLogin(String login) throws Exception {
 		
 		String sql = "select count(1) > 0 as existe from users where upper(email) = upper(?)";

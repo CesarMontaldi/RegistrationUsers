@@ -135,7 +135,7 @@ function buscarUsuario() {
 			var urlAction = document.getElementById("formUser").action;
 			
 			$.ajax({
-
+				//<div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 outer-ellipsis"><i class="ti-pencil-alt"></i></div>
 				method: "GET",
 				url: urlAction,
 				data: "nomeBusca=" + nomeBusca + "&acao=buscarUserAjax",
@@ -147,7 +147,7 @@ function buscarUsuario() {
 
 					for (var p = 0; p < json.length; p++) {
 
-						$('#tabelaUsers > tbody').append('<tr> <td>' + json[p].id + '</td> <td>'+ json[p].nome + '</td> <td> <button type="button" class="btn btn-info">Ver</button> </td></tr>');
+						$('#tabelaUsers > tbody').append('<tr> <td>' + json[p].id + '</td> <td>'+ json[p].nome + '</td> <td> <button onclick="editarUser('+json[p].id+')" type="button" style="border-radius:8px; width:45px; heigth:45px;" class="btn btn-primary d-flex justify-content-center align-items-center"><i class="ti-pencil-alt ml-1 mb-1" style="font-size:17px;"></i></div></button> </td></tr>');
 					}
 
 					 document.getElementById("totalUsers").textContent = "Resultado: " + json.length;
@@ -156,9 +156,18 @@ function buscarUsuario() {
 				
 			}).fail(function(xhr, status, errorThrow){
 				alert("Erro ao buscar o usuário:" + xhr.responseText);
+				
 			});
 		}
 	}
+
+function editarUser(id) {
+
+	var urlAction = document.getElementById("formUser").action;
+
+	window.location.href = urlAction + '?acao=buscarEditar&id='+id;
+}
+
 
 function deleteAjax() {
 
