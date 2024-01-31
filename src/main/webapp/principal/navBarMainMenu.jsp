@@ -11,7 +11,7 @@
 				<img class="img-80 img-radius" src="<%=request.getContextPath()%>/assets/images/foto.jpg"
 					alt="User-Profile-Image">
 				<div class="user-details">
-					<span id="more-details"><%= request.getSession().getAttribute("usuario") %><i class="fa fa-caret-down"></i></span>
+					<span id="more-details"><%= request.getSession().getAttribute("nome") %><i class="fa fa-caret-down"></i></span> 
 				</div>
 			</div>
 
