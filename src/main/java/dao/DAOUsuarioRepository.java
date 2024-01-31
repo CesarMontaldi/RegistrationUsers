@@ -72,7 +72,7 @@ public class DAOUsuarioRepository {
 
 		List<ModelUsuario> usuarios = new ArrayList<ModelUsuario>();
 
-		String sql = "select * from users";
+		String sql = "select * from users where useradmin is false";
 
 		PreparedStatement preparedSql = connection.prepareStatement(sql);
 
@@ -95,7 +95,7 @@ public class DAOUsuarioRepository {
 
 		List<ModelUsuario> usuarios = new ArrayList<ModelUsuario>();
 
-		String sql = "select * from users where upper(nome) like upper(?)";
+		String sql = "select * from users where upper(nome) like upper(?) and useradmin is false";
 
 		PreparedStatement preparedSql = connection.prepareStatement(sql);
 
@@ -120,7 +120,7 @@ public class DAOUsuarioRepository {
 
 		ModelUsuario user = new ModelUsuario();
 
-		String sql = "select * from users where upper(email) = upper(?)";
+		String sql = "select * from users where upper(email) = upper(?) and useradmin is false";
 
 		PreparedStatement statement = connection.prepareStatement(sql);
 
@@ -141,7 +141,7 @@ public class DAOUsuarioRepository {
 
 		ModelUsuario user = new ModelUsuario();
 
-		String sql = "select * from users where id = ?";
+		String sql = "select * from users where id = ? and useradmin is false";
 
 		PreparedStatement statement = connection.prepareStatement(sql);
 
@@ -174,7 +174,7 @@ public class DAOUsuarioRepository {
 	}
 
 	public void deletarUser(String idUser) throws SQLException {
-		String sql = "delete from users where id = ?";
+		String sql = "delete from users where id = ? and useradmin is false";
 
 		PreparedStatement prepareSql = connection.prepareStatement(sql);
 
