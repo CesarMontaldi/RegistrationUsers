@@ -42,7 +42,7 @@ public class DAOUsuarioRepository {
 
 		if (usuario.isNovo()) {
 
-			String sql = "insert into users(nome, email, senha, usuario_id, perfil) VALUES (?, ?, ?, ?, ?);";
+			String sql = "insert into users(nome, email, senha, usuario_id, perfil, sexo) VALUES (?, ?, ?, ?, ?);";
 			PreparedStatement preparedSql = connection.prepareStatement(sql);
 
 			preparedSql.setString(1, usuario.getNome());
@@ -50,12 +50,13 @@ public class DAOUsuarioRepository {
 			preparedSql.setString(3, usuario.getSenha());
 			preparedSql.setLong(4, userLogado);
 			preparedSql.setString(5, usuario.getPerfil());
+			preparedSql.setString(6, usuario.getSexo());
 
 			preparedSql.execute();
 			connection.commit();
 
 		} else {
-			String sql = "update users SET nome=?, email=?, senha=?, perfil=? WHERE id = " + usuario.getId() + ";";
+			String sql = "update users SET nome=?, email=?, senha=?, perfil=?, sexo=? WHERE id = " + usuario.getId() + ";";
 
 			PreparedStatement preparedSql = connection.prepareStatement(sql);
 
@@ -63,6 +64,7 @@ public class DAOUsuarioRepository {
 			preparedSql.setString(2, usuario.getEmail());
 			preparedSql.setString(3, usuario.getSenha());
 			preparedSql.setString(4, usuario.getPerfil());
+			preparedSql.setString(5, usuario.getSexo());
 
 			preparedSql.executeUpdate();
 			connection.commit();
@@ -75,7 +77,7 @@ public class DAOUsuarioRepository {
 
 		List<ModelUsuario> usuarios = new ArrayList<ModelUsuario>();
 
-		String sql = "select * from users where useradmin is false and usuario_id = " + userLogado;
+		String sql = "select * from users where useradmin is false and usuario_id = " + userLogado + " order By nome ASC";
 
 		PreparedStatement preparedSql = connection.prepareStatement(sql);
 
@@ -87,6 +89,8 @@ public class DAOUsuarioRepository {
 			user.setId(resultado.getLong("id"));
 			user.setNome(resultado.getString("nome"));
 			user.setEmail(resultado.getString("email"));
+			user.setPerfil(resultado.getString("perfil"));
+			user.setSexo(resultado.getString("sexo"));
 
 			usuarios.add(user);
 		}
@@ -98,7 +102,7 @@ public class DAOUsuarioRepository {
 
 		List<ModelUsuario> usuarios = new ArrayList<ModelUsuario>();
 
-		String sql = "select * from users where upper(nome) like upper(?) and useradmin is false and usuario_id = ?";
+		String sql = "select * from users where upper(nome) like upper(?) and useradmin is false and usuario_id = ? order By nome ASC";
 
 		PreparedStatement preparedSql = connection.prepareStatement(sql);
 
@@ -113,7 +117,9 @@ public class DAOUsuarioRepository {
 			user.setId(resultado.getLong("id"));
 			user.setNome(resultado.getString("nome"));
 			user.setEmail(resultado.getString("email"));
-
+			user.setPerfil(resultado.getString("perfil"));
+			user.setSexo(resultado.getString("sexo"));
+			
 			usuarios.add(user);
 		}
 
@@ -139,6 +145,7 @@ public class DAOUsuarioRepository {
 			user.setSenha(resultado.getString("senha"));
 			user.setUseradmin(resultado.getBoolean("useradmin"));
 			user.setPerfil(resultado.getString("perfil"));
+			user.setSexo(resultado.getString("sexo"));
 		}
 		return user;
 	}
@@ -161,6 +168,8 @@ public class DAOUsuarioRepository {
 			user.setEmail(resultado.getString("email"));
 			user.setSenha(resultado.getString("senha"));
 			user.setUseradmin(resultado.getBoolean("useradmin"));
+			user.setPerfil(resultado.getString("perfil"));
+			user.setSexo(resultado.getString("sexo"));
 		}
 		return user;
 	}
@@ -182,6 +191,8 @@ public class DAOUsuarioRepository {
 			user.setNome(resultado.getString("nome"));
 			user.setEmail(resultado.getString("email"));
 			user.setSenha(resultado.getString("senha"));
+			user.setPerfil(resultado.getString("perfil"));
+			user.setSexo(resultado.getString("sexo"));
 		}
 		return user;
 	}
@@ -204,6 +215,8 @@ public class DAOUsuarioRepository {
 			user.setNome(resultado.getString("nome"));
 			user.setEmail(resultado.getString("email"));
 			user.setSenha(resultado.getString("senha"));
+			user.setPerfil(resultado.getString("perfil"));
+			user.setSexo(resultado.getString("sexo"));
 		}
 		return user;
 	}

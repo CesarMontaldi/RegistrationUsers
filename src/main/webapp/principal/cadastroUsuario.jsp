@@ -1,3 +1,4 @@
+<%@page import="model.ModelUsuario"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 
@@ -46,53 +47,92 @@
 														<input type="hidden" name="acao" id="acao" />
 
 														<div class="form-group form-default form-static-label">
-															<input type="text" name="id" id="id" class="form-control"
-																readonly="readonly" value="${modelUsuario.id}">
-															<span class="form-bar"></span> <label class="float-label">ID:</label>
+															<input type="text" name="id" id="id" class="form-control" readonly="readonly" value="${modelUsuario.id}">
+															<span class="form-bar"></span>
+															<label class="float-label">ID:</label>
 														</div>
 														
 														<div class="form-group form-default form-static-label">
-															<input type="text" name="nome" id="nome"
-																class="form-control" required="required"
-																value="${modelUsuario.nome}"> <span
-																class="form-bar"></span> <label class="float-label">Nome:</label>
+															<input type="text" name="nome" id="nome" class="form-control" required="required" value="${modelUsuario.nome}">
+															<span class="form-bar"></span>
+															<label class="float-label">Nome:</label>
+														</div>
+														
+														<div class="form-group form-default form-static-label"> 
+															<input type="email" name="email" id="email" class="form-control" required="required" value="${modelUsuario.email}">
+															<span class="form-bar"></span>
+															<label class="float-label">Email:</label>
 														</div>
 														
 														<div class="form-group form-default form-static-label">
-															<input type="email" name="email" id="email"
-																class="form-control" required="required"
-																value="${modelUsuario.email}"> <span
-																class="form-bar"></span> <label class="float-label">Email:</label>
-														</div>
-														
-														<div class="form-group form-default form-static-label">
-															<input type="password" name="senha" id="senha"
-																class="form-control" required="required"
-																value="${modelUsuario.senha}"> <span
-																class="form-bar"></span> <label class="float-label">Senha:</label>
+															<input type="password" name="senha" id="senha" class="form-control" required="required" value="${modelUsuario.senha}">
+															<span class="form-bar"></span>
+															<label class="float-label">Senha:</label>
 														</div>
 														
 														<div class="form-group form-default form-static-label">
 															<select class="form-control" aria-label="Default select example" name="perfil">
+															
 															  <option disabled="disabled">[Selecione o Perfil]</option>
-															  <option value="ADMIN">Admin</option>
-															  <option value="CLIENTE">Cliente</option>
-															  <option value="FUNCIONARIO">Funcionário</option>
+															  
+															  <option value="ADMIN" <% 
+															  
+															  ModelUsuario modelUsuario = (ModelUsuario) request.getAttribute("modelUsuario");
+															  
+															  if (modelUsuario != null && modelUsuario.getPerfil().equals("ADMIN")) {
+																  out.println(" ");
+																  out.print("selected= 'selected' ");
+																  out.println(" ");
+															  } %>>Admin</option>
+															  
+															  <option value="CLIENTE" <% 
+															  
+															  modelUsuario = (ModelUsuario) request.getAttribute("modelUsuario");
+															  
+															  if (modelUsuario != null && modelUsuario.getPerfil().equals("CLIENTE")) {
+																  out.println(" ");
+																  out.print("selected= 'selected' ");
+																  out.println(" ");
+															  } %>>Cliente</option>
+															  
+															  <option value="FUNCIONARIO" <% 
+															  
+															  modelUsuario = (ModelUsuario) request.getAttribute("modelUsuario");
+															  
+															  if (modelUsuario != null && modelUsuario.getPerfil().equals("FUNCIONARIO")) {
+																  out.println(" ");
+																  out.print("selected= 'selected' ");
+																  out.println(" ");
+															  } %>>Funcionário</option>
+															  
 															</select>
 															<span class="form-bar"></span>
-															<label class="float-label">Perfil::</label>
+															<label class="float-label">Perfil:</label>
+														</div>
+												
+														<div class="form-group form-default form-static-label" >
+														
+															<input class="" type="radio" name="sexo" value="MASCULINO" <% 
+																modelUsuario = (ModelUsuario) request.getAttribute("modelUsuario");
+																if (modelUsuario != null && modelUsuario.getSexo().equals("MASCULINO")) {
+																	out.println(" ");
+																 	out.print("checked= 'checked' ");
+																  	out.println(" ");
+																} %>> Masculino</>
+																
+															<input class="ml-2" type="radio" name="sexo" value="FEMININO" <% 
+																modelUsuario = (ModelUsuario) request.getAttribute("modelUsuario");
+																if (modelUsuario != null && modelUsuario.getSexo().equals("FEMININO")) {
+																	out.println(" ");
+																 	out.print("checked= 'checked' ");
+																  	out.println(" ");
+																} %>> Feminino</>
 														</div>
 														
-														<button type="button"
-															class="btn waves-effect waves-light btn-success"
-															onclick="limparForm()">Novo</button>
-														<button type="submit"
-															class="btn waves-effect waves-light btn-primary ml-2">Salvar</button>
-														<button type="button"
-															class="btn waves-effect waves-light btn-danger ml-2"
-															onclick="deleteAjax()">Excluir</button>
-														<button type="button" class="btn btn-secondary ml-2"
-															data-toggle="modal" data-target="#exampleModalUser">Pesquisar</button>
+														<button type="button" class="btn waves-effect waves-light btn-success" onclick="limparForm()">Novo</button>
+														<button type="submit" class="btn waves-effect waves-light btn-primary ml-2">Salvar</button>
+														<button type="button" class="btn waves-effect waves-light btn-danger ml-2" onclick="deleteAjax()">Excluir</button>
+														<button type="button" class="btn btn-secondary ml-2" data-toggle="modal" data-target="#exampleModalUser">Pesquisar</button>
 													</form>
 
 												</div>

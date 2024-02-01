@@ -12,6 +12,7 @@ public class ModelUsuario implements Serializable {
 	private String senha;
 	private boolean useradmin;
 	private String perfil;
+	private String sexo;
 	
 	
 	public String getNome() {
@@ -59,6 +60,14 @@ public class ModelUsuario implements Serializable {
 	
 	public void setPerfil(String perfil) {
 		this.perfil = perfil;
+	}
+	
+	public String getSexo() {
+		return sexo;
+	}
+	
+	public void setSexo(String sexo) {
+		this.sexo = sexo;
 	}
 
 	public boolean isNovo() {

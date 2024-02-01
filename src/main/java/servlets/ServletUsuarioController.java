@@ -119,6 +119,7 @@ public class ServletUsuarioController extends ServletGenericUtil {
 			String email = request.getParameter("email");
 			String senha = request.getParameter("senha");
 			String perfil = request.getParameter("perfil");
+			String sexo = request.getParameter("sexo");
 			
 			ModelUsuario modelUsuario = new ModelUsuario();
 			
@@ -127,6 +128,7 @@ public class ServletUsuarioController extends ServletGenericUtil {
 			modelUsuario.setEmail(email);
 			modelUsuario.setSenha(senha);
 			modelUsuario.setPerfil(perfil);
+			modelUsuario.setSexo(sexo);
 			
 			if (daoUsuarioRepository.validarLogin(modelUsuario.getEmail()) && modelUsuario.getId() == null) {
 				msg = "Já existe usuário com o mesmo login, informe outro.";
