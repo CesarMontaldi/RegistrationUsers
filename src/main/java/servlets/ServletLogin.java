@@ -53,13 +53,13 @@ public class ServletLogin extends HttpServlet {
 					modelUsuario.setEmail(email);
 					modelUsuario.setSenha(senha);
 					
-					//email == modelUsuario.getEmail() && senha == modelUsuario.getSenha()
+			
 					if (daoUsuarioRepository.validarAutenticacao(modelUsuario)) {/* Simulando login */
 	
 						modelUsuario = daoUsuarioRepository.consultaUsuarioLogado(email);
 						
 						request.getSession().setAttribute("usuario", modelUsuario.getEmail()); /* Coloca o usuario na sessão para manter ele logado */
-						request.getSession().setAttribute("isAdmin", modelUsuario.getUseradmin());
+						request.getSession().setAttribute("perfil", modelUsuario.getPerfil());
 						request.getSession().setAttribute("nomeUsuario", modelUsuario.getNome());
 						
 						/* Verifica se o usuario esta tentando acessar alguma pagina do sistema, senão redireciona ele para pagina inicial do sistema */

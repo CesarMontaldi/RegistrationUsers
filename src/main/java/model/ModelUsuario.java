@@ -11,6 +11,7 @@ public class ModelUsuario implements Serializable {
 	private String email;
 	private String senha;
 	private boolean useradmin;
+	private String perfil;
 	
 	
 	public String getNome() {
@@ -44,8 +45,6 @@ public class ModelUsuario implements Serializable {
 		this.senha = senha;
 	}
 	
-	
-	
 	public boolean getUseradmin() {
 		return useradmin;
 	}
@@ -53,9 +52,13 @@ public class ModelUsuario implements Serializable {
 	public void setUseradmin(boolean useradmin) {
 		this.useradmin = useradmin;
 	}
-
-	public static long getSerialversionuid() {
-		return serialVersionUID;
+	
+	public String getPerfil() {
+		return perfil;
+	}
+	
+	public void setPerfil(String perfil) {
+		this.perfil = perfil;
 	}
 
 	public boolean isNovo() {
