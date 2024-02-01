@@ -40,16 +40,21 @@
 												<div class="card-block">
 													<h4 class="sub-title">Cadastro de usuário</h4>
 
-													<form class="form-material"
-														action="<%=request.getContextPath()%>/ServletUsuarioController"
-														method="post" id="formUser">
-
+													<form class="form-material" enctype="multipart/form-data" action="<%=request.getContextPath()%>/ServletUsuarioController" method="post" id="formUser">
+														
 														<input type="hidden" name="acao" id="acao" />
 
 														<div class="form-group form-default form-static-label">
 															<input type="text" name="id" id="id" class="form-control" readonly="readonly" value="${modelUsuario.id}">
 															<span class="form-bar"></span>
 															<label class="float-label">ID:</label>
+														</div>
+														 
+														<div class="form-group form-default input-group mb-4">
+															<div class="input-group-prepend">
+																<img alt="Imagem user" src="https://media.gettyimages.com/id/1325243885/pt/foto/mature-man-laughing-and-smiling-on-video-conference.jpg?s=612x612&w=0&k=20&c=CM6tDT-J91HMOCnEC3q5PAabyP0f_CWKvWFifEAi3BQ=" width="70px">
+															</div>
+															<input type="file" class="form-control-file" style="margin-top: 15px; margin-left: 5px;">
 														</div>
 														
 														<div class="form-group form-default form-static-label">
