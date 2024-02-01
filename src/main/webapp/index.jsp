@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-   
+  
+ <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
    
    
 <!DOCTYPE html>
@@ -33,6 +34,12 @@
 	</head>
 	<body>
 		
+		<c:if test='<%= request.getAttribute("msg") != null %>'>
+			<div class="alert alert-danger alert-dismissible fade show" role="alert">
+			  <strong> ${msg} </strong>
+			  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+			</div>
+		</c:if>
 		
 		<form action="<%=request.getContextPath()%>/ServletLogin" method="post" class="row g-3 needs-validation d-flex col-6" novalidate>
 		<input type="hidden" value="<%= request.getParameter("url")%>" name="url">
@@ -66,8 +73,7 @@
 	 		</div>
 	 		
 		</form>
-		
-		<h5>${msg}</h5>
+
 		
 		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
 

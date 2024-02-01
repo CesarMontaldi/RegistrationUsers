@@ -135,6 +135,7 @@ public class DAOUsuarioRepository {
 			user.setNome(resultado.getString("nome"));
 			user.setEmail(resultado.getString("email"));
 			user.setSenha(resultado.getString("senha"));
+			user.setUseradmin(resultado.getBoolean("useradmin"));
 		}
 		return user;
 	}
@@ -156,6 +157,7 @@ public class DAOUsuarioRepository {
 			user.setNome(resultado.getString("nome"));
 			user.setEmail(resultado.getString("email"));
 			user.setSenha(resultado.getString("senha"));
+			user.setUseradmin(resultado.getBoolean("useradmin"));
 		}
 		return user;
 	}

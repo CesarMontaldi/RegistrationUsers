@@ -50,15 +50,18 @@ public class ServletLogin extends HttpServlet {
 				if (email != null && !email.isEmpty() && senha != null && !senha.isEmpty()) {
 				
 					ModelUsuario modelUsuario = new ModelUsuario();
-					modelUsuario = daoUsuarioRepository.consultaUsuario(email);
 					modelUsuario.setEmail(email);
 					modelUsuario.setSenha(senha);
 					
-					
-					if (email == modelUsuario.getEmail() && senha == modelUsuario.getSenha()) {/* Simulando login */
+					//email == modelUsuario.getEmail() && senha == modelUsuario.getSenha()
+					if (daoUsuarioRepository.validarAutenticacao(modelUsuario)) {/* Simulando login */
 	
+						modelUsuario = daoUsuarioRepository.consultaUsuarioLogado(email);
+						
 						request.getSession().setAttribute("usuario", modelUsuario.getEmail()); /* Coloca o usuario na sessão para manter ele logado */
-						request.getSession().setAttribute("nome", modelUsuario.getNome());
+						request.getSession().setAttribute("isAdmin", modelUsuario.getUseradmin());
+						request.getSession().setAttribute("nomeUsuario", modelUsuario.getNome());
+						
 						/* Verifica se o usuario esta tentando acessar alguma pagina do sistema, senão redireciona ele para pagina inicial do sistema */
 						if (url == null || url.equals("null")) {
 							url = "principal/principal.jsp"; 
