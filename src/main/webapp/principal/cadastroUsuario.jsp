@@ -17,122 +17,122 @@
 		<div class="pcoded-overlay-box"></div>
 		<div class="pcoded-container navbar-wrapper">
 
-			<jsp:include page="navbar.jsp"></jsp:include>
+		<jsp:include page="navbar.jsp"></jsp:include>
 
-			<div class="pcoded-main-container">
-				<div class="pcoded-wrapper">
+		<div class="pcoded-main-container">
+			<div class="pcoded-wrapper">
 
-					<jsp:include page="navBarMainMenu.jsp"></jsp:include>
+			<jsp:include page="navBarMainMenu.jsp"></jsp:include>
 
-					<div class="pcoded-content">
+			<div class="pcoded-content">
 
-						<jsp:include page="page-header.jsp"></jsp:include>
+			<jsp:include page="page-header.jsp"></jsp:include>
 
-						<div class="pcoded-inner-content">
-							<!-- Main-body start -->
-							<div class="main-body">
-								<div class="page-wrapper">
-									<!-- Page-body start -->
-									<div class="page-body">
-										<div class="col-sm-12">
-											<!-- Basic Form Inputs card start -->
-											<div class="card">
-												<div class="card-block">
-													<h4 class="sub-title">Cadastro de usuário</h4>
+			<div class="pcoded-inner-content">
+				<!-- Main-body start -->
+				<div class="main-body">
+					<div class="page-wrapper">
+						<!-- Page-body start -->
+						<div class="page-body">
+							<div class="col-sm-12">
+								<!-- Basic Form Inputs card start -->
+								<div class="card">
+									<div class="card-block">
+										<h4 class="sub-title">Cadastro de usuário</h4>
 
-													<form class="form-material" enctype="multipart/form-data" action="<%=request.getContextPath()%>/ServletUsuarioController" method="post" id="formUser">
-														
-														<input type="hidden" name="acao" id="acao" />
+										<form class="form-material" enctype="multipart/form-data" action="<%=request.getContextPath()%>/ServletUsuarioController" method="post" id="formUser">
+											
+											<input type="hidden" name="acao" id="acao" />
 
-														<div class="form-group form-default form-static-label">
-															<input type="text" name="id" id="id" class="form-control" readonly="readonly" value="${modelUsuario.id}">
-															<span class="form-bar"></span>
-															<label class="float-label">ID:</label>
-														</div>
+											<div class="form-group form-default form-static-label">
+												<input type="text" name="id" id="id" class="form-control" readonly="readonly" value="${modelUsuario.id}">
+												<span class="form-bar"></span>
+												<label class="float-label">ID:</label>
+											</div>
 														 
-														<div class="form-group form-default input-group mb-4">
-															<div class="input-group-prepend">
-																<img alt="Imagem user" src="https://media.gettyimages.com/id/1325243885/pt/foto/mature-man-laughing-and-smiling-on-video-conference.jpg?s=612x612&w=0&k=20&c=CM6tDT-J91HMOCnEC3q5PAabyP0f_CWKvWFifEAi3BQ=" width="70px">
-															</div>
-															<input type="file" class="form-control-file" style="margin-top: 15px; margin-left: 5px;">
-														</div>
+											<div class="form-group form-default input-group mb-4">
+												<div class="input-group-prepend">
+													<img alt="Imagem user" id="fotoembase64" src="" width="100px">
+												</div>
+												<input type="file" id="fileFoto" name="fileFoto" accept="image/*" onchange="visualizarImg('fotoembase64', 'fileFoto')" class="form-control-file" style="margin-top: 15px; margin-left: 10px;">
+											</div>
+											
+											<div class="form-group form-default form-static-label">
+												<input type="text" name="nome" id="nome" class="form-control" required="required" value="${modelUsuario.nome}">
+												<span class="form-bar"></span>
+												<label class="float-label">Nome:</label>
+											</div>
 														
-														<div class="form-group form-default form-static-label">
-															<input type="text" name="nome" id="nome" class="form-control" required="required" value="${modelUsuario.nome}">
-															<span class="form-bar"></span>
-															<label class="float-label">Nome:</label>
-														</div>
+											<div class="form-group form-default form-static-label"> 
+												<input type="email" name="email" id="email" class="form-control" required="required" value="${modelUsuario.email}">
+												<span class="form-bar"></span>
+												<label class="float-label">Email:</label>
+											</div>
+											
+											<div class="form-group form-default form-static-label">
+												<input type="password" name="senha" id="senha" class="form-control" required="required" value="${modelUsuario.senha}">
+												<span class="form-bar"></span>
+												<label class="float-label">Senha:</label>
+											</div>
 														
-														<div class="form-group form-default form-static-label"> 
-															<input type="email" name="email" id="email" class="form-control" required="required" value="${modelUsuario.email}">
-															<span class="form-bar"></span>
-															<label class="float-label">Email:</label>
-														</div>
-														
-														<div class="form-group form-default form-static-label">
-															<input type="password" name="senha" id="senha" class="form-control" required="required" value="${modelUsuario.senha}">
-															<span class="form-bar"></span>
-															<label class="float-label">Senha:</label>
-														</div>
-														
-														<div class="form-group form-default form-static-label">
-															<select class="form-control" aria-label="Default select example" name="perfil">
-															
-															  <option disabled="disabled">[Selecione o Perfil]</option>
-															  
-															  <option value="ADMIN" <% 
-															  
-															  ModelUsuario modelUsuario = (ModelUsuario) request.getAttribute("modelUsuario");
-															  
-															  if (modelUsuario != null && modelUsuario.getPerfil().equals("ADMIN")) {
-																  out.println(" ");
-																  out.print("selected= 'selected' ");
-																  out.println(" ");
-															  } %>>Admin</option>
-															  
-															  <option value="CLIENTE" <% 
-															  
-															  modelUsuario = (ModelUsuario) request.getAttribute("modelUsuario");
-															  
-															  if (modelUsuario != null && modelUsuario.getPerfil().equals("CLIENTE")) {
-																  out.println(" ");
-																  out.print("selected= 'selected' ");
-																  out.println(" ");
-															  } %>>Cliente</option>
-															  
-															  <option value="FUNCIONARIO" <% 
-															  
-															  modelUsuario = (ModelUsuario) request.getAttribute("modelUsuario");
-															  
-															  if (modelUsuario != null && modelUsuario.getPerfil().equals("FUNCIONARIO")) {
-																  out.println(" ");
-																  out.print("selected= 'selected' ");
-																  out.println(" ");
-															  } %>>Funcionário</option>
-															  
-															</select>
-															<span class="form-bar"></span>
-															<label class="float-label">Perfil:</label>
-														</div>
+											<div class="form-group form-default form-static-label">
+												<select class="form-control" aria-label="Default select example" name="perfil">
 												
-														<div class="form-group form-default form-static-label" >
-														
-															<input class="" type="radio" name="sexo" value="MASCULINO" <% 
-																modelUsuario = (ModelUsuario) request.getAttribute("modelUsuario");
-																if (modelUsuario != null && modelUsuario.getSexo().equals("MASCULINO")) {
-																	out.println(" ");
-																 	out.print("checked= 'checked' ");
-																  	out.println(" ");
-																} %>> Masculino</>
-																
-															<input class="ml-2" type="radio" name="sexo" value="FEMININO" <% 
-																modelUsuario = (ModelUsuario) request.getAttribute("modelUsuario");
-																if (modelUsuario != null && modelUsuario.getSexo().equals("FEMININO")) {
-																	out.println(" ");
-																 	out.print("checked= 'checked' ");
-																  	out.println(" ");
-																} %>> Feminino</>
-														</div>
+												  <option disabled="disabled">[Selecione o Perfil]</option>
+												  
+												  <option value="ADMIN" <% 
+												  
+												  ModelUsuario modelUsuario = (ModelUsuario) request.getAttribute("modelUsuario");
+												  
+												  if (modelUsuario != null && modelUsuario.getPerfil().equals("ADMIN")) {
+													  out.println(" ");
+													  out.print("selected= 'selected' ");
+													  out.println(" ");
+												  } %>>Admin</option>
+															  
+												  <option value="CLIENTE" <% 
+												  
+												  modelUsuario = (ModelUsuario) request.getAttribute("modelUsuario");
+												  
+												  if (modelUsuario != null && modelUsuario.getPerfil().equals("CLIENTE")) {
+													  out.println(" ");
+													  out.print("selected= 'selected' ");
+													  out.println(" ");
+												  } %>>Cliente</option>
+															  
+												  <option value="FUNCIONARIO" <% 
+												  
+												  modelUsuario = (ModelUsuario) request.getAttribute("modelUsuario");
+												  
+												  if (modelUsuario != null && modelUsuario.getPerfil().equals("FUNCIONARIO")) {
+													  out.println(" ");
+													  out.print("selected= 'selected' ");
+													  out.println(" ");
+												  } %>>Funcionário</option>
+															  
+														</select>
+														<span class="form-bar"></span>
+														<label class="float-label">Perfil:</label>
+													</div>
+												
+													<div class="form-group form-default form-static-label" >
+													
+														<input class="" type="radio" name="sexo" value="MASCULINO" <% 
+															modelUsuario = (ModelUsuario) request.getAttribute("modelUsuario");
+															if (modelUsuario != null && modelUsuario.getSexo().equals("MASCULINO")) {
+																out.println(" ");
+															 	out.print("checked= 'checked' ");
+															  	out.println(" ");
+															} %>> Masculino</>
+															
+														<input class="ml-2" type="radio" name="sexo" value="FEMININO" <% 
+															modelUsuario = (ModelUsuario) request.getAttribute("modelUsuario");
+															if (modelUsuario != null && modelUsuario.getSexo().equals("FEMININO")) {
+																out.println(" ");
+															 	out.print("checked= 'checked' ");
+															  	out.println(" ");
+															} %>> Feminino</>
+													</div>
 														
 														<button type="button" class="btn waves-effect waves-light btn-success" onclick="limparForm()">Novo</button>
 														<button type="submit" class="btn waves-effect waves-light btn-primary ml-2">Salvar</button>
@@ -229,6 +229,8 @@
 	</div>
 
 	<script type="text/javascript">
+
+/* Funcao para buscar usuarios utilizando Ajax  */
 function buscarUsuario() {
 
 	var nomeBusca = document.getElementById("nomeBusca").value;
@@ -272,6 +274,7 @@ function buscarUsuario() {
 	}
 }
 
+/* Funcao para buscar usuario e editar utilizando Ajax */
 function editarUser(id) {
 
 	var urlAction = document.getElementById("formUser").action;
@@ -304,6 +307,7 @@ function deleteAjax() {
 	}
 }
 
+/* Funcao para deletar usuario */
 function criarDelete() {
 
 	if (confirm("Deseja realmente excluir os dados?")) {
@@ -313,7 +317,7 @@ function criarDelete() {
 		document.getElementById("formUser").submit();
 	}
 }
-
+ /* Funcao para limpar os campos do form */
 function limparForm() {
 	var elementos = document.getElementById("formUser").elements; /* Retorna os elementos html dentro do form */
 
@@ -322,6 +326,28 @@ function limparForm() {
 	}
 
 }
+
+/* Funcao para carregar imagem do usuario */
+ function visualizarImg(fotoembase64, filefoto) {
+
+	 var preview = document.getElementById("fotoembase64"); // Campo IMG html
+	 var fileUser = document.getElementById("fileFoto").files[0];
+	 var reader = new FileReader();
+
+	 reader.onloadend = function () {
+		 preview.src = reader.result; //Carrega a foto na tela
+		 };
+
+	 if (fileUser) {
+		reader.readAsDataURL(fileUser); // Preview da imagem	
+	 } else {
+		 preview.src = '';
+	 }
+}
+ 
+ 
+ 
+ 
 	</script>
 </body>
 

@@ -3,6 +3,11 @@ package servlets;
 import java.io.IOException;
 import java.util.List;
 
+
+import org.apache.tomcat.jakartaee.commons.compress.utils.IOUtils;
+import org.apache.tomcat.util.codec.binary.Base64;
+import org.apache.tomcat.util.http.fileupload.servlet.ServletFileUpload;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import dao.DAOUsuarioRepository;
@@ -12,7 +17,10 @@ import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.Part;
 import model.ModelUsuario;
+
+
 
 @MultipartConfig
 @WebServlet("/ServletUsuarioController")
@@ -128,6 +136,16 @@ public class ServletUsuarioController extends ServletGenericUtil {
 			modelUsuario.setSenha(senha);
 			modelUsuario.setPerfil(perfil);
 			modelUsuario.setSexo(sexo);
+			
+			if (ServletFileUpload.isMultipartContent(request)) {
+				
+				Part part = request.getPart("fileFoto"); /* Pega a foto da tela. */
+				
+				byte[] foto = IOUtils.toByteArray(part.getInputStream()); /* Converte a imagem para Byte */
+				String imagemBase64 = new Base64().encodeBase64String(foto);
+				System.out.println(imagemBase64);
+			}
+			
 			
 			if (daoUsuarioRepository.validarLogin(modelUsuario.getEmail()) && modelUsuario.getId() == null) {
 				msg = "Já existe usuário com o mesmo login, informe outro.";
