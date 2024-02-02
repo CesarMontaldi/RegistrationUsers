@@ -42,7 +42,7 @@ public class DAOUsuarioRepository {
 
 		if (usuario.isNovo()) {
 
-			String sql = "insert into users(nome, email, senha, usuario_id, perfil, sexo) VALUES (?, ?, ?, ?, ?);";
+			String sql = "insert into users(nome, email, senha, usuario_id, perfil, sexo) VALUES (?, ?, ?, ?, ?, ?);";
 			PreparedStatement preparedSql = connection.prepareStatement(sql);
 
 			preparedSql.setString(1, usuario.getNome());
@@ -54,6 +54,20 @@ public class DAOUsuarioRepository {
 
 			preparedSql.execute();
 			connection.commit();
+			
+				if (usuario.getFotouser() != null && !usuario.getFotouser().isEmpty()) {
+					
+					sql = "update users set fotouser = ?, extensaofotouser=? where email =?";
+					
+					preparedSql = connection.prepareStatement(sql);
+					
+					preparedSql.setString(1, usuario.getFotouser());
+					preparedSql.setString(2, usuario.getExtensaofotouser());
+					preparedSql.setString(3, usuario.getEmail());
+					
+					preparedSql.execute();
+					connection.commit();
+				}
 
 		} else {
 			String sql = "update users SET nome=?, email=?, senha=?, perfil=?, sexo=? WHERE id = " + usuario.getId() + ";";
@@ -68,6 +82,20 @@ public class DAOUsuarioRepository {
 
 			preparedSql.executeUpdate();
 			connection.commit();
+			
+				if (usuario.getFotouser() != null && !usuario.getFotouser().isEmpty()) {
+					
+					sql = "update users set fotouser = ?, extensaofotouser=? where id =?";
+					
+					preparedSql = connection.prepareStatement(sql);
+					
+					preparedSql.setString(1, usuario.getFotouser());
+					preparedSql.setString(2, usuario.getExtensaofotouser());
+					preparedSql.setLong(3, usuario.getId());
+					
+					preparedSql.execute();
+					connection.commit();
+				}
 		}
 
 		return this.consultaUsuario(usuario.getEmail(), userLogado);
@@ -217,6 +245,7 @@ public class DAOUsuarioRepository {
 			user.setSenha(resultado.getString("senha"));
 			user.setPerfil(resultado.getString("perfil"));
 			user.setSexo(resultado.getString("sexo"));
+			
 		}
 		return user;
 	}
