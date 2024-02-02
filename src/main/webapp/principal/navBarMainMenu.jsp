@@ -1,21 +1,31 @@
+<%@page import="model.ModelUsuario"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 	
 	<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 	
 	<c:set scope="session" var="perfil" value='<%= request.getSession().getAttribute("perfil") %>'></c:set>
+	<c:set scope="session" var="fotoUser" value='<%= request.getSession().getAttribute("fotoUsuario") %>'></c:set>
 	
 <nav class="pcoded-navbar">
 	<div class="sidebar_toggle">
 		<a href="#"><i class="icon-close icons"></i></a>
 	</div>
 	<div class="pcoded-inner-navbar main-menu">
-		<div class="">
+		<div class=""> 
 			<div class="main-menu-header">
-				<img class="img-80 img-radius" src="<%=request.getContextPath()%>/assets/images/foto.jpg" alt="User-Profile-Image">
-				<div class="user-details">
-					<span id="more-details"><%= request.getSession().getAttribute("nomeUsuario") %><i class="fa fa-caret-down"></i></span> 
-				</div>
+				<c:choose>
+					<c:when test="${fotoUser != null && fotoUser != ''}">
+						<img class="img-radius" src="<%= request.getSession().getAttribute("fotoUsuario") %>" id="fotoUser" alt="User-Profile-Image">
+					</c:when>
+					<c:otherwise>
+						<img class="img-radius" src="assets/images/faq_man.png" id="fotoUser" alt="User-Profile-Image">
+					</c:otherwise>
+				</c:choose>
+					<div class="user-details"> 
+						<span id="more-details"><%= request.getSession().getAttribute("nomeUsuario") %><i class="fa fa-caret-down"></i></span> 
+					</div>
+				
 			</div>
 
 			<div class="main-menu-content">

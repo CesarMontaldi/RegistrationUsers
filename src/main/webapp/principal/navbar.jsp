@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
+	
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<c:set scope="session" var="fotoUser" value='<%= request.getSession().getAttribute("fotoUsuario") %>'></c:set>
 
 <nav class="navbar header-navbar pcoded-header">
 	<div class="navbar-wrapper">
@@ -95,12 +98,18 @@
 								</div>
 							</div>
 						</li>
-					</ul></li>
-				<li class="user-profile header-notification"><a href="#!"
-					class="waves-effect waves-light"> <img
-						src="<%=request.getContextPath()%>/assets/images/foto.jpg" class="img-radius"
-						alt="User-Profile-Image"> <span><%= request.getSession().getAttribute("nomeUsuario") %></span> <i
-						class="ti-angle-down"></i>
+					</ul></li> 
+				<li class="user-profile header-notification"><a href="#!" class="waves-effect waves-light">
+					<c:choose>
+						<c:when test="${fotoUser != null && fotoUser != ''}">
+							<img class="img-80 img-radius" src="<%= request.getSession().getAttribute("fotoUsuario") %>" id="fotoUser" alt="User-Profile-Image">
+						</c:when>
+						<c:otherwise>
+							<img class="img-80 img-radius" src="assets/images/faq_man.png" id="fotoUser" alt="User-Profile-Image">
+						</c:otherwise>
+					</c:choose>
+					 <span><%= request.getSession().getAttribute("nomeUsuario") %></span>
+					 <i class="ti-angle-down"></i>
 				</a>
 					<ul class="show-notification profile-notification">
 						<li class="waves-effect waves-light"><a href="#!"> <i
