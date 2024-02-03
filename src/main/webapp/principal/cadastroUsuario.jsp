@@ -54,14 +54,16 @@
 												<div class="input-group-prepend">
 													<c:choose>
 														<c:when test="${modelUsuario.fotouser != '' && modelUsuario.fotouser != null}">
-															<img alt="Imagem user" id="fotoembase64" src="${modelUsuario.fotouser}" class="img-radius" width="90px" height="90px">
+															<a href="<%=request.getContextPath()%>/ServletUsuarioController?acao=downloadFoto&id=${modelUsuario.id}">
+																<img alt="Imagem user" id="fotoembase64" src="${modelUsuario.fotouser}" class="img-radius" width="90px" height="90px">
+															</a>
 														</c:when>
 														<c:otherwise>
 															<img alt="Imagem user" id="fotoembase64" src="assets/images/faq_man.png" class="img-radius" width="90px" height="90px">
 														</c:otherwise>
 													</c:choose>
 												</div>
-												<input type="file" id="fileFoto" name="fileFoto" accept="image/*" onchange="visualizarImg('fotoembase64', 'fileFoto')" class="form-control-file" style="margin-top: 15px; margin-left: 10px;">
+													<input type="file" id="fileFoto" name="fileFoto" accept="image/*" onchange="visualizarImg('fotoembase64', 'fileFoto')" class="form-control-file" style="margin-top: 30px; margin-left: 15px;">
 											</div>
 											
 											<div class="form-group form-default form-static-label">

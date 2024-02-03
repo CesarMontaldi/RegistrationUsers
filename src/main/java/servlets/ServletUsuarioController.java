@@ -97,6 +97,17 @@ public class ServletUsuarioController extends ServletGenericUtil {
 				request.getRequestDispatcher("principal/cadastroUsuario.jsp").forward(request, response);
 				
 			}
+			else if (acao != null && !acao.isEmpty() && acao.equalsIgnoreCase("downloadFoto")) { /* Fazer Download de foto, arquivos */
+				
+				String id = request.getParameter("id");
+				
+				ModelUsuario user = daoUsuarioRepository.consultaUsuarioId(id, super.getUserLogado(request));
+				if (user.getFotouser() != null && !user.getFotouser().isEmpty()) {
+					
+					response.setHeader("Content-Disposition", "attachment;filename=arquivo." + user.getExtensaofotouser());
+					response.getOutputStream().write(new Base64().decodeBase64(user.getFotouser().split("\\,")[1]));
+				}
+			}
 			else {
 				List<ModelUsuario> modelUsuarios = daoUsuarioRepository.consultaUsuarioList(super.getUserLogado(request));
 				request.setAttribute("modelUsuarios", modelUsuarios);
@@ -111,6 +122,8 @@ public class ServletUsuarioController extends ServletGenericUtil {
 			request.setAttribute("msgError", e.getMessage());
 			redirecionar.forward(request, response);
 		}
+		
+		
 
 	}
 

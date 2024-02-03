@@ -25,7 +25,6 @@
 					<div class="user-details"> 
 						<span id="more-details"><%= request.getSession().getAttribute("nomeUsuario") %><i class="fa fa-caret-down"></i></span> 
 					</div>
-				
 			</div>
 
 			<div class="main-menu-content">

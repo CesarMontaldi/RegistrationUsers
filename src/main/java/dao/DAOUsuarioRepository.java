@@ -249,6 +249,7 @@ public class DAOUsuarioRepository {
 			user.setPerfil(resultado.getString("perfil"));
 			user.setSexo(resultado.getString("sexo"));
 			user.setFotouser(resultado.getString("fotouser"));
+			user.setExtensaofotouser(resultado.getString("extensaofotouser"));
 			
 		}
 		return user;
