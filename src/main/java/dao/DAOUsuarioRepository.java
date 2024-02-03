@@ -119,7 +119,32 @@ public class DAOUsuarioRepository {
 
 		List<ModelUsuario> usuarios = new ArrayList<ModelUsuario>();
 
-		String sql = "select * from users where useradmin is false and usuario_id = " + userLogado + " order By nome ASC";
+		String sql = "select * from users where useradmin is false and usuario_id = " + userLogado + " order By nome ASC limit 5";
+
+		PreparedStatement preparedSql = connection.prepareStatement(sql);
+
+		ResultSet resultado = preparedSql.executeQuery();
+
+		while (resultado.next()) {
+			ModelUsuario user = new ModelUsuario();
+
+			user.setId(resultado.getLong("id"));
+			user.setNome(resultado.getString("nome"));
+			user.setEmail(resultado.getString("email"));
+			user.setPerfil(resultado.getString("perfil"));
+			user.setSexo(resultado.getString("sexo"));
+
+			usuarios.add(user);
+		}
+
+		return usuarios;
+	}
+	
+	public List<ModelUsuario> consultaUsuarioListPaginada(Long userLogado, Integer offset) throws SQLException {
+
+		List<ModelUsuario> usuarios = new ArrayList<ModelUsuario>();
+
+		String sql = "select * from users where useradmin is false and usuario_id = " + userLogado + " order By nome ASC offset "+ offset +" limit 5";
 
 		PreparedStatement preparedSql = connection.prepareStatement(sql);
 
@@ -144,7 +169,7 @@ public class DAOUsuarioRepository {
 
 		List<ModelUsuario> usuarios = new ArrayList<ModelUsuario>();
 
-		String sql = "select * from users where upper(nome) like upper(?) and useradmin is false and usuario_id = ? order By nome ASC";
+		String sql = "select * from users where upper(nome) like upper(?) and useradmin is false and usuario_id = ? order By nome ASC limit 5";
 
 		PreparedStatement preparedSql = connection.prepareStatement(sql);
 
