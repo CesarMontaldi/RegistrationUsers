@@ -141,6 +141,13 @@ public class ServletUsuarioController extends ServletGenericUtil {
 			String perfil = request.getParameter("perfil");
 			String sexo = request.getParameter("sexo");
 			
+			String cep = request.getParameter("cep");
+			String logradouro = request.getParameter("logradouro");
+			String bairro = request.getParameter("bairro");
+			String cidade = request.getParameter("cidade");
+			String uf = request.getParameter("uf");
+			String numero = request.getParameter("numero");
+			
 			ModelUsuario modelUsuario = new ModelUsuario();
 			
 			modelUsuario.setId(id != null && !id.isEmpty() ? Long.parseLong(id) : null);
@@ -149,6 +156,13 @@ public class ServletUsuarioController extends ServletGenericUtil {
 			modelUsuario.setSenha(senha);
 			modelUsuario.setPerfil(perfil);
 			modelUsuario.setSexo(sexo);
+			
+			modelUsuario.setCep(cep);
+			modelUsuario.setLogradouro(logradouro);
+			modelUsuario.setBairro(bairro);
+			modelUsuario.setCidade(cidade);
+			modelUsuario.setUf(uf);
+			modelUsuario.setNumero(numero);
 			
 			if (ServletFileUpload.isMultipartContent(request)) {
 				

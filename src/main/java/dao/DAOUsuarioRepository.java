@@ -42,7 +42,7 @@ public class DAOUsuarioRepository {
 
 		if (usuario.isNovo()) {
 
-			String sql = "insert into users(nome, email, senha, usuario_id, perfil, sexo) VALUES (?, ?, ?, ?, ?, ?);";
+			String sql = "insert into users(nome, email, senha, usuario_id, perfil, sexo, cep, logradouro, bairro, cidade, uf, numero) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
 			PreparedStatement preparedSql = connection.prepareStatement(sql);
 
 			preparedSql.setString(1, usuario.getNome());
@@ -51,6 +51,13 @@ public class DAOUsuarioRepository {
 			preparedSql.setLong(4, userLogado);
 			preparedSql.setString(5, usuario.getPerfil());
 			preparedSql.setString(6, usuario.getSexo());
+			
+			preparedSql.setString(7, usuario.getCep());
+			preparedSql.setString(8, usuario.getLogradouro());
+			preparedSql.setString(9, usuario.getBairro());
+			preparedSql.setString(10, usuario.getCidade());
+			preparedSql.setString(11, usuario.getUf());
+			preparedSql.setString(12, usuario.getNumero());
 
 			preparedSql.execute();
 			connection.commit();
@@ -70,7 +77,7 @@ public class DAOUsuarioRepository {
 				}
 
 		} else {
-			String sql = "update users SET nome=?, email=?, senha=?, perfil=?, sexo=? WHERE id = " + usuario.getId() + ";";
+			String sql = "update users SET nome=?, email=?, senha=?, perfil=?, sexo=?, cep=?, logradouro=?, bairro=?, cidade=?, uf=?, numero=? WHERE id = " + usuario.getId() + ";";
 
 			PreparedStatement preparedSql = connection.prepareStatement(sql);
 
@@ -79,6 +86,13 @@ public class DAOUsuarioRepository {
 			preparedSql.setString(3, usuario.getSenha());
 			preparedSql.setString(4, usuario.getPerfil());
 			preparedSql.setString(5, usuario.getSexo());
+			
+			preparedSql.setString(6, usuario.getCep());
+			preparedSql.setString(7, usuario.getLogradouro());
+			preparedSql.setString(8, usuario.getBairro());
+			preparedSql.setString(9, usuario.getCidade());
+			preparedSql.setString(10, usuario.getUf());
+			preparedSql.setString(11, usuario.getNumero());
 
 			preparedSql.executeUpdate();
 			connection.commit();
@@ -175,6 +189,14 @@ public class DAOUsuarioRepository {
 			user.setPerfil(resultado.getString("perfil"));
 			user.setSexo(resultado.getString("sexo"));
 			user.setFotouser(resultado.getString("fotouser"));
+			
+			user.setCep(resultado.getString("cep"));
+			user.setLogradouro(resultado.getString("logradouro"));
+			user.setBairro(resultado.getString("bairro"));
+			user.setCidade(resultado.getString("cidade"));
+			user.setUf(resultado.getString("uf"));
+			user.setNumero(resultado.getString("numero"));
+			
 		}
 		return user;
 	}
@@ -200,6 +222,13 @@ public class DAOUsuarioRepository {
 			user.setPerfil(resultado.getString("perfil"));
 			user.setSexo(resultado.getString("sexo"));
 			user.setFotouser(resultado.getString("fotouser"));
+			
+			user.setCep(resultado.getString("cep"));
+			user.setLogradouro(resultado.getString("logradouro"));
+			user.setBairro(resultado.getString("bairro"));
+			user.setCidade(resultado.getString("cidade"));
+			user.setUf(resultado.getString("uf"));
+			user.setNumero(resultado.getString("numero"));
 		}
 		return user;
 	}
@@ -224,6 +253,13 @@ public class DAOUsuarioRepository {
 			user.setPerfil(resultado.getString("perfil"));
 			user.setSexo(resultado.getString("sexo"));
 			user.setFotouser(resultado.getString("fotouser"));
+			
+			user.setCep(resultado.getString("cep"));
+			user.setLogradouro(resultado.getString("logradouro"));
+			user.setBairro(resultado.getString("bairro"));
+			user.setCidade(resultado.getString("cidade"));
+			user.setUf(resultado.getString("uf"));
+			user.setNumero(resultado.getString("numero"));
 		}
 		return user;
 	}
@@ -250,6 +286,13 @@ public class DAOUsuarioRepository {
 			user.setSexo(resultado.getString("sexo"));
 			user.setFotouser(resultado.getString("fotouser"));
 			user.setExtensaofotouser(resultado.getString("extensaofotouser"));
+			
+			user.setCep(resultado.getString("cep"));
+			user.setLogradouro(resultado.getString("logradouro"));
+			user.setBairro(resultado.getString("bairro"));
+			user.setCidade(resultado.getString("cidade"));
+			user.setUf(resultado.getString("uf"));
+			user.setNumero(resultado.getString("numero"));
 			
 		}
 		return user;
