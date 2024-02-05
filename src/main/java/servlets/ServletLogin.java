@@ -60,8 +60,7 @@ public class ServletLogin extends HttpServlet {
 						
 						request.getSession().setAttribute("usuario", modelUsuario.getEmail()); /* Coloca o usuario na sessão para manter ele logado */
 						request.getSession().setAttribute("perfil", modelUsuario.getPerfil());
-						request.getSession().setAttribute("nomeUsuario", modelUsuario.getNome());
-						request.getSession().setAttribute("fotoUsuario", modelUsuario.getFotouser());
+						request.getSession().setAttribute("modelUsuario", modelUsuario);
 						
 						/* Verifica se o usuario esta tentando acessar alguma pagina do sistema, senão redireciona ele para pagina inicial do sistema */
 						if (url == null || url.equals("null")) {

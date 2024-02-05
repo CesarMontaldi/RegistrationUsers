@@ -189,12 +189,70 @@ public class DAOUsuarioRepository {
 
 		return usuarios;
 	}
+	
+	public int consultaUsuarioListTotalPaginacao(String nome, Long userLogado) throws SQLException {
+
+		List<ModelUsuario> usuarios = new ArrayList<ModelUsuario>();
+
+		String sql = "select count(1) as total from users where upper(nome) like upper(?) and useradmin is false and usuario_id = ?";
+
+		PreparedStatement preparedSql = connection.prepareStatement(sql);
+
+		preparedSql.setString(1, "%" + nome + "%");
+		preparedSql.setLong(2, userLogado);
+
+		ResultSet resultado = preparedSql.executeQuery();
+
+		resultado.next();
+		
+		Double cadastros = resultado.getDouble("total");
+		
+		Double porpagina = 5.0;
+		
+		Double pagina = cadastros/ porpagina;
+		
+		double resto = pagina % 2;
+		
+		if (resto > 0) {
+			pagina ++;
+		}
+		
+		return pagina.intValue();
+	}
 
 	public List<ModelUsuario> consultaUsuarioList(String nome, Long userLogado) throws SQLException {
 
 		List<ModelUsuario> usuarios = new ArrayList<ModelUsuario>();
 
 		String sql = "select * from users where upper(nome) like upper(?) and useradmin is false and usuario_id = ? order By nome ASC limit 5";
+
+		PreparedStatement preparedSql = connection.prepareStatement(sql);
+
+		preparedSql.setString(1, "%" + nome + "%");
+		preparedSql.setLong(2, userLogado);
+
+		ResultSet resultado = preparedSql.executeQuery();
+
+		while (resultado.next()) {
+			ModelUsuario user = new ModelUsuario();
+
+			user.setId(resultado.getLong("id"));
+			user.setNome(resultado.getString("nome"));
+			user.setEmail(resultado.getString("email"));
+			user.setPerfil(resultado.getString("perfil"));
+			user.setSexo(resultado.getString("sexo"));
+			
+			usuarios.add(user);
+		}
+
+		return usuarios;
+	}
+	
+	public List<ModelUsuario> consultaUsuarioListOffSet(String nome, Long userLogado, Integer offset) throws SQLException {
+
+		List<ModelUsuario> usuarios = new ArrayList<ModelUsuario>();
+
+		String sql = "select * from users where upper(nome) like upper(?) and useradmin is false and usuario_id = ? order By nome ASC offset "+ offset +" limit 5";
 
 		PreparedStatement preparedSql = connection.prepareStatement(sql);
 

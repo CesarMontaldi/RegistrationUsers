@@ -65,41 +65,52 @@
 												</div>
 													<input type="file" id="fileFoto" name="fileFoto" accept="image/*" onchange="visualizarImg('fotoembase64', 'fileFoto')" class="form-control-file" style="margin-top: 30px; margin-left: 15px;">
 											</div>
+											<div class="row">
+												<div class="form-group form-default form-static-label col-4">
+													<input type="text" name="nome" id="nome" class="form-control" required="required" value="${modelUsuario.nome}">
+													<span class="form-bar"></span>
+													<label class="float-label ml-3">Nome:</label>
+												</div>
+															
+												<div class="form-group form-default form-static-label  col-4"> 
+													<input type="email" name="email" id="email" class="form-control" required="required" value="${modelUsuario.email}">
+													<span class="form-bar"></span>
+													<label class="float-label ml-3">Email:</label>
+												</div>
 											
-											<div class="form-group form-default form-static-label">
-												<input type="text" name="nome" id="nome" class="form-control" required="required" value="${modelUsuario.nome}">
-												<span class="form-bar"></span>
-												<label class="float-label">Nome:</label>
-											</div>
-														
-											<div class="form-group form-default form-static-label"> 
-												<input type="email" name="email" id="email" class="form-control" required="required" value="${modelUsuario.email}">
-												<span class="form-bar"></span>
-												<label class="float-label">Email:</label>
-											</div>
-											
-											<div class="form-group form-default form-static-label">
-												<input type="password" name="senha" id="senha" class="form-control" required="required" value="${modelUsuario.senha}">
-												<span class="form-bar"></span>
-												<label class="float-label">Senha:</label>
-											</div>
-											
-											<div class="form-group form-default form-static-label">
-												<input onblur="pesquisaCep()" type="text" name="cep" id="cep" class="form-control" required="required" value="${modelUsuario.cep}">
-												<span class="form-bar"></span>
-												<label class="float-label">Cep:</label>
+												<div class="form-group form-default form-static-label col-4">
+													<input type="password" name="senha" id="senha" class="form-control" required="required" value="${modelUsuario.senha}">
+													<span class="form-bar"></span>
+													<label class="float-label ml-3">Senha:</label>
+												</div>
 											</div>
 											
-											<div class="form-group form-default form-static-label">
-												<input type="text" name="logradouro" id="logradouro" class="form-control" required="required" value="${modelUsuario.logradouro}">
-												<span class="form-bar"></span>
-												<label class="float-label">Logradouro:</label>
+											<div class="row">
+												<div class="form-group form-default form-static-label col-3">
+													<input onblur="pesquisaCep()" type="text" name="cep" id="cep" class="form-control" required="required" value="${modelUsuario.cep}">
+													<span class="form-bar"></span>
+													<label class="float-label ml-3">Cep:</label>
+												</div>
 											</div>
 											
-											<div class="form-group form-default form-static-label">
-												<input type="text" name="bairro" id="bairro" class="form-control" required="required" value="${modelUsuario.bairro}">
-												<span class="form-bar"></span>
-												<label class="float-label">Bairro:</label>
+											<div class="row">
+												<div class="form-group form-default form-static-label col-4">
+													<input type="text" name="logradouro" id="logradouro" class="form-control" required="required" value="${modelUsuario.logradouro}">
+													<span class="form-bar"></span>
+													<label class="float-label ml-3">Logradouro:</label>
+												</div>
+												
+												<div class="form-group form-default form-static-label col-3">
+													<input type="text" name="numero" id="numero" class="form-control" required="required" value="${modelUsuario.numero}">
+													<span class="form-bar"></span>
+													<label class="float-label ml-3">Número:</label>
+												</div>
+												
+												<div class="form-group form-default form-static-label col-4">
+													<input type="text" name="bairro" id="bairro" class="form-control" required="required" value="${modelUsuario.bairro}">
+													<span class="form-bar"></span>
+													<label class="float-label ml-3">Bairro:</label>
+												</div>
 											</div>
 											
 											<div class="form-group form-default form-static-label">
@@ -114,11 +125,6 @@
 												<label class="float-label">Estado:</label>
 											</div>
 											
-											<div class="form-group form-default form-static-label">
-												<input type="text" name="numero" id="numero" class="form-control" required="required" value="${modelUsuario.numero}">
-												<span class="form-bar"></span>
-												<label class="float-label">Número:</label>
-											</div>
 														
 											<div class="form-group form-default form-static-label">
 												<select class="form-control" aria-label="Default select example" name="perfil">
@@ -182,7 +188,7 @@
 														<button type="button" class="btn waves-effect waves-light btn-success" onclick="limparForm()">Novo</button>
 														<button type="submit" class="btn waves-effect waves-light btn-primary ml-2">Salvar</button>
 														<button type="button" class="btn waves-effect waves-light btn-danger ml-2" onclick="deleteAjax()">Excluir</button>
-														<button type="button" class="btn btn-secondary ml-2" data-toggle="modal" data-target="#exampleModalUser">Pesquisar</button>
+														<button type="button" class="btn btn-secondary ml-2" data-toggle="modal" data-target="#modalUser">Pesquisar</button>
 													</form>
 
 												</div>
@@ -246,15 +252,13 @@
 	<jsp:include page="javaScriptFile.jsp"></jsp:include>
 
 	<!-- Modal -->
-	<div class="modal fade" id="exampleModalUser" tabindex="-1"
+	<div class="modal fade" id="modalUser" tabindex="-1"
 		role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h5 class="modal-title" id="exampleModalLabel">Pesquisa de
-						usuário</h5>
-					<button type="button" class="close" data-dismiss="modal"
-						aria-label="Close">
+					<h5 class="modal-title" id="modalLabel">Pesquisa de usuário</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>
 				</div>
@@ -280,11 +284,18 @@
 							</tbody>
 						</table>
 					</div>
+					
+					<nav aria-label="Page navigation example">
+				  	<ul class="pagination" id="ulPaginacaoUserAjax">
+				  	
+				  	
+				  	</ul>
+					</nav>
 					<span id="totalUsers"></span>
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-secondary"
-						data-dismiss="modal">Fechar</button>
+					<button type="button" class="btn btn-secondary" onclick="limparDados()" data-dismiss="modal">Fechar</button>
+						
 				</div>
 			</div>
 		</div>
@@ -322,27 +333,35 @@ function limpa_formulário_cep() {
     $("#uf").val("");
 }
 
+//Limpa campos dentro da modal.
+function limparDados() {
+	$("#nomeBusca").val("");
+	$('#tabelaUsers > tbody').html("");
+	$("#ulPaginacaoUserAjax").html("");
+	$("#totalUsers").html("");
+}
 
-/* Funcao para buscar usuarios utilizando Ajax  */
-function buscarUsuario() {
-
-	var nomeBusca = document.getElementById("nomeBusca").value;
-
-	if (nomeBusca != null && nomeBusca != '' && nomeBusca.trim() != '') { /* Validando que tem que ter valor para buscar no banco */
+function buscaUserPagAjax(url) {
+	
 
 	var urlAction = document.getElementById("formUser").action;
+	var nomeBusca = document.getElementById("nomeBusca").value;
 
-		
+	
 	$.ajax(
 			{
 				method : "GET",
 				url : urlAction,
-				data : "nomeBusca=" + nomeBusca + "&acao=buscarUserAjax",
-				success : function(response) {
+				data : url,
+				success : function(response, textStatus, xhr) {
+
+					
 					
 					var json = JSON.parse(response);
 
 					$('#tabelaUsers > tbody > tr').remove();
+					$("#ulPaginacaoUserAjax > li").remove();
+					
 
 					for (var p = 0; p < json.length; p++) {
 
@@ -353,17 +372,83 @@ function buscarUsuario() {
 						
 					}
 
-					document.getElementById("totalUsers").textContent = "Resultado: "
-							+ json.length;
+					document.getElementById("totalUsers").textContent = "Resultado: " + json.length;
+							
+					var totalPagina = xhr.getResponseHeader("totalPagina");
+					
+					for (var p = 0; p < totalPagina; p++) {
 
+						
+						var url = "nomeBusca=" + nomeBusca + "&acao=buscarUserAjaxPage&pagina=" + (p * 5);
+						
+						$("#ulPaginacaoUserAjax").append('<li class="page-item"><a class="page-link" href="#" onclick="buscaUserPagAjax(\'' + url + '\')">' + (p + 1) + '</a></li>');
+							
+						}
 				}
 
+		}).fail(
+		function(xhr, status, errorThrow) {
+			alert("Erro ao buscar o usuário:"
+					+ xhr.responseText);
+
+		});
+
+	
+}
+
+
+/* Funcao para buscar usuarios utilizando Ajax  */
+function buscarUsuario() {
+
+	var nomeBusca = document.getElementById("nomeBusca").value;
+	
+	if (nomeBusca != null && nomeBusca != '' && nomeBusca.trim() != '') { /* Validando que tem que ter valor para buscar no banco */
+
+	var urlAction = document.getElementById("formUser").action;
+
+		
+	$.ajax(
+			{
+				method : "GET",
+				url : urlAction,
+				data : "nomeBusca=" + nomeBusca + "&acao=buscarUserAjax",
+				success : function(response, textStatus, xhr) {
+					
+					var json = JSON.parse(response);
+
+					$('#tabelaUsers > tbody > tr').remove();
+					$("#ulPaginacaoUserAjax > li").remove();
+					
+
+					for (var p = 0; p < json.length; p++) {
+
+						$('#tabelaUsers > tbody').append('<tr> <td>' + json[p].id + '</td> <td>'+ json[p].nome 
+								+ ' </td> <td> <button onclick="editarUser('+json[p].id+')" type="button" style="border-radius:8px; width:45px; heigth:45px;" '
+								+ ' class="btn btn-primary d-flex justify-content-center align-items-center"> '
+								+ ' <i class="ti-pencil-alt ml-1 mb-1" style="font-size:17px;"></i></button> </td></tr>');
+						
+					}
+
+					document.getElementById("totalUsers").textContent = "Resultado: " + json.length;
+							
+					var totalPagina = xhr.getResponseHeader("totalPagina");
+					
+					for (var p = 0; p < totalPagina; p++) {
+						
+						var url = "nomeBusca=" + nomeBusca + "&acao=buscarUserAjaxPage&pagina=" + (p * 5);
+						
+						$("#ulPaginacaoUserAjax").append('<li class="page-item"><a class="page-link" href="#" onclick="buscaUserPagAjax(\'' + url + '\')">' + (p + 1) + '</a></li>');
+							
+						}
+				}
+				
 			}).fail(
 			function(xhr, status, errorThrow) {
 				alert("Erro ao buscar o usuário:"
 						+ xhr.responseText);
 
 			});
+		
 	}
 }
 

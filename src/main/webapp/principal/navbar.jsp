@@ -2,7 +2,7 @@
 	pageEncoding="ISO-8859-1"%>
 	
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<c:set scope="session" var="fotoUser" value='<%= request.getSession().getAttribute("fotoUsuario") %>'></c:set>
+
 
 <nav class="navbar header-navbar pcoded-header">
 	<div class="navbar-wrapper">
@@ -14,10 +14,9 @@
 				<div class="header-search">
 					<div class="main-search morphsearch-search">
 						<div class="input-group">
-							<span class="input-group-addon search-close"><i
-								class="ti-close"></i></span> <input type="text" class="form-control"
-								placeholder="Enter Keyword"> <span
-								class="input-group-addon search-btn"><i class="ti-search"></i></span>
+							<span class="input-group-addon search-close"><i class="ti-close"></i></span>
+								 <input type="text" class="form-control" placeholder="Enter Keyword">
+							 <span class="input-group-addon search-btn"><i class="ti-search"></i></span>
 						</div>
 					</div>
 				</div>
@@ -39,10 +38,9 @@
 				<li class="header-search">
 					<div class="main-search morphsearch-search">
 						<div class="input-group">
-							<span class="input-group-addon search-close"><i
-								class="ti-close"></i></span> <input type="text" class="form-control">
-							<span class="input-group-addon search-btn"><i
-								class="ti-search"></i></span>
+							<span class="input-group-addon search-close"><i class="ti-close"></i></span>
+							 <input type="text" class="form-control">
+							<span class="input-group-addon search-btn"><i class="ti-search"></i></span>
 						</div>
 					</div>
 				</li>
@@ -59,7 +57,8 @@
 						<li>
 							<h6>Notifications</h6> <label class="label label-danger">New</label>
 						</li>
-						<li class="waves-effect waves-light">
+						
+						<%-- <li class="waves-effect waves-light">
 							<div class="media">
 								<img class="d-flex align-self-center img-radius"
 									src="<%=request.getContextPath()%>/assets/images/avatar-2.jpg"
@@ -71,8 +70,8 @@
 									<span class="notification-time">30 minutes ago</span>
 								</div>
 							</div>
-						</li>
-						<li class="waves-effect waves-light">
+						</li> --%>
+						<%-- <li class="waves-effect waves-light">
 							<div class="media">
 								<img class="d-flex align-self-center img-radius"
 									src="<%=request.getContextPath()%>/assets/images/avatar-4.jpg"
@@ -84,8 +83,8 @@
 									<span class="notification-time">30 minutes ago</span>
 								</div>
 							</div>
-						</li>
-						<li class="waves-effect waves-light">
+						</li> --%>
+						<%-- <li class="waves-effect waves-light">
 							<div class="media">
 								<img class="d-flex align-self-center img-radius"
 									src="<%=request.getContextPath()%>/assets/images/avatar-3.jpg"
@@ -97,39 +96,44 @@
 									<span class="notification-time">30 minutes ago</span>
 								</div>
 							</div>
-						</li>
+						</li> --%>
 					</ul></li> 
-				<li class="user-profile header-notification"><a href="#!" class="waves-effect waves-light">
-					<c:choose>
-						<c:when test="${fotoUser != null && fotoUser != ''}">
-							<img class="img-80 img-radius" src="<%= request.getSession().getAttribute("fotoUsuario") %>" id="fotoUser" alt="User-Profile-Image">
-						</c:when>
-						<c:otherwise>
-							<img class="img-80 img-radius" src="assets/images/faq_man.png" id="fotoUser" alt="User-Profile-Image">
-						</c:otherwise>
-					</c:choose>
-					 <span><%= request.getSession().getAttribute("nomeUsuario") %></span>
-					 <i class="ti-angle-down"></i>
-				</a>
+				<li class="user-profile header-notification">
+					<a href="#!" class="waves-effect waves-light">
+						<c:choose>
+							<c:when test="${modelUsuario.fotouser != null && modelUsuario.fotouser != ''}">
+								<img class="img-80 img-radius" src="${modelUsuario.fotouser}" id="fotoUser" alt="User-Profile-Image">
+							</c:when>
+							<c:otherwise>
+								<img class="img-80 img-radius" src="assets/images/faq_man.png" id="fotoUser" alt="User-Profile-Image">
+							</c:otherwise>
+						</c:choose>
+						 <span> ${modelUsuario.nome} </span>
+						 <i class="ti-angle-down"></i>
+					</a>
 					<ul class="show-notification profile-notification">
-						<li class="waves-effect waves-light"><a href="#!"> <i
-								class="ti-settings"></i> Settings
-						</a></li>
-						<li class="waves-effect waves-light"><a
-							href="user-profile.html"> <i class="ti-user"></i> Profile
-						</a></li>
-						<li class="waves-effect waves-light"><a
-							href="email-inbox.html"> <i class="ti-email"></i> My Messages
-						</a></li>
-						<li class="waves-effect waves-light"><a
-							href="auth-lock-screen.html"> <i class="ti-lock"></i> Lock
-								Screen
-						</a></li>
-						<li class="waves-effect waves-light"><a
-							href="<%=request.getContextPath()%>/ServletLogin?acao=logout"> <i
-								class="ti-layout-sidebar-left"></i> Logout
-						</a></li>
-					</ul></li>
+					
+						<!-- <li class="waves-effect waves-light">
+							<a href="#!"> <i class="ti-settings"></i> Settings</a>
+						</li> -->
+						
+						<li class="waves-effect waves-light">
+							<a href="user-profile.html"> <i class="ti-user"></i> Profile</a>
+						</li>
+						
+						<!-- <li class="waves-effect waves-light">
+							<a href="email-inbox.html"> <i class="ti-email"></i> My Messages</a>
+						</li>
+						
+						<li class="waves-effect waves-light">
+							<a href="auth-lock-screen.html"> <i class="ti-lock"></i> Lock Screen</a>
+						</li> -->
+						
+						<li class="waves-effect waves-light">
+							<a href="<%=request.getContextPath()%>/ServletLogin?acao=logout"><i class="ti-layout-sidebar-left"></i>Sair</a>
+						</li>
+					</ul>
+				</li>
 			</ul>
 		</div>
 	</div>
