@@ -333,7 +333,7 @@ function limpa_formulário_cep() {
     $("#uf").val("");
 }
 
-//Limpa campos dentro da modal.
+//Limpa os campos dentro da modal.
 function limparDados() {
 	$("#nomeBusca").val("");
 	$('#tabelaUsers > tbody').html("");
