@@ -43,14 +43,10 @@ public class ServletUsuarioController extends ServletGenericUtil {
 				String idUser = request.getParameter("id");
 				
 				daoUsuarioRepository.deletarUser(idUser);
-				
-				List<ModelUsuario> modelUsuarios = daoUsuarioRepository.consultaUsuarioList(super.getUserLogado(request));
-				request.setAttribute("modelUsuarios", modelUsuarios);
-				
+			 
 				request.setAttribute("msg", "Excluido com sucesso!");
-				request.setAttribute("totalPagina", daoUsuarioRepository.totalPaginas(this.getUserLogado(request)));
 				
-				RequestDispatcher redireciona = request.getRequestDispatcher("principal/cadastroUsuario.jsp");
+				RequestDispatcher redireciona = request.getRequestDispatcher("principal/profile.jsp");
 				redireciona.forward(request, response);
 				
 			}
@@ -95,27 +91,43 @@ public class ServletUsuarioController extends ServletGenericUtil {
 				
 				ModelUsuario user = daoUsuarioRepository.consultaUsuarioId(id, super.getUserLogado(request));
 				
-				List<ModelUsuario> modelUsuarios = daoUsuarioRepository.consultaUsuarioList(super.getUserLogado(request));
-				request.setAttribute("modelUsuarios", modelUsuarios);
+				
+				/* List<ModelUsuario> modelUsuarios = daoUsuarioRepository.consultaUsuarioList(super.getUserLogado(request));
+				request.setAttribute("modelUsuarios", modelUsuarios); */
 				
 				request.setAttribute("msg", "Usuário em edição");
 				request.setAttribute("totalPagina", daoUsuarioRepository.totalPaginas(this.getUserLogado(request)));
 				
+				
+				request.setAttribute("user", user);
 				RequestDispatcher redireciona = request.getRequestDispatcher("principal/cadastroUsuario.jsp");
+				redireciona.forward(request, response);
+				
+			}
+			else if (acao != null && !acao.isEmpty() && acao.equalsIgnoreCase("profileUser")) {
+				String id = request.getParameter("id");
+				
+				ModelUsuario user = daoUsuarioRepository.consultaUsuarioID(Long.parseLong(id));
+
+				request.setAttribute("msg", "Usuário em edição");
+				
 				request.setAttribute("modelUsuario", user);
+				RequestDispatcher redireciona = request.getRequestDispatcher("principal/profile.jsp");
 				redireciona.forward(request, response);
 				
 			}
 			else if (acao != null && !acao.isEmpty() && acao.equalsIgnoreCase("listarUser")) { /* buscando todos usuário */
 				
 				List<ModelUsuario> modelUsuarios = daoUsuarioRepository.consultaUsuarioList(super.getUserLogado(request));
-
-				
-				request.setAttribute("msg", "Usuários carregados");
 				request.setAttribute("modelUsuarios", modelUsuarios);
+				request.setAttribute("msg", "Usuários carregados");
+				
+				ModelUsuario user = daoUsuarioRepository.consultaUsuarioID(super.getUserLogado(request));
+				request.setAttribute("modelUsuario", user);
+				
 				request.setAttribute("totalPagina", daoUsuarioRepository.totalPaginas(this.getUserLogado(request)));
 				
-				request.getRequestDispatcher("principal/cadastroUsuario.jsp").forward(request, response);
+				request.getRequestDispatcher("principal/usuarios.jsp").forward(request, response);
 				
 			}
 			else if (acao != null && !acao.isEmpty() && acao.equalsIgnoreCase("downloadFoto")) { /* Fazer Download de foto, arquivos */
@@ -138,7 +150,7 @@ public class ServletUsuarioController extends ServletGenericUtil {
 				request.setAttribute("modelUsuarios", modelUsuarios);
 				
 				request.setAttribute("totalPagina", daoUsuarioRepository.totalPaginas(this.getUserLogado(request)));
-				request.getRequestDispatcher("principal/cadastroUsuario.jsp").forward(request, response);
+				request.getRequestDispatcher("principal/usuarios.jsp").forward(request, response);
 			}
 			
 			else {
@@ -165,8 +177,9 @@ public class ServletUsuarioController extends ServletGenericUtil {
 		
 		try { /* Salva ou atualiza usuário */
 			
-			String msg = "Operação realizada com sucesso!";
+			String msg = "";
 			
+			String acao = request.getParameter("acao");
 			String id = request.getParameter("id");
 			String nome = request.getParameter("nome");
 			String email = request.getParameter("email");
@@ -180,6 +193,10 @@ public class ServletUsuarioController extends ServletGenericUtil {
 			String cidade = request.getParameter("cidade");
 			String uf = request.getParameter("uf");
 			String numero = request.getParameter("numero");
+			
+			if (id != null && !id.isEmpty() && acao.equalsIgnoreCase("cadastrar")) {
+				acao = "atualizarCadastro";
+			};
 			
 			ModelUsuario modelUsuario = new ModelUsuario();
 			
@@ -218,24 +235,38 @@ public class ServletUsuarioController extends ServletGenericUtil {
 				msg = "Já existe usuário com o mesmo login, informe outro.";
 				
 			}else {
-				if (modelUsuario.isNovo()) {
-					msg = "Usuário cadastrado com sucesso!";
-				}else {
-					msg = "Usuário atualizado com sucesso!";
-				}
 				
 				modelUsuario = daoUsuarioRepository.gravarUsuario(modelUsuario, super.getUserLogado(request));
 			} 
 			
-			List<ModelUsuario> modelUsuarios = daoUsuarioRepository.consultaUsuarioList(super.getUserLogado(request));
-			request.setAttribute("modelUsuarios", modelUsuarios);
+			modelUsuario = daoUsuarioRepository.consultaUsuario(email);
 			
-			request.setAttribute("msg", msg);
+			if (acao == "cadastrar") {
+				msg = "Usuário cadastrado com sucesso!";
+			} else if (acao == "atualizarCadastro" || acao == "atualizar") {
+				msg = "Usuário atualizado com sucesso!";
+			}
+			
+			
 			request.setAttribute("totalPagina", daoUsuarioRepository.totalPaginas(this.getUserLogado(request)));
 			
-			RequestDispatcher redireciona = request.getRequestDispatcher("principal/cadastroUsuario.jsp");
-			request.setAttribute("modelUsuario", modelUsuario);
-			redireciona.forward(request, response);
+			if (acao != null && !acao.isEmpty() && acao.equalsIgnoreCase("cadastrar") || acao.equalsIgnoreCase("atualizarCadastro")) {
+				
+				request.setAttribute("msg", msg);
+				request.setAttribute("user", modelUsuario);
+				
+				RequestDispatcher redireciona = request.getRequestDispatcher("principal/cadastroUsuario.jsp");
+				redireciona.forward(request, response);
+			}
+			
+			else if (acao != null && !acao.isEmpty() && acao.equalsIgnoreCase("atualizar")) {
+				
+				request.setAttribute("msg", msg);
+				request.setAttribute("modelUsuario", modelUsuario);
+				
+				RequestDispatcher redireciona = request.getRequestDispatcher("principal/profile.jsp");
+				redireciona.forward(request, response);
+			}
 		
 		}catch (Exception e) {
 			e.printStackTrace();

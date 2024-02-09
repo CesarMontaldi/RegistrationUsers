@@ -401,6 +401,41 @@ public class DAOUsuarioRepository {
 			user.setUf(resultado.getString("uf"));
 			user.setNumero(resultado.getString("numero"));
 			
+			
+		}
+		return user;
+	}
+	
+	public ModelUsuario consultaUsuarioID(Long id) throws SQLException {
+
+		ModelUsuario user = new ModelUsuario();
+
+		String sql = "select * from users where id = ? and useradmin is false";
+
+		PreparedStatement statement = connection.prepareStatement(sql);
+
+		statement.setLong(1, id);
+		
+		ResultSet resultado = statement.executeQuery();
+
+		while (resultado.next()) {
+			user.setId(resultado.getLong("id"));
+			user.setNome(resultado.getString("nome"));
+			user.setEmail(resultado.getString("email"));
+			user.setSenha(resultado.getString("senha"));
+			user.setPerfil(resultado.getString("perfil"));
+			user.setSexo(resultado.getString("sexo"));
+			user.setFotouser(resultado.getString("fotouser"));
+			user.setExtensaofotouser(resultado.getString("extensaofotouser"));
+			
+			user.setCep(resultado.getString("cep"));
+			user.setLogradouro(resultado.getString("logradouro"));
+			user.setBairro(resultado.getString("bairro"));
+			user.setCidade(resultado.getString("cidade"));
+			user.setUf(resultado.getString("uf"));
+			user.setNumero(resultado.getString("numero"));
+			
+			
 		}
 		return user;
 	}
@@ -439,13 +474,13 @@ public class DAOUsuarioRepository {
 		return user;
 	}
 
-	public boolean validarLogin(String login) throws Exception {
+	public boolean validarLogin(String email) throws Exception {
 
 		String sql = "select count(1) > 0 as existe from users where upper(email) = upper(?)";
 
 		PreparedStatement statement = connection.prepareStatement(sql);
 
-		statement.setString(1, login);
+		statement.setString(1, email);
 
 		ResultSet resultado = statement.executeQuery();
 

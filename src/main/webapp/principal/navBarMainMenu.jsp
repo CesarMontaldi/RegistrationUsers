@@ -5,7 +5,7 @@
 	<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 	
 	<c:set scope="session" var="perfil" value='<%= request.getSession().getAttribute("perfil") %>'></c:set>
-
+	<c:set scope="session" var="fotoUser" value='<%= request.getSession().getAttribute("fotoUser") %>'></c:set>
 	
 <nav class="pcoded-navbar">
 	<div class="sidebar_toggle">
@@ -15,22 +15,23 @@
 		<div class=""> 
 			<div class="main-menu-header">
 				<c:choose>
-					<c:when test="${modelUsuario.fotouser != null && modelUsuario.fotouser != ''}">
-						<img class="img-80 img-radius" src="${modelUsuario.fotouser}" id="fotoUser" alt="User-Profile-Image">
+					<c:when test="${fotoUser != null && fotoUser != ''}">
+						<img class="img-80 img-radius" src="${fotoUser}" id="fotoUser" alt="User-Profile-Image">
 					</c:when>
+					
 					<c:otherwise>
-						<img class="img-radius" src="assets/images/faq_man.png" id="fotoUser" alt="User-Profile-Image">
+						<img class="img-radius" src="<%=request.getContextPath()%>/assets/images/faq_man.png" id="fotoUser" alt="User-Profile-Image">
 					</c:otherwise>
 				</c:choose>
 					<div class="user-details"> 
-						<span id="more-details"> ${modelUsuario.nome} <i class="fa fa-caret-down"></i></span> 
+						<span id="more-details"> <%= request.getSession().getAttribute("nomeUsuario") %> <i class="fa fa-caret-down"></i></span> 
 					</div>
 			</div>
 
 			<div class="main-menu-content">
 				<ul>
-					<li class="more-details">
-						<a href="user-profile.html"><i class="ti-user"></i>View Profile</a>
+					<li class="more-details"> <% ModelUsuario modelUsuario = (ModelUsuario) request.getSession().getAttribute("modelUsuario"); %>
+						<a href="<%=request.getContextPath()%>/ServletUsuarioController?acao=profileUser&id=<%= modelUsuario.getId() %>"><i class="ti-user"></i>View Profile</a> 
 						<!-- <a href="#!"><i class="ti-settings"></i>Settings</a> -->
 						<a href="<%=request.getContextPath()%>/ServletLogin?acao=logout"><i class="ti-layout-sidebar-left"></i>Sair</a>
 					</li>
@@ -70,7 +71,7 @@
 				<ul class="pcoded-submenu">
 					<c:if test="${perfil == 'ADMIN'}">
 						<li class=" ">
-							<a href="<%=request.getContextPath()%>/ServletUsuarioController?acao=listarUser" class="waves-effect waves-dark">
+							<a href="<%=request.getContextPath()%>/principal/cadastroUsuario.jsp" class="waves-effect waves-dark">
 								 <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
 								 <span class="pcoded-mtext" data-i18n="nav.basic-components.alert">Usuários</span>
 								 <span class="pcoded-mcaret"></span>
@@ -78,15 +79,15 @@
 						</li>
 					</c:if>
 					
-					<!-- <li class=" ">
-						<a href="breadcrumb.html" class="waves-effect waves-dark">
+					 <li class=" ">
+						<a href="<%=request.getContextPath()%>/ServletTelefone?iduser=${modelUsuario.id}" class="waves-effect waves-dark">
 							 <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
-							 <span class="pcoded-mtext" data-i18n="nav.basic-components.breadcrumbs">Breadcrumbs</span>
+							 <span class="pcoded-mtext" data-i18n="nav.basic-components.breadcrumbs">Telefones</span>
 							 <span class="pcoded-mcaret"></span>
 						</a>
 					</li>
 					
-					<li class=" ">
+					<!-- <li class=" ">
 						<a href="button.html" class="waves-effect waves-dark">
 							 <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
 							 <span class="pcoded-mtext" data-i18n="nav.basic-components.alert">Button</span>
@@ -153,26 +154,33 @@
 			</li>
 		</ul>
 		
-		<div class="pcoded-navigation-label" data-i18n="nav.category.forms">Relatório</div>
-		
-			<ul class="pcoded-item pcoded-left-item">
-				<li>
-					<a href="form-elements-component.html" class="waves-effect waves-dark">
-						 <span class="pcoded-micon"><i class="ti-layers"></i><b>FC</b></span>
-						 <span class="pcoded-mtext" data-i18n="nav.form-components.main">Usuário</span>
-						 <span class="pcoded-mcaret"></span>
-					</a>
+		<!-- <div class="pcoded-navigation-label" data-i18n="nav.category.forms">Relatório</div> -->
+		<ul class="pcoded-item pcoded-left-item">
+		<li class="pcoded-hasmenu">
+				<a href="javascript:void(0)" class="waves-effect waves-dark">
+					 <span class="pcoded-micon"><i class="ti-layout-grid2-alt"></i></span>
+					 <span class="pcoded-mtext" data-i18n="nav.basic-components.main">Relatórios</span>
+					 <span class="pcoded-mcaret"></span>
+				</a>
+				<ul class="pcoded-submenu">
+					<li>
+						<a href="form-elements-component.html" class="waves-effect waves-dark">
+							 <span class="pcoded-micon"><i class="ti-layers"></i><b>FC</b></span>
+							 <span class="pcoded-mtext" data-i18n="nav.form-components.main">Usuário</span>
+							 <span class="pcoded-mcaret"></span>
+						</a>
+					</li>
+					
+					<!-- <li>
+						<a href="bs-basic-table.html" class="waves-effect waves-dark">
+							 <span class="pcoded-micon"><i class="ti-layers"></i><b>FC</b></span>
+							 <span class="pcoded-mtext" data-i18n="nav.form-components.main">Basic Table</span>
+							 <span class="pcoded-mcaret"></span>
+						</a>
+					</li> -->
+				</ul>
 				</li>
-				
-				<!-- <li>
-					<a href="bs-basic-table.html" class="waves-effect waves-dark">
-						 <span class="pcoded-micon"><i class="ti-layers"></i><b>FC</b></span>
-						 <span class="pcoded-mtext" data-i18n="nav.form-components.main">Basic Table</span>
-						 <span class="pcoded-mcaret"></span>
-					</a>
-				</li> -->
 			</ul>
-
 		<!-- <div class="pcoded-navigation-label" data-i18n="nav.category.forms">Chart &amp; Maps</div> -->
 		
 			<ul class="pcoded-item pcoded-left-item">
@@ -201,9 +209,9 @@
 					
 					<ul class="pcoded-submenu">
 						<li class=" ">
-							<a href="auth-normal-sign-in.html" class="waves-effect waves-dark">
+							<a href="<%=request.getContextPath()%>/ServletUsuarioController?acao=listarUser" class="waves-effect waves-dark">
 								<span class="pcoded-micon"><i class="ti-angle-right"></i>
-								</span> <span class="pcoded-mtext" data-i18n="nav.basic-components.alert">Login</span>
+								</span> <span class="pcoded-mtext" data-i18n="nav.basic-components.alert">Lista de Usuários</span>
 								<span class="pcoded-mcaret"></span>
 							</a>
 						</li>

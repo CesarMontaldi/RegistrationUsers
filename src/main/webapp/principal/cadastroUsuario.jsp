@@ -4,6 +4,7 @@
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
+
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -36,16 +37,23 @@
 						<div class="page-body">
 							<div class="col-sm-12">
 								<!-- Basic Form Inputs card start -->
+								<span id="msg" class="ml-2">${msg}</span>
 								<div class="card">
 									<div class="card-block">
-										<h4 class="sub-title">Cadastro de usuário</h4>
-
-										<form class="form-material" enctype="multipart/form-data" action="<%=request.getContextPath()%>/ServletUsuarioController" method="post" id="formUser">
+										<c:choose>
+											<c:when test="${user.id != null && user.id != ''}">
+												<h4 class="sub-title">Atualizar cadastro</h4>
+											</c:when>
+											<c:otherwise>
+												<h4 class="sub-title">Cadastro de usuário</h4>
+											</c:otherwise>
+										</c:choose>
+										<form class="form-material" enctype="multipart/form-data" action="<%=request.getContextPath()%>/ServletUsuarioController?acao=cadastrar" method="post" id="formUser">
 											
 											<input type="hidden" name="acao" id="acao" />
 
 											<div class="form-group form-default form-static-label">
-												<input type="text" name="id" id="id" class="form-control" readonly="readonly" value="${modelUsuario.id}">
+												<input type="text" name="id" id="id" class="form-control" readonly="readonly" value="${user.id}">
 												<span class="form-bar"></span>
 												<label class="float-label">ID:</label>
 											</div>
@@ -53,13 +61,13 @@
 											<div class="form-group form-default input-group mb-4">
 												<div class="input-group-prepend">
 													<c:choose>
-														<c:when test="${modelUsuario.fotouser != '' && modelUsuario.fotouser != null}">
-															<a href="<%=request.getContextPath()%>/ServletUsuarioController?acao=downloadFoto&id=${modelUsuario.id}">
-																<img alt="Imagem user" id="fotoembase64" src="${modelUsuario.fotouser}" class="img-radius" width="90px" height="90px">
+														<c:when test="${user.fotouser != '' && user.fotouser != null}">
+															<a href="<%=request.getContextPath()%>/ServletUsuarioController?acao=downloadFoto&id=${user.id}">
+																<img alt="Imagem modelUsuario" id="fotoembase64" src="${user.fotouser}" class="img-radius" width="90px" height="90px">
 															</a>
 														</c:when>
 														<c:otherwise>
-															<img alt="Imagem user" id="fotoembase64" src="assets/images/faq_man.png" class="img-radius" width="90px" height="90px">
+															<img alt="Imagem modelUsuario" id="fotoembase64" src="<%=request.getContextPath()%>/assets/images/faq_man.png" class="img-radius" width="90px" height="90px">
 														</c:otherwise>
 													</c:choose>
 												</div>
@@ -67,27 +75,28 @@
 											</div>
 											<div class="row">
 												<div class="form-group form-default form-static-label col-4">
-													<input type="text" name="nome" id="nome" class="form-control" required="required" value="${modelUsuario.nome}">
+													<input type="text" name="nome" id="nome" class="form-control" required="required" value="${user.nome}">
 													<span class="form-bar"></span>
 													<label class="float-label ml-3">Nome:</label>
 												</div>
 															
 												<div class="form-group form-default form-static-label  col-4"> 
-													<input type="email" name="email" id="email" class="form-control" required="required" value="${modelUsuario.email}">
+													<input type="email" name="email" id="email" class="form-control" required="required" value="${user.email}">
 													<span class="form-bar"></span>
 													<label class="float-label ml-3">Email:</label>
 												</div>
 											
 												<div class="form-group form-default form-static-label col-4">
-													<input type="password" name="senha" id="senha" class="form-control" required="required" value="${modelUsuario.senha}">
+													<input type="password" name="senha" id="senha" class="form-control row" required="required" value="${user.senha}">
+													<img src="<%=request.getContextPath()%>/assets/images/ocultar.png" id="olho" style="cursor: pointer;"/>
 													<span class="form-bar"></span>
-													<label class="float-label ml-3">Senha:</label>
+													<label class="float-label">Senha:</label>
 												</div>
 											</div>
 											
 											<div class="row">
 												<div class="form-group form-default form-static-label col-3">
-													<input onblur="pesquisaCep()" type="text" name="cep" id="cep" class="form-control" required="required" value="${modelUsuario.cep}">
+													<input onblur="pesquisaCep()" type="text" name="cep" id="cep" class="form-control" required="required" value="${user.cep}">
 													<span class="form-bar"></span>
 													<label class="float-label ml-3">Cep:</label>
 												</div>
@@ -95,37 +104,35 @@
 											
 											<div class="row">
 												<div class="form-group form-default form-static-label col-4">
-													<input type="text" name="logradouro" id="logradouro" class="form-control" required="required" value="${modelUsuario.logradouro}">
+													<input type="text" name="logradouro" id="logradouro" class="form-control" required="required" value="${user.logradouro}">
 													<span class="form-bar"></span>
 													<label class="float-label ml-3">Logradouro:</label>
 												</div>
 												
 												<div class="form-group form-default form-static-label col-3">
-													<input type="text" name="numero" id="numero" class="form-control" required="required" value="${modelUsuario.numero}">
+													<input type="text" name="numero" id="numero" class="form-control" required="required" value="${user.numero}">
 													<span class="form-bar"></span>
 													<label class="float-label ml-3">Número:</label>
 												</div>
 												
 												<div class="form-group form-default form-static-label col-4">
-													<input type="text" name="bairro" id="bairro" class="form-control" required="required" value="${modelUsuario.bairro}">
+													<input type="text" name="bairro" id="bairro" class="form-control" required="required" value="${user.bairro}">
 													<span class="form-bar"></span>
 													<label class="float-label ml-3">Bairro:</label>
 												</div>
 											</div>
 											
 											<div class="form-group form-default form-static-label">
-												<input type="text" name="cidade" id="cidade" class="form-control" required="required" value="${modelUsuario.cidade}">
+												<input type="text" name="cidade" id="cidade" class="form-control" required="required" value="${user.cidade}">
 												<span class="form-bar"></span>
 												<label class="float-label">Cidade:</label>
 											</div>
 											
 											<div class="form-group form-default form-static-label">
-												<input type="text" name="uf" id="uf" class="form-control" required="required" value="${modelUsuario.uf}">
+												<input type="text" name="uf" id="uf" class="form-control" required="required" value="${user.uf}">
 												<span class="form-bar"></span>
 												<label class="float-label">Estado:</label>
 											</div>
-											
-														
 											<div class="form-group form-default form-static-label">
 												<select class="form-control" aria-label="Default select example" name="perfil">
 												
@@ -133,35 +140,35 @@
 												  
 												  <option value="ADMIN" <% 
 												  
-												  ModelUsuario modelUsuario = (ModelUsuario) request.getAttribute("modelUsuario");
+													  ModelUsuario user = (ModelUsuario) request.getAttribute("user");
 												  
-												  if (modelUsuario != null && modelUsuario.getPerfil().equals("ADMIN")) {
+												  if (user != null && user.getPerfil().equals("ADMIN")) {
 													  out.println(" ");
-													  out.print("selected= 'selected' ");
+													  out.print("selected=\"selected\"");
 													  out.println(" ");
 												  } %>>Admin</option>
 															  
 												  <option value="CLIENTE" <% 
 												  
-												  modelUsuario = (ModelUsuario) request.getAttribute("modelUsuario");
-												  
-												  if (modelUsuario != null && modelUsuario.getPerfil().equals("CLIENTE")) {
+														  user = (ModelUsuario) request.getAttribute("user");
+												  		
+												  if (user != null && user.getPerfil().equals("CLIENTE")) {
 													  out.println(" ");
-													  out.print("selected= 'selected' ");
+													  out.print("selected=\"selected\"");
 													  out.println(" ");
 												  } %>>Cliente</option>
 															  
 												  <option value="FUNCIONARIO" <% 
 												  
-												  modelUsuario = (ModelUsuario) request.getAttribute("modelUsuario");
+														  user = (ModelUsuario) request.getAttribute("user");
 												  
-												  if (modelUsuario != null && modelUsuario.getPerfil().equals("FUNCIONARIO")) {
+												  if (user != null && user.getPerfil().equals("FUNCIONARIO")) {
 													  out.println(" ");
-													  out.print("selected= 'selected' ");
+													  out.print("selected=\"selected\"");
 													  out.println(" ");
 												  } %>>Funcionário</option>
 															  
-														</select>
+												</select>
 														<span class="form-bar"></span>
 														<label class="float-label">Perfil:</label>
 													</div>
@@ -169,76 +176,37 @@
 													<div class="form-group form-default form-static-label" >
 													
 														<input class="" type="radio" name="sexo" value="MASCULINO" <% 
-															modelUsuario = (ModelUsuario) request.getAttribute("modelUsuario");
-															if (modelUsuario != null && modelUsuario.getSexo().equals("MASCULINO")) {
+															
+																user = (ModelUsuario) request.getAttribute("user");
+														
+															if (user != null && user.getSexo().equals("MASCULINO")) {
 																out.println(" ");
-															 	out.print("checked= 'checked' ");
+																out.print("checked=\"checked\"");
 															  	out.println(" ");
 															} %>> Masculino</>
 															
 														<input class="ml-2" type="radio" name="sexo" value="FEMININO" <% 
-															modelUsuario = (ModelUsuario) request.getAttribute("modelUsuario");
-															if (modelUsuario != null && modelUsuario.getSexo().equals("FEMININO")) {
+														
+																user = (ModelUsuario) request.getAttribute("user");
+														
+															if (user != null && user.getSexo().equals("FEMININO")) {
 																out.println(" ");
-															 	out.print("checked= 'checked' ");
+																out.print("checked=\"checked\"");
 															  	out.println(" ");
 															} %>> Feminino</>
 													</div>
-														
-														<button type="button" class="btn waves-effect waves-light btn-success" onclick="limparForm()">Novo</button>
 														<button type="submit" class="btn waves-effect waves-light btn-primary ml-2">Salvar</button>
+														<button type="button" class="btn waves-effect waves-light btn-success ml-2" onclick="limparForm()">Limpar</button>
 														<button type="button" class="btn waves-effect waves-light btn-danger ml-2" onclick="deleteAjax()">Excluir</button>
-														<button type="button" class="btn btn-secondary ml-2" data-toggle="modal" data-target="#modalUser">Pesquisar</button>
+														<c:if test="${user.id > 0}">
+															<a href="<%=request.getContextPath()%>/ServletTelefone?iduser=${user.id}" class="btn waves-effect waves-light btn-primary ml-2">Telefone</a>
+														</c:if>
 													</form>
 
 												</div>
 											</div>
 										</div>
 									</div>
-									<span id="msg">${msg}</span>
-									
-									<div style="height: 300px; overflow: scroll;">
-										<table class="table" id="tabelaUsersViews">
-											<thead>
-												<tr>
-													<th scope="col">ID</th>
-													<th scope="col">Nome</th>
-													<th scope="col">Email</th>
-													<th scope="col">Editar</th>
-												</tr>
-											</thead>
-											<tbody>
-												<c:forEach items="${modelUsuarios}" var="users">
-													<tr>
-														<td><c:out value="${users.id}"></c:out></td>
-														<td><c:out value="${users.nome}"></c:out></td>
-														<td><c:out value="${users.email}"></c:out></td>
-														<td><a href="<%=request.getContextPath()%>/ServletUsuarioController?acao=buscarEditar&id=${users.id}" style="border-radius:8px; 
-														width:45px; heigth:45px;" class="btn btn-primary d-flex justify-content-center align-items-center">
-														<i class="ti-pencil-alt ml-1 mb-1" style="font-size:17px;"></i></a></td>
-													</tr>
-												</c:forEach>
-											</tbody>
-										</table>
-									</div>
-									
-									<nav aria-label="Page navigation example">
-									  <ul class="pagination">
-									  
-									  	<% 
-									  		int totalPagina = (int) request.getAttribute("totalPagina");
-									  		
-									  		for (int p = 0; p < totalPagina; p++) {
-									  			
-									  			String url = request.getContextPath() + "/ServletUsuarioController?acao=paginar&pagina=" + (p * 5);
-									  			out.print("<li class='page-item'><a class='page-link' href=" + url + ">" + (p + 1) + "</a></li>");
-									  		}
-									  	%>
-									  
-									    
-									  </ul>
-									</nav>
-									
 								</div>
 								<div id="styleSelector"></div>
 							</div>
@@ -300,8 +268,9 @@
 			</div>
 		</div>
 	</div>
-
+	
 	<script type="text/javascript">
+	
 
 /* Funcao acessa a API ViaCep e carrega o endereço atraves do cep digitado */
 function pesquisaCep() {
@@ -341,117 +310,6 @@ function limparDados() {
 	$("#totalUsers").html("");
 }
 
-function buscaUserPagAjax(url) {
-	
-
-	var urlAction = document.getElementById("formUser").action;
-	var nomeBusca = document.getElementById("nomeBusca").value;
-
-	
-	$.ajax(
-			{
-				method : "GET",
-				url : urlAction,
-				data : url,
-				success : function(response, textStatus, xhr) {
-
-					
-					
-					var json = JSON.parse(response);
-
-					$('#tabelaUsers > tbody > tr').remove();
-					$("#ulPaginacaoUserAjax > li").remove();
-					
-
-					for (var p = 0; p < json.length; p++) {
-
-						$('#tabelaUsers > tbody').append('<tr> <td>' + json[p].id + '</td> <td>'+ json[p].nome 
-								+ ' </td> <td> <button onclick="editarUser('+json[p].id+')" type="button" style="border-radius:8px; width:45px; heigth:45px;" '
-								+ ' class="btn btn-primary d-flex justify-content-center align-items-center"> '
-								+ ' <i class="ti-pencil-alt ml-1 mb-1" style="font-size:17px;"></i></button> </td></tr>');
-						
-					}
-
-					document.getElementById("totalUsers").textContent = "Resultado: " + json.length;
-							
-					var totalPagina = xhr.getResponseHeader("totalPagina");
-					
-					for (var p = 0; p < totalPagina; p++) {
-
-						
-						var url = "nomeBusca=" + nomeBusca + "&acao=buscarUserAjaxPage&pagina=" + (p * 5);
-						
-						$("#ulPaginacaoUserAjax").append('<li class="page-item"><a class="page-link" href="#" onclick="buscaUserPagAjax(\'' + url + '\')">' + (p + 1) + '</a></li>');
-							
-						}
-				}
-
-		}).fail(
-		function(xhr, status, errorThrow) {
-			alert("Erro ao buscar o usuário:"
-					+ xhr.responseText);
-
-		});
-
-	
-}
-
-
-/* Funcao para buscar usuarios utilizando Ajax  */
-function buscarUsuario() {
-
-	var nomeBusca = document.getElementById("nomeBusca").value;
-	
-	if (nomeBusca != null && nomeBusca != '' && nomeBusca.trim() != '') { /* Validando que tem que ter valor para buscar no banco */
-
-	var urlAction = document.getElementById("formUser").action;
-
-		
-	$.ajax(
-			{
-				method : "GET",
-				url : urlAction,
-				data : "nomeBusca=" + nomeBusca + "&acao=buscarUserAjax",
-				success : function(response, textStatus, xhr) {
-					
-					var json = JSON.parse(response);
-
-					$('#tabelaUsers > tbody > tr').remove();
-					$("#ulPaginacaoUserAjax > li").remove();
-					
-
-					for (var p = 0; p < json.length; p++) {
-
-						$('#tabelaUsers > tbody').append('<tr> <td>' + json[p].id + '</td> <td>'+ json[p].nome 
-								+ ' </td> <td> <button onclick="editarUser('+json[p].id+')" type="button" style="border-radius:8px; width:45px; heigth:45px;" '
-								+ ' class="btn btn-primary d-flex justify-content-center align-items-center"> '
-								+ ' <i class="ti-pencil-alt ml-1 mb-1" style="font-size:17px;"></i></button> </td></tr>');
-						
-					}
-
-					document.getElementById("totalUsers").textContent = "Resultado: " + json.length;
-							
-					var totalPagina = xhr.getResponseHeader("totalPagina");
-					
-					for (var p = 0; p < totalPagina; p++) {
-						
-						var url = "nomeBusca=" + nomeBusca + "&acao=buscarUserAjaxPage&pagina=" + (p * 5);
-						
-						$("#ulPaginacaoUserAjax").append('<li class="page-item"><a class="page-link" href="#" onclick="buscaUserPagAjax(\'' + url + '\')">' + (p + 1) + '</a></li>');
-							
-						}
-				}
-				
-			}).fail(
-			function(xhr, status, errorThrow) {
-				alert("Erro ao buscar o usuário:"
-						+ xhr.responseText);
-
-			});
-		
-	}
-}
-
 /* Funcao para buscar usuario e editar utilizando Ajax */
 function editarUser(id) {
 
@@ -464,13 +322,13 @@ function deleteAjax() {
 
 	if (confirm("Deseja realmente excluir os dados?")) {
 
-		var urlAction = document.getElementById("formUser").action;
+		<%-- var urlAction = "<%=request.getContextPath()%>/ServletUsuarioController"; --%>
 		var idUser = document.getElementById("id").value;
 
 		$.ajax({
 
 			method : "GET",
-			url : urlAction,
+			url : "<%=request.getContextPath()%>/ServletUsuarioController",
 			data : "id=" + idUser + "&acao=deletarAjax",
 			success : function(response) {
 
@@ -485,24 +343,21 @@ function deleteAjax() {
 	}
 }
 
-/* Funcao para deletar usuario */
-function criarDelete() {
 
-	if (confirm("Deseja realmente excluir os dados?")) {
-
-		document.getElementById("formUser").method = 'get';
-		document.getElementById("acao").value = 'deletar';
-		document.getElementById("formUser").submit();
-	}
-}
- /* Funcao para limpar os campos do form */
+/* Funcao para limpar os campos do form */
 function limparForm() {
 	var elementos = document.getElementById("formUser").elements; /* Retorna os elementos html dentro do form */
 
 	for (p = 0; p < elementos.length; p++) {
-		elementos[p].value = '';
+		
+			elementos[p].value = '';
+		
 	}
-
+	$("#F").val('FEMININO');
+	$("#M").val('MASCULINO');
+	$("#fotoembase64").attr('src', 'assets/images/faq_man.png');
+	
+ 
 }
 
 /* Funcao para carregar imagem do usuario */
@@ -522,11 +377,17 @@ function limparForm() {
 		 preview.src = '';
 	 }
 }
+
+var senha = document.getElementById("senha");
+var olho = document.getElementById("olho");
+
+olho.addEventListener('click', function () {
+	senha.type = senha.type == 'text' ? 'password' : 'text';
+});
  
- 
- 
- 
-	</script>
+
+</script>
+	
 </body>
 
 </html>

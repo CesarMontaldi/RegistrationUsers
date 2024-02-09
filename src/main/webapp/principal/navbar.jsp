@@ -101,14 +101,15 @@
 				<li class="user-profile header-notification">
 					<a href="#!" class="waves-effect waves-light">
 						<c:choose>
-							<c:when test="${modelUsuario.fotouser != null && modelUsuario.fotouser != ''}">
-								<img class="img-80 img-radius" src="${modelUsuario.fotouser}" id="fotoUser" alt="User-Profile-Image">
+							<c:when test="${fotoUser != null && fotoUser != ''}">
+								<img class="img-80 img-radius" src="${fotoUser}" id="fotoUser" alt="User-Profile-Image">
 							</c:when>
+							
 							<c:otherwise>
-								<img class="img-80 img-radius" src="assets/images/faq_man.png" id="fotoUser" alt="User-Profile-Image">
+								<img class="img-radius" src="<%=request.getContextPath()%>/assets/images/faq_man.png" id="fotoUser" alt="User-Profile-Image">
 							</c:otherwise>
 						</c:choose>
-						 <span> ${modelUsuario.nome} </span>
+						 <span> <%= request.getSession().getAttribute("nomeUsuario") %> </span>
 						 <i class="ti-angle-down"></i>
 					</a>
 					<ul class="show-notification profile-notification">
