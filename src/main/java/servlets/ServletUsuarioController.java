@@ -96,7 +96,7 @@ public class ServletUsuarioController extends ServletGenericUtil {
 				String id = request.getParameter("id");
 				
 				ModelUsuario user = daoUsuarioRepository.consultaUsuarioID(Long.parseLong(id));
-				
+				ModelTelefone fone = daoTelefoneRepository.consultaFone(Long.parseLong(id));
 				
 				/* List<ModelUsuario> modelUsuarios = daoUsuarioRepository.consultaUsuarioList(super.getUserLogado(request));
 				request.setAttribute("modelUsuarios", modelUsuarios); */
@@ -106,6 +106,7 @@ public class ServletUsuarioController extends ServletGenericUtil {
 				
 				
 				request.setAttribute("user", user);
+				request.setAttribute("foneuser", fone);
 				RequestDispatcher redireciona = request.getRequestDispatcher("principal/cadastroUsuario.jsp");
 				redireciona.forward(request, response);
 				
@@ -114,9 +115,9 @@ public class ServletUsuarioController extends ServletGenericUtil {
 				String id = request.getParameter("id");
 				
 				ModelUsuario user = daoUsuarioRepository.consultaUsuarioID(Long.parseLong(id));
-
-				request.setAttribute("msg", "Usuário em edição");
 				
+				
+				request.setAttribute("msg", "Usuário em edição");
 				request.setAttribute("modelUsuario", user);
 				RequestDispatcher redireciona = request.getRequestDispatcher("principal/profile.jsp");
 				redireciona.forward(request, response);
@@ -129,10 +130,9 @@ public class ServletUsuarioController extends ServletGenericUtil {
 				request.setAttribute("msg", "Usuários carregados");
 				
 				ModelUsuario user = daoUsuarioRepository.consultaUsuarioID(super.getUserLogado(request));
+				
 				request.setAttribute("modelUsuario", user);
-				
 				request.setAttribute("totalPagina", daoUsuarioRepository.totalPaginas(this.getUserLogado(request)));
-				
 				request.getRequestDispatcher("principal/usuarios.jsp").forward(request, response);
 				
 			}
@@ -259,7 +259,7 @@ public class ServletUsuarioController extends ServletGenericUtil {
 			
 			ModelTelefone modelTelefone = new ModelTelefone();
 			
-			if (telefone != null && !telefone.isEmpty()); {
+			if (!daoTelefoneRepository.existeFone(telefone, Long.parseLong(id))) {
 			
 				modelTelefone.setNumero(telefone);
 				modelTelefone.setUsuario_id(modelUsuario);

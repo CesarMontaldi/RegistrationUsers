@@ -190,7 +190,7 @@
 												
 															<div class="form-group form-default form-static-label ml-3" >
 														
-															<input class="" type="radio" name="sexo" value="MASCULINO" <% 
+																<input class="mt-2" type="radio" name="sexo" value="MASCULINO" <% 
 																
 																	user = (ModelUsuario) request.getAttribute("user");
 															
@@ -199,7 +199,7 @@
 																	out.print("checked=\"checked\"");
 																  	out.println(" ");
 																} %>> Masculino</>
-															<input class="ml-2" type="radio" name="sexo" value="FEMININO" <% 
+																<input class="ml-2 mt-2" type="radio" name="sexo" value="FEMININO" <% 
 															
 																	user = (ModelUsuario) request.getAttribute("user");
 															
@@ -211,7 +211,7 @@
 																
 																<span class="form-bar"></span>
 																<label class="float-label" style="margin-top: -30px;">Sexo:</label>
-														</div>
+															</div>
 
 													</div>
 														
