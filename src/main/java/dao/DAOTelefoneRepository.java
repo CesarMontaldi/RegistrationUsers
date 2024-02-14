@@ -20,7 +20,7 @@ public class DAOTelefoneRepository {
 		connection = SingleConnection.getConnection();
 	}
 	
-	public void gravaTelefone(ModelTelefone modelTelefone) throws SQLException {
+	public ModelTelefone gravaTelefone(ModelTelefone modelTelefone) throws SQLException {
 		
 		String sql = "insert into telefone (numero, usuario_id, usuario_cad) values(?, ?, ?)";
 		
@@ -32,7 +32,8 @@ public class DAOTelefoneRepository {
 		statement.execute();
 		
 		connection.commit();
-
+		
+		return modelTelefone;
 	}
 	
 	public List<ModelTelefone> listFone(Long idUser) throws SQLException {

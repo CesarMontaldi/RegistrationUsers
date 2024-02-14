@@ -15,8 +15,8 @@
 		<div class=""> 
 			<div class="main-menu-header">
 				<c:choose>
-					<c:when test="${fotoUser != null && fotoUser != ''}">
-						<img class="img-80 img-radius" src="${fotoUser}" id="fotoUser" alt="User-Profile-Image">
+					<c:when test="${modelUsuario.fotouser != null && modelUsuario.fotouser != ''}">
+						<img class="img-80 img-radius" src="${modelUsuario.fotouser}" id="fotoUser" alt="User-Profile-Image">
 					</c:when>
 					
 					<c:otherwise>

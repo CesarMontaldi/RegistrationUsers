@@ -51,12 +51,6 @@
 										<form class="form-material" enctype="multipart/form-data" action="<%=request.getContextPath()%>/ServletUsuarioController?acao=cadastrar" method="post" id="formUser">
 											
 											<input type="hidden" name="acao" id="acao" />
-
-											<div class="form-group form-default form-static-label">
-												<input type="text" name="id" id="id" class="form-control" readonly="readonly" value="${user.id}">
-												<span class="form-bar"></span>
-												<label class="float-label">ID:</label>
-											</div>
 														 
 											<div class="form-group form-default input-group mb-4">
 												<div class="input-group-prepend">
@@ -73,7 +67,13 @@
 												</div>
 													<input type="file" id="fileFoto" name="fileFoto" accept="image/*" onchange="visualizarImg('fotoembase64', 'fileFoto')" class="form-control-file" style="margin-top: 30px; margin-left: 15px;">
 											</div>
-											<div class="row">
+											<div class="row mt-2">
+												<div class="form-group form-default form-static-label col-1">
+												<input type="text" name="id" id="id" class="form-control" readonly="readonly" value="${user.id}">
+												<span class="form-bar"></span>
+												<label class="float-label ml-3">ID:</label>
+												</div>
+												
 												<div class="form-group form-default form-static-label col-4">
 													<input type="text" name="nome" id="nome" class="form-control" required="required" value="${user.nome}">
 													<span class="form-bar"></span>
@@ -85,25 +85,38 @@
 													<span class="form-bar"></span>
 													<label class="float-label ml-3">Email:</label>
 												</div>
-											
-												<div class="form-group form-default form-static-label col-4">
+												<div class="form-group form-default form-static-label col-3">
 													<input type="password" name="senha" id="senha" class="form-control row" required="required" value="${user.senha}">
-													<img src="<%=request.getContextPath()%>/assets/images/ocultar.png" id="olho" style="cursor: pointer;"/>
+													<i id="passwordLock" class="ti-lock" style="cursor: pointer; font-size: 18px; margin-left: -10px;"></i>
 													<span class="form-bar"></span>
 													<label class="float-label">Senha:</label>
 												</div>
 											</div>
-											
-											<div class="row">
+											<div class="row mt-2">
+												<div class="form-group form-default form-static-label col-4">
+													<input type="text" name="dataNascimento" id="dataNascimento" class="form-control" required="required" value="${user.dataNascimento}">
+													<span class="form-bar"></span>
+													<label class="float-label ml-3">Data Nascimento:</label>
+												</div>
+												<div class="form-group form-default form-static-label col-4">
+													<input type="text" name="telefone" id="telefone" class="form-control" required="required" value="${foneuser.numero}">
+													<span class="form-bar"></span>
+													<label class="float-label ml-3">Telefone:</label>
+												</div>
+												<div class="form-group form-default form-static-label col-4">
+													<input type="text" name="rendaMensal" id="rendaMensal" class="form-control" required="required" value="${user.rendamensal}">
+													<span class="form-bar"></span>
+													<label class="float-label ml-3">Renda Mensal:</label>
+												</div>
+											</div>
+											<div class="row mt-2">
 												<div class="form-group form-default form-static-label col-3">
 													<input onblur="pesquisaCep()" type="text" name="cep" id="cep" class="form-control" required="required" value="${user.cep}">
 													<span class="form-bar"></span>
 													<label class="float-label ml-3">Cep:</label>
 												</div>
-											</div>
-											
-											<div class="row">
-												<div class="form-group form-default form-static-label col-4">
+									
+												<div class="form-group form-default form-static-label col-6">
 													<input type="text" name="logradouro" id="logradouro" class="form-control" required="required" value="${user.logradouro}">
 													<span class="form-bar"></span>
 													<label class="float-label ml-3">Logradouro:</label>
@@ -114,93 +127,102 @@
 													<span class="form-bar"></span>
 													<label class="float-label ml-3">Número:</label>
 												</div>
-												
-												<div class="form-group form-default form-static-label col-4">
+											</div>
+											<div class="row mt-2">
+												<div class="form-group form-default form-static-label col-6">
 													<input type="text" name="bairro" id="bairro" class="form-control" required="required" value="${user.bairro}">
 													<span class="form-bar"></span>
 													<label class="float-label ml-3">Bairro:</label>
 												</div>
-											</div>
 											
-											<div class="form-group form-default form-static-label">
-												<input type="text" name="cidade" id="cidade" class="form-control" required="required" value="${user.cidade}">
-												<span class="form-bar"></span>
-												<label class="float-label">Cidade:</label>
-											</div>
-											
-											<div class="form-group form-default form-static-label">
-												<input type="text" name="uf" id="uf" class="form-control" required="required" value="${user.uf}">
-												<span class="form-bar"></span>
-												<label class="float-label">Estado:</label>
-											</div>
-											<div class="form-group form-default form-static-label">
-												<select class="form-control" aria-label="Default select example" name="perfil">
+												<div class="form-group form-default form-static-label col-4">
+													<input type="text" name="cidade" id="cidade" class="form-control" required="required" value="${user.cidade}">
+													<span class="form-bar"></span>
+													<label class="float-label ml-3">Cidade:</label>
+												</div>
 												
-												  <option disabled="disabled">[Selecione o Perfil]</option>
-												  
-												  <option value="ADMIN" <% 
-												  
-													  ModelUsuario user = (ModelUsuario) request.getAttribute("user");
-												  
-												  if (user != null && user.getPerfil().equals("ADMIN")) {
-													  out.println(" ");
-													  out.print("selected=\"selected\"");
-													  out.println(" ");
-												  } %>>Admin</option>
-															  
-												  <option value="CLIENTE" <% 
-												  
-														  user = (ModelUsuario) request.getAttribute("user");
-												  		
-												  if (user != null && user.getPerfil().equals("CLIENTE")) {
-													  out.println(" ");
-													  out.print("selected=\"selected\"");
-													  out.println(" ");
-												  } %>>Cliente</option>
-															  
-												  <option value="FUNCIONARIO" <% 
-												  
-														  user = (ModelUsuario) request.getAttribute("user");
-												  
-												  if (user != null && user.getPerfil().equals("FUNCIONARIO")) {
-													  out.println(" ");
-													  out.print("selected=\"selected\"");
-													  out.println(" ");
-												  } %>>Funcionário</option>
-															  
-												</select>
-														<span class="form-bar"></span>
-														<label class="float-label">Perfil:</label>
-													</div>
+												<div class="form-group form-default form-static-label col-2">
+													<input type="text" name="uf" id="uf" class="form-control" required="required" value="${user.uf}">
+													<span class="form-bar"></span>
+													<label class="float-label ml-3">Estado:</label>
+												</div>
+											</div>
+												<div class="row">
+													<div class="form-group form-default form-static-label col-6">
+														<select class="form-control" aria-label="Default select example" name="perfil">
+														
+														  <option disabled="disabled">[Selecione o Perfil]</option>
+														  
+														  <option value="ADMIN" <% 
+														  
+															  ModelUsuario user = (ModelUsuario) request.getAttribute("user");
+														  
+														  if (user != null && user.getPerfil().equals("ADMIN")) {
+															  out.println(" ");
+															  out.print("selected=\"selected\"");
+															  out.println(" ");
+														  } %>>Admin</option>
+																	  
+														  <option value="CLIENTE" <% 
+														  
+																  user = (ModelUsuario) request.getAttribute("user");
+														  		
+														  if (user != null && user.getPerfil().equals("CLIENTE")) {
+															  out.println(" ");
+															  out.print("selected=\"selected\"");
+															  out.println(" ");
+														  } %>>Cliente</option>
+																	  
+														  <option value="FUNCIONARIO" <% 
+														  
+																  user = (ModelUsuario) request.getAttribute("user");
+														  
+														  if (user != null && user.getPerfil().equals("FUNCIONARIO")) {
+															  out.println(" ");
+															  out.print("selected=\"selected\"");
+															  out.println(" ");
+														  } %>>Funcionário</option>
+																	  
+															</select>
+															<span class="form-bar"></span>
+															<label class="float-label ml-3">Perfil:</label>
+														</div>
 												
-													<div class="form-group form-default form-static-label" >
-													
-														<input class="" type="radio" name="sexo" value="MASCULINO" <% 
+															<div class="form-group form-default form-static-label ml-3" >
+														
+															<input class="" type="radio" name="sexo" value="MASCULINO" <% 
+																
+																	user = (ModelUsuario) request.getAttribute("user");
 															
-																user = (ModelUsuario) request.getAttribute("user");
-														
-															if (user != null && user.getSexo().equals("MASCULINO")) {
-																out.println(" ");
-																out.print("checked=\"checked\"");
-															  	out.println(" ");
-															} %>> Masculino</>
+																if (user != null && user.getSexo().equals("MASCULINO")) {
+																	out.println(" ");
+																	out.print("checked=\"checked\"");
+																  	out.println(" ");
+																} %>> Masculino</>
+															<input class="ml-2" type="radio" name="sexo" value="FEMININO" <% 
 															
-														<input class="ml-2" type="radio" name="sexo" value="FEMININO" <% 
-														
-																user = (ModelUsuario) request.getAttribute("user");
-														
-															if (user != null && user.getSexo().equals("FEMININO")) {
-																out.println(" ");
-																out.print("checked=\"checked\"");
-															  	out.println(" ");
-															} %>> Feminino</>
+																	user = (ModelUsuario) request.getAttribute("user");
+															
+																if (user != null && user.getSexo().equals("FEMININO")) {
+																	out.println(" ");
+																	out.print("checked=\"checked\"");
+																  	out.println(" ");
+																} %>> Feminino</>
+																
+																<span class="form-bar"></span>
+																<label class="float-label" style="margin-top: -30px;">Sexo:</label>
+														</div>
+
 													</div>
-														<button type="submit" class="btn waves-effect waves-light btn-primary ml-2">Salvar</button>
-														<button type="button" class="btn waves-effect waves-light btn-success ml-2" onclick="limparForm()">Limpar</button>
-														<button type="button" class="btn waves-effect waves-light btn-danger ml-2" onclick="deleteAjax()">Excluir</button>
-														<c:if test="${user.id > 0}">
-															<a href="<%=request.getContextPath()%>/ServletTelefone?iduser=${user.id}" class="btn waves-effect waves-light btn-primary ml-2">Telefone</a>
-														</c:if>
+														
+														<div class="row ml-1 mt-2">
+															<button type="submit" class="btn waves-effect waves-light btn-primary"><i class="ti-save mr-2"></i>Salvar</button>
+															<button type="button" class="btn waves-effect waves-light btn-success ml-3" onclick="limparForm()"><i class="ti-brush-alt"></i>Limpar</button>
+															<button type="button" class="btn waves-effect waves-light btn-danger ml-3 d-flex align-items-center" onclick="deleteAjax()"><i class="ti-trash mr-2" style="font-size: 18px;"></i>Excluir</button>
+															<c:if test="${user.id > 0}">
+																<a href="<%=request.getContextPath()%>/ServletTelefone?iduser=${user.id}" class="btn waves-effect waves-light btn-primary ml-2"><img src="<%=request.getContextPath()%>/assets/images/telefone1.png" class="mr-2">Telefone</a>
+															</c:if>
+														</div>
 													</form>
 
 												</div>
@@ -270,7 +292,52 @@
 	</div>
 	
 	<script type="text/javascript">
-	
+
+/* Mascara para campo monetario */
+$("#rendaMensal").maskMoney({prefix:"R$ ", decimal:",", thousands:"."});
+
+/* funcao para retornar campo monetario no formato R$0,00 */
+const formatter = new Intl.NumberFormat('pt-BR', {
+	currency : 'BRL',
+	minimumFractionDigits : 2
+});
+
+$("#rendaMensal").val(formatter.format($("#rendaMensal").val()));
+
+$("#rendaMensal").focus();
+
+
+/* funcao para criar um calendario do tipo datepicker */
+$(function() {
+	  
+	  $("#dataNascimento").datepicker({
+		    dateFormat: 'dd/mm/yy',
+		    dayNames: ['Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sábado'],
+		    dayNamesMin: ['D','S','T','Q','Q','S','S','D'],
+		    dayNamesShort: ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb','Dom'],
+		    monthNames: ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'],
+		    monthNamesShort: ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'],
+		    nextText: 'Próximo',
+		    prevText: 'Anterior'
+		});
+} );
+
+/* Mascara para campo de data */
+$(document).ready(function () {
+    $("#dataNascimento").mask('00/00/0000');
+});
+
+/* Funcao para retornar o campo de data no formato dd/mm/yyyy */
+var dataNascimento = $("#dataNascimento").val();
+
+var dateFormat = new Date(dataNascimento);
+
+$("#dataNascimento").val(dateFormat.toLocaleDateString('pt-BR', {timeZone : 'UTC'}));
+
+/* Mascara para campo de telefone */
+$(document).ready(function () {
+    $("#telefone").mask('(00) 0 0000-0000');
+});
 
 /* Funcao acessa a API ViaCep e carrega o endereço atraves do cep digitado */
 function pesquisaCep() {
@@ -378,14 +445,20 @@ function limparForm() {
 	 }
 }
 
-var senha = document.getElementById("senha");
-var olho = document.getElementById("olho");
+/* função para mostrar e ocultar senha */
+ var senha = document.getElementById("senha");
+ var passwordLock = document.getElementById("passwordLock");
 
-olho.addEventListener('click', function () {
-	senha.type = senha.type == 'text' ? 'password' : 'text';
-});
+ passwordLock.addEventListener('click', function () {
+ 	senha.type = senha.type == 'text' ? 'password' : 'text';
+ 	passwordLock.classList.value = passwordLock.classList.value == 'ti-lock' ? 'ti-unlock' : 'ti-lock';
+ });
+
+ $("#cep").keypress(function (event) {
+	return /\d/.test(String.fromCharCode(event.keyCode));	
+ });
+
  
-
 </script>
 	
 </body>

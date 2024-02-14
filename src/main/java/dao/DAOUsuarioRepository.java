@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,7 +43,7 @@ public class DAOUsuarioRepository {
 
 		if (usuario.isNovo()) {
 
-			String sql = "insert into users(nome, email, senha, usuario_id, perfil, sexo, cep, logradouro, bairro, cidade, uf, numero) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+			String sql = "insert into users(nome, email, senha, usuario_id, perfil, sexo, cep, logradouro, bairro, cidade, uf, numero, datanascimento, rendamensal) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
 			PreparedStatement preparedSql = connection.prepareStatement(sql);
 
 			preparedSql.setString(1, usuario.getNome());
@@ -58,6 +59,9 @@ public class DAOUsuarioRepository {
 			preparedSql.setString(10, usuario.getCidade());
 			preparedSql.setString(11, usuario.getUf());
 			preparedSql.setString(12, usuario.getNumero());
+			
+			preparedSql.setDate(13, usuario.getDataNascimento());
+			preparedSql.setDouble(14, usuario.getRendamensal());
 
 			preparedSql.execute();
 			connection.commit();
@@ -77,7 +81,7 @@ public class DAOUsuarioRepository {
 				}
 
 		} else {
-			String sql = "update users SET nome=?, email=?, senha=?, perfil=?, sexo=?, cep=?, logradouro=?, bairro=?, cidade=?, uf=?, numero=? WHERE id = " + usuario.getId() + ";";
+			String sql = "update users SET nome=?, email=?, senha=?, perfil=?, sexo=?, cep=?, logradouro=?, bairro=?, cidade=?, uf=?, numero=?, datanascimento=?, rendamensal=? WHERE id = " + usuario.getId() + ";";
 
 			PreparedStatement preparedSql = connection.prepareStatement(sql);
 
@@ -93,6 +97,9 @@ public class DAOUsuarioRepository {
 			preparedSql.setString(9, usuario.getCidade());
 			preparedSql.setString(10, usuario.getUf());
 			preparedSql.setString(11, usuario.getNumero());
+			
+			preparedSql.setDate(12, usuario.getDataNascimento());
+			preparedSql.setDouble(13, usuario.getRendamensal());
 
 			preparedSql.executeUpdate();
 			connection.commit();
@@ -305,6 +312,9 @@ public class DAOUsuarioRepository {
 			user.setUf(resultado.getString("uf"));
 			user.setNumero(resultado.getString("numero"));
 			
+			user.setDataNascimento(resultado.getDate("datanascimento"));
+			user.setRendamensal(resultado.getDouble("rendamensal"));
+			
 		}
 		return user;
 	}
@@ -337,6 +347,9 @@ public class DAOUsuarioRepository {
 			user.setCidade(resultado.getString("cidade"));
 			user.setUf(resultado.getString("uf"));
 			user.setNumero(resultado.getString("numero"));
+			
+			user.setDataNascimento(resultado.getDate("datanascimento"));
+			user.setRendamensal(resultado.getDouble("rendamensal"));
 		}
 		return user;
 	}
@@ -368,6 +381,9 @@ public class DAOUsuarioRepository {
 			user.setCidade(resultado.getString("cidade"));
 			user.setUf(resultado.getString("uf"));
 			user.setNumero(resultado.getString("numero"));
+			
+			user.setDataNascimento(resultado.getDate("datanascimento"));
+			user.setRendamensal(resultado.getDouble("rendamensal"));
 		}
 		return user;
 	}
@@ -401,6 +417,8 @@ public class DAOUsuarioRepository {
 			user.setUf(resultado.getString("uf"));
 			user.setNumero(resultado.getString("numero"));
 			
+			user.setDataNascimento(resultado.getDate("datanascimento"));
+			user.setRendamensal(resultado.getDouble("rendamensal"));
 			
 		}
 		return user;
@@ -434,6 +452,9 @@ public class DAOUsuarioRepository {
 			user.setCidade(resultado.getString("cidade"));
 			user.setUf(resultado.getString("uf"));
 			user.setNumero(resultado.getString("numero"));
+			
+			user.setDataNascimento(resultado.getDate("datanascimento"));
+			user.setRendamensal(resultado.getDouble("rendamensal"));
 			
 			
 		}
@@ -469,6 +490,9 @@ public class DAOUsuarioRepository {
 			user.setCidade(resultado.getString("cidade"));
 			user.setUf(resultado.getString("uf"));
 			user.setNumero(resultado.getString("numero"));
+			
+			user.setDataNascimento(resultado.getDate("datanascimento"));
+			user.setRendamensal(resultado.getDouble("rendamensal"));
 			
 		}
 		return user;

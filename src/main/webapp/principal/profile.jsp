@@ -82,7 +82,7 @@
 											
 												<div class="form-group form-default form-static-label col-4">
 													<input type="password" name="senha" id="senha" class="form-control row" required="required" value="${modelUsuario.senha}">
-														<img src="assets/images/ocultar.png" id="olho" style="cursor: pointer;"/>
+													<i id="passwordLock" class="ti-lock" style="cursor: pointer; font-size: 18px; margin-left: -10px;"></i>
 													<span class="form-bar"></span>
 													<label class="float-label ml-3">Senha:</label>
 												</div>
@@ -180,7 +180,6 @@
 																out.print("checked=\"checked\"");
 															  	out.println(" ");
 															} %>> Masculino</>
-															
 														<input class="ml-2" type="radio" name="sexo" value="FEMININO" <% 
 														
 																modelUsuario = (ModelUsuario) request.getAttribute("modelUsuario");
@@ -192,7 +191,7 @@
 															} %>> Feminino</>
 													</div>
 														<button type="button" class="btn waves-effect waves-light btn-success" onclick="limparForm()">Limpar</button>
-														<button type="submit" class="btn waves-effect waves-light btn-primary ml-2">Salvar</button>
+														<button type="submit" class="btn waves-effect waves-light btn-primary ml-2"><i id="test" class="ti-save"></i>Salvar</button>
 														<button type="button" class="btn waves-effect waves-light btn-danger ml-2" onclick="criarDelete()">Excluir</button>
 														<c:if test="${modelUsuario.id > 0}">
 															<a href="<%=request.getContextPath()%>/ServletTelefone?idUser=${modelUsuario.id}" class="btn waves-effect waves-light btn-primary ml-2">Telefone</a>
@@ -326,10 +325,11 @@ function criarDelete() {
 }
 
 var senha = document.getElementById("senha");
-var olho = document.getElementById("olho");
+var passwordLock = document.getElementById("lock");
 
-olho.addEventListener('click', function () {
+passwordLock.addEventListener('click', function () {
 	senha.type = senha.type == 'text' ? 'password' : 'text';
+	passwordLock.classList.value = passwordLock.classList.value == 'ti-lock' ? 'ti-unlock' : 'ti-lock';
 });
 
 </script>

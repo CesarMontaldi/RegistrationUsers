@@ -105,6 +105,18 @@
 	</div>
 
 	<jsp:include page="javaScriptFile.jsp"></jsp:include>
+	
+<script type="text/javascript">
+
+/* $("#numero").keypress(function (event) {
+	return /\d/.test(String.fromCharCode(event.keyCode));	
+ }); */
+
+$('#numero').blur(function(){
+    $('#numero').mask('(00) 0000-0000');
+    });
+
+</script>
 </body>
 
 </html>

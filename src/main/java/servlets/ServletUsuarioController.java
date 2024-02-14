@@ -1,6 +1,8 @@
 package servlets;
 
 import java.io.IOException;
+import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 
@@ -10,6 +12,7 @@ import org.apache.tomcat.util.http.fileupload.servlet.ServletFileUpload;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import dao.DAOTelefoneRepository;
 import dao.DAOUsuarioRepository;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
@@ -18,6 +21,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.Part;
+import model.ModelTelefone;
 import model.ModelUsuario;
 
 
@@ -28,6 +32,8 @@ public class ServletUsuarioController extends ServletGenericUtil {
 	private static final long serialVersionUID = 1L;
 	
 	private DAOUsuarioRepository daoUsuarioRepository = new DAOUsuarioRepository();
+	
+	private DAOTelefoneRepository daoTelefoneRepository = new DAOTelefoneRepository();
  
     public ServletUsuarioController() {
 
@@ -89,7 +95,7 @@ public class ServletUsuarioController extends ServletGenericUtil {
 			else if (acao != null && !acao.isEmpty() && acao.equalsIgnoreCase("buscarEditar")) { /* buscando usuário para editar */
 				String id = request.getParameter("id");
 				
-				ModelUsuario user = daoUsuarioRepository.consultaUsuarioId(id, super.getUserLogado(request));
+				ModelUsuario user = daoUsuarioRepository.consultaUsuarioID(Long.parseLong(id));
 				
 				
 				/* List<ModelUsuario> modelUsuarios = daoUsuarioRepository.consultaUsuarioList(super.getUserLogado(request));
@@ -194,6 +200,13 @@ public class ServletUsuarioController extends ServletGenericUtil {
 			String uf = request.getParameter("uf");
 			String numero = request.getParameter("numero");
 			
+			String telefone = request.getParameter("telefone");
+			String dataNascimento = request.getParameter("dataNascimento");
+			String rendaMensal = request.getParameter("rendaMensal");
+			
+			rendaMensal = rendaMensal.replaceAll("\\.", "").replaceAll("R\\$ ", "").replaceAll("\\,", ".");
+			
+			
 			if (id != null && !id.isEmpty() && acao.equalsIgnoreCase("cadastrar")) {
 				acao = "atualizarCadastro";
 			};
@@ -213,6 +226,8 @@ public class ServletUsuarioController extends ServletGenericUtil {
 			modelUsuario.setCidade(cidade);
 			modelUsuario.setUf(uf);
 			modelUsuario.setNumero(numero);
+			modelUsuario.setDataNascimento(Date.valueOf(new SimpleDateFormat("yyyy-mm-dd").format(new SimpleDateFormat("dd/mm/yyyy").parse(dataNascimento))));
+			modelUsuario.setRendamensal(Double.valueOf(rendaMensal));
 			
 			if (ServletFileUpload.isMultipartContent(request)) {
 				
@@ -230,6 +245,7 @@ public class ServletUsuarioController extends ServletGenericUtil {
 				
 			}
 			
+			 
 			
 			if (daoUsuarioRepository.validarLogin(modelUsuario.getEmail()) && modelUsuario.getId() == null) {
 				msg = "Já existe usuário com o mesmo login, informe outro.";
@@ -240,6 +256,18 @@ public class ServletUsuarioController extends ServletGenericUtil {
 			} 
 			
 			modelUsuario = daoUsuarioRepository.consultaUsuario(email);
+			
+			ModelTelefone modelTelefone = new ModelTelefone();
+			
+			if (telefone != null && !telefone.isEmpty()); {
+			
+				modelTelefone.setNumero(telefone);
+				modelTelefone.setUsuario_id(modelUsuario);
+				modelTelefone.setUsuario_cad(super.getUserLogadoObj(request));
+				
+				modelTelefone = daoTelefoneRepository.gravaTelefone(modelTelefone);
+				
+			}
 			
 			if (acao == "cadastrar") {
 				msg = "Usuário cadastrado com sucesso!";
@@ -254,6 +282,7 @@ public class ServletUsuarioController extends ServletGenericUtil {
 				
 				request.setAttribute("msg", msg);
 				request.setAttribute("user", modelUsuario);
+				request.setAttribute("foneuser", modelTelefone);
 				
 				RequestDispatcher redireciona = request.getRequestDispatcher("principal/cadastroUsuario.jsp");
 				redireciona.forward(request, response);
