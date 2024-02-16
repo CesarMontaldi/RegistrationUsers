@@ -1,9 +1,11 @@
 package dao;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -11,12 +13,13 @@ import java.util.List;
 import org.eclipse.jdt.internal.compiler.ast.ForeachStatement;
 
 import connection.SingleConnection;
+import model.ModelTelefone;
 import model.ModelUsuario;
 
 public class DAOUsuarioRepository {
 
 	private Connection connection;
-
+	
 	public DAOUsuarioRepository() {
 		connection = SingleConnection.getConnection();
 	}
@@ -141,6 +144,64 @@ public class DAOUsuarioRepository {
 			user.setPerfil(resultado.getString("perfil"));
 			user.setSexo(resultado.getString("sexo"));
 
+			user.setTelefones(this.listFone(user.getId()));
+			
+			usuarios.add(user);
+		}
+
+		return usuarios;
+	}
+	
+	public List<ModelUsuario> consultaUsuariosRelatorio(Long userLogado) throws SQLException {
+
+		List<ModelUsuario> usuarios = new ArrayList<ModelUsuario>();
+
+		String sql = "select * from users where useradmin is false and usuario_id = " + userLogado + " order By nome ASC";
+
+		PreparedStatement preparedSql = connection.prepareStatement(sql);
+
+		ResultSet resultado = preparedSql.executeQuery();
+		
+		while (resultado.next()) {
+			ModelUsuario user = new ModelUsuario();
+
+			user.setId(resultado.getLong("id"));
+			user.setNome(resultado.getString("nome"));
+			user.setEmail(resultado.getString("email"));
+			user.setPerfil(resultado.getString("perfil"));
+			user.setSexo(resultado.getString("sexo"));
+			
+			user.setTelefones(this.listFone(user.getId()));
+			
+			usuarios.add(user);
+		}
+
+		return usuarios;
+	}
+	
+	public List<ModelUsuario> consultaUsuariosRelatorioPorData(Long userLogado, String dataInicial, String dataFinal) throws Exception  {
+  
+		List<ModelUsuario> usuarios = new ArrayList<ModelUsuario>();
+
+		String sql = "select * from users where useradmin is false and usuario_id = " + userLogado + " and datanascimento >= ? and datanascimento <= ? order By nome ASC";
+
+		PreparedStatement preparedSql = connection.prepareStatement(sql);
+		preparedSql.setDate(1, Date.valueOf(new SimpleDateFormat("yyyy-mm-dd").format(new SimpleDateFormat("dd/mm/yyyy").parse(dataInicial))));
+		preparedSql.setDate(2, Date.valueOf(new SimpleDateFormat("yyyy-mm-dd").format(new SimpleDateFormat("dd/mm/yyyy").parse(dataFinal))));
+
+		ResultSet resultado = preparedSql.executeQuery();
+		
+		while (resultado.next()) {
+			ModelUsuario user = new ModelUsuario();
+
+			user.setId(resultado.getLong("id"));
+			user.setNome(resultado.getString("nome"));
+			user.setEmail(resultado.getString("email"));
+			user.setPerfil(resultado.getString("perfil"));
+			user.setSexo(resultado.getString("sexo"));
+			
+			user.setTelefones(this.listFone(user.getId()));
+			
 			usuarios.add(user);
 		}
 
@@ -190,6 +251,8 @@ public class DAOUsuarioRepository {
 			user.setEmail(resultado.getString("email"));
 			user.setPerfil(resultado.getString("perfil"));
 			user.setSexo(resultado.getString("sexo"));
+			
+			user.setTelefones(this.listFone(user.getId()));
 
 			usuarios.add(user);
 		}
@@ -249,6 +312,8 @@ public class DAOUsuarioRepository {
 			user.setPerfil(resultado.getString("perfil"));
 			user.setSexo(resultado.getString("sexo"));
 			
+			user.setTelefones(this.listFone(user.getId()));
+			
 			usuarios.add(user);
 		}
 
@@ -276,6 +341,8 @@ public class DAOUsuarioRepository {
 			user.setEmail(resultado.getString("email"));
 			user.setPerfil(resultado.getString("perfil"));
 			user.setSexo(resultado.getString("sexo"));
+			
+			user.setTelefones(this.listFone(user.getId()));
 			
 			usuarios.add(user);
 		}
@@ -350,6 +417,7 @@ public class DAOUsuarioRepository {
 			
 			user.setDataNascimento(resultado.getDate("datanascimento"));
 			user.setRendamensal(resultado.getDouble("rendamensal"));
+
 		}
 		return user;
 	}
@@ -384,6 +452,7 @@ public class DAOUsuarioRepository {
 			
 			user.setDataNascimento(resultado.getDate("datanascimento"));
 			user.setRendamensal(resultado.getDouble("rendamensal"));
+
 		}
 		return user;
 	}
@@ -456,7 +525,6 @@ public class DAOUsuarioRepository {
 			user.setDataNascimento(resultado.getDate("datanascimento"));
 			user.setRendamensal(resultado.getDouble("rendamensal"));
 			
-			
 		}
 		return user;
 	}
@@ -522,6 +590,33 @@ public class DAOUsuarioRepository {
 		prepareSql.executeUpdate();
 
 		connection.commit();
+	}
+	
+	public List<ModelTelefone> listFone(Long idUser) throws SQLException {
+		
+		List<ModelTelefone> telefones = new ArrayList<ModelTelefone>();
+		
+		String sql = "select * from telefone where usuario_id = ?";
+		
+		PreparedStatement statement = connection.prepareStatement(sql);
+		
+		statement.setLong(1, idUser);
+		
+		ResultSet resultado = statement.executeQuery();
+		
+		while(resultado.next()) {
+			
+			ModelTelefone modelTelefone = new ModelTelefone();
+			
+			modelTelefone.setId(resultado.getLong("id"));
+			modelTelefone.setNumero(resultado.getString("numero"));
+			modelTelefone.setUsuario_cad(this.consultaUsuarioId(resultado.getLong("usuario_cad")));
+			modelTelefone.setUsuario_id(this.consultaUsuarioId(resultado.getLong("usuario_id")));
+			
+			telefones.add(modelTelefone);
+		}
+		
+		return telefones;
 	}
 
 }

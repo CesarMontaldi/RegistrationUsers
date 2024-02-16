@@ -49,6 +49,7 @@
 															<th scope="col">ID</th>
 															<th scope="col">Nome</th>
 															<th scope="col">Email</th>
+															<th scope="col">Telefone</th>
 															<th scope="col">Editar</th>
 														</tr>
 													</thead>
@@ -58,6 +59,11 @@
 																<td><c:out value="${users.id}"></c:out></td>
 																<td><c:out value="${users.nome}"></c:out></td>
 																<td><c:out value="${users.email}"></c:out></td>
+																<td>
+																	<c:forEach items="${users.telefones}" var="fone">
+																		<c:out value="${fone.numero}"></c:out><br>
+																	</c:forEach>
+																</td>
 																<td><a href="<%=request.getContextPath()%>/ServletUsuarioController?acao=buscarEditar&id=${users.id}" style="border-radius:8px; 
 																width:45px; heigth:45px;" class="btn btn-primary d-flex justify-content-center align-items-center">
 																<i class="ti-pencil-alt ml-1 mb-1" style="font-size:17px;"></i></a></td>
