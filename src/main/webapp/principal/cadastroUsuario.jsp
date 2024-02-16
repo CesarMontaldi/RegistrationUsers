@@ -69,9 +69,9 @@
 											</div>
 											<div class="row mt-2">
 												<div class="form-group form-default form-static-label col-1">
-												<input type="text" name="id" id="id" class="form-control" readonly="readonly" value="${user.id}">
-												<span class="form-bar"></span>
-												<label class="float-label ml-3">ID:</label>
+													<input type="text" name="id" id="id" class="form-control" readonly="readonly" value="${user.id}">
+													<span class="form-bar"></span>
+													<label class="float-label ml-3">ID:</label>
 												</div>
 												
 												<div class="form-group form-default form-static-label col-4">

@@ -164,7 +164,7 @@
 				</a>
 				<ul class="pcoded-submenu">
 					<li>
-						<a href="form-elements-component.html" class="waves-effect waves-dark">
+						<a href="<%=request.getContextPath()%>/principal/userRelatorio.jsp" class="waves-effect waves-dark">
 							 <span class="pcoded-micon"><i class="ti-layers"></i><b>FC</b></span>
 							 <span class="pcoded-mtext" data-i18n="nav.form-components.main">Usuário</span>
 							 <span class="pcoded-mcaret"></span>

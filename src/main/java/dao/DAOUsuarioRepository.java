@@ -23,7 +23,7 @@ public class DAOUsuarioRepository {
 
 	public boolean validarAutenticacao(ModelUsuario modelUsuario) throws SQLException {
 
-		String sql = "select * from users where upper(email) = upper(?) and upper(senha) = upper(?) ";
+		String sql = "select * from users where upper(email) = upper(?) and senha =?";
 
 		PreparedStatement statement = connection.prepareStatement(sql);
 
