@@ -274,6 +274,7 @@ function limparDados() {
 	$("#totalUsers").html("");
 }
 
+
 </script>
 
 </body>
