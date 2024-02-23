@@ -497,7 +497,7 @@ public class DAOUsuarioRepository {
 
 		ModelUsuario user = new ModelUsuario();
 
-		String sql = "select * from users where id = ? and useradmin is false";
+		String sql = "select * from users where id = ?";
 
 		PreparedStatement statement = connection.prepareStatement(sql);
 

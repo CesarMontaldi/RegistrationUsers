@@ -4,12 +4,10 @@ import java.io.File;
 import java.io.IOException;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
-
-import org.apache.tomcat.jakartaee.commons.compress.utils.IOUtils;
+ 
+import org.apache.commons.compress.utils.IOUtils;
 import org.apache.tomcat.util.codec.binary.Base64;
 import org.apache.tomcat.util.http.fileupload.servlet.ServletFileUpload;
 
@@ -100,7 +98,7 @@ public class ServletUsuarioController extends ServletGenericUtil {
 			else if (acao != null && !acao.isEmpty() && acao.equalsIgnoreCase("buscarEditar")) { /* buscando usuário para editar */
 				String id = request.getParameter("id");
 				
-				ModelUsuario user = daoUsuarioRepository.consultaUsuarioID(Long.parseLong(id));
+				ModelUsuario user = daoUsuarioRepository.consultaUsuarioId(Long.parseLong(id));
 				ModelTelefone fone = daoTelefoneRepository.consultaFone(Long.parseLong(id));
 				
 				request.setAttribute("msg", "Usuário em edição");
@@ -131,7 +129,7 @@ public class ServletUsuarioController extends ServletGenericUtil {
 				request.setAttribute("modelUsuarios", modelUsuarios);
 				request.setAttribute("msg", "Usuários carregados");
 				
-				ModelUsuario user = daoUsuarioRepository.consultaUsuarioID(super.getUserLogado(request));
+				ModelUsuario user = daoUsuarioRepository.consultaUsuarioId(super.getUserLogado(request));
 				int paginaAtual = 1;
 				
 				
