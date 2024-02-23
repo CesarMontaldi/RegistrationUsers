@@ -5,6 +5,7 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -12,6 +13,7 @@ import java.util.List;
 
 import org.eclipse.jdt.internal.compiler.ast.ForeachStatement;
 
+import beandto.DTOGraficoSalarioUser;
 import connection.SingleConnection;
 import model.ModelTelefone;
 import model.ModelUsuario;
@@ -170,7 +172,7 @@ public class DAOUsuarioRepository {
 			user.setEmail(resultado.getString("email"));
 			user.setPerfil(resultado.getString("perfil"));
 			user.setSexo(resultado.getString("sexo"));
-			
+			user.setDataNascimento(resultado.getDate("datanascimento"));
 			user.setTelefones(this.listFone(user.getId()));
 			
 			usuarios.add(user);
@@ -199,7 +201,7 @@ public class DAOUsuarioRepository {
 			user.setEmail(resultado.getString("email"));
 			user.setPerfil(resultado.getString("perfil"));
 			user.setSexo(resultado.getString("sexo"));
-			
+			user.setDataNascimento(resultado.getDate("datanascimento"));
 			user.setTelefones(this.listFone(user.getId()));
 			
 			usuarios.add(user);
@@ -261,8 +263,6 @@ public class DAOUsuarioRepository {
 	}
 	
 	public int consultaUsuarioListTotalPaginacao(String nome, Long userLogado) throws SQLException {
-
-		List<ModelUsuario> usuarios = new ArrayList<ModelUsuario>();
 
 		String sql = "select count(1) as total from users where upper(nome) like upper(?) and useradmin is false and usuario_id = ?";
 
@@ -564,6 +564,69 @@ public class DAOUsuarioRepository {
 			
 		}
 		return user;
+	}
+	
+	public DTOGraficoSalarioUser montarGraficoMediaSalario(Long userLogado) throws Exception {
+		
+		String sql = "select avg(rendamensal) as media_salarial, perfil from users where usuario_id =? group by perfil";
+		
+		PreparedStatement statement = connection.prepareStatement(sql);
+		
+		statement.setLong(1, userLogado);
+		
+		ResultSet resultSet = statement.executeQuery();
+		
+		List<Double> salarios = new ArrayList<Double>();
+		List<String> perfils = new ArrayList<String>();
+		
+		DTOGraficoSalarioUser dtoGraficoSalarioUser = new DTOGraficoSalarioUser();
+	
+		
+		
+		while (resultSet.next()) {
+			Double media_salarial = resultSet.getDouble("media_salarial");
+			String perfil = resultSet.getString("perfil");
+			
+			salarios.add(media_salarial);
+			perfils.add(perfil);
+		}
+		
+		dtoGraficoSalarioUser.setSalarios(salarios);
+		dtoGraficoSalarioUser.setPerfils(perfils);
+		
+		return dtoGraficoSalarioUser;
+	}
+	
+	public DTOGraficoSalarioUser montarGraficoMediaSalarioPorData(Long userLogado, String dataInicial, String dataFinal) throws Exception{
+		String sql = "select avg(rendamensal) as media_salarial, perfil from users where usuario_id =? and datanascimento >= ? and datanascimento <= ? group by perfil";
+		
+		PreparedStatement statement = connection.prepareStatement(sql);
+		
+		statement.setLong(1, userLogado);
+		statement.setDate(2, Date.valueOf(new SimpleDateFormat("yyyy-mm-dd").format(new SimpleDateFormat("dd/mm/yyyy").parse(dataInicial))));
+		statement.setDate(3, Date.valueOf(new SimpleDateFormat("yyyy-mm-dd").format(new SimpleDateFormat("dd/mm/yyyy").parse(dataFinal))));
+		
+		ResultSet resultSet = statement.executeQuery();
+		
+		List<Double> salarios = new ArrayList<Double>();
+		List<String> perfils = new ArrayList<String>();
+		
+		DTOGraficoSalarioUser dtoGraficoSalarioUser = new DTOGraficoSalarioUser();
+	
+		
+		
+		while (resultSet.next()) {
+			Double media_salarial = resultSet.getDouble("media_salarial");
+			String perfil = resultSet.getString("perfil");
+			
+			salarios.add(media_salarial);
+			perfils.add(perfil);
+		}
+		
+		dtoGraficoSalarioUser.setSalarios(salarios);
+		dtoGraficoSalarioUser.setPerfils(perfils);
+		
+		return dtoGraficoSalarioUser;
 	}
 
 	public boolean validarLogin(String email) throws Exception {

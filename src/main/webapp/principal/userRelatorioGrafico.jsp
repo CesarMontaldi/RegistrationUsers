@@ -39,7 +39,7 @@
 												<div class="card">
 													<div class="card-block">
 														<h4 class="sub-title">Relátorio de usuário</h4>
-														<form class="form-material" action="<%=request.getContextPath()%>/ServletUsuarioController?acao=imprimirRelatorioUser" method="get" id="formRelatorioUser">
+														<form class="form-material" action="<%=request.getContextPath()%>/ServletUsuarioController" method="get" id="formRelGraficUser">
 															 
 															 <input type="hidden" id="acaoRelatorioImprimirTipo" name="acao" value="imprimirRelatorioUser" />
 															 
@@ -57,9 +57,7 @@
 																 </div>
 																 
 																 <div class="form-group form-default form-static-label ml-3">
-																     <button type="button" onclick="imprimirHTML()" class="btn btn-primary">Imprimir Relátorio</button>
-																     <button type="button" onclick="imprimirPDF()" class="btn btn-primary">Imprimir PDF</button>
-																     <button type="button" onclick="imprimirExcel()" class="btn btn-primary">Imprimir Excel</button>
+																     <button type="button" onclick="gerarGrafico()" class="btn btn-primary">Gerar Gráfico</button>
 																 </div>
 															 </div>
 															 
@@ -67,28 +65,10 @@
 													</div>
 													<div class="card ">
 														<div class="card-block">
-															<h4 class="sub-title">Relátorio de usuários</h4>
-															<div style=" overflow: scroll;">
-																<table class="table" id="tabelaUsersViews">
-																	<thead>
-																		<tr>
-																			<th scope="col">ID</th>
-																			<th scope="col">Nome</th>
-																			<th scope="col">Telefone</th>
-																		</tr>
-																	</thead>
-																	<tbody>
-																		<c:forEach items="${listUsers}" var="users">
-																			<tr>
-																				<td><c:out value="${users.id}"></c:out></td>
-																				<td><c:out value="${users.nome}"></c:out></td>
-																				<td>
-																					<c:forEach items="${users.telefones}" var="fone">
-																						<c:out value="${fone.numero}"></c:out><br>
-																					</c:forEach>
-																		</c:forEach>
-																	</tbody>
-																</table>
+															<div>
+																<div>
+																	<canvas id="myChart"></canvas>
+																</div>
 															</div>
 														</div>
 													</div>
@@ -105,25 +85,69 @@
 		</div>
 	</div>
 
-	<jsp:include page="javaScriptFile.jsp"></jsp:include>
+<jsp:include page="javaScriptFile.jsp"></jsp:include>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script type="text/javascript">
+
+var myChart = new Chart(
+    document.getElementById('myChart'));
+
+function gerarGrafico() {
+
+	var urlAction = document.getElementById("formRelGraficUser").action;
+	var dataInicial = document.getElementById("dataInicial").value; 
+	var dataFinal = document.getElementById("dataFinal").value;
+
+	const formatter = new Intl.NumberFormat('pt-BR', {
+		currency : 'BRL',
+		minimumFractionDigits : 2
+	});
+
+	$.ajax({
+		
 	
-	<script type="text/javascript">
+		method : "GET",
+		url : urlAction,
+		data : "dataInicial=" + dataInicial + "&dataFinal="+ dataFinal + "&acao=graficoSalario",
+		success : function(response) {
+			
+			var json = JSON.parse(response);
 
-function imprimirHTML() {
-	document.getElementById("acaoRelatorioImprimirTipo").value = "imprimirRelatorioUser";
-	$("#formRelatorioUser").submit();
-}
+			myChart.destroy();			
 
-function imprimirPDF() {
-	document.getElementById("acaoRelatorioImprimirTipo").value = "imprimirRelatorioPdf";
-	$("#formRelatorioUser").submit();
-	return false;
-}
+			var media_salarios = [];
 
-function imprimirExcel() {
-	document.getElementById("acaoRelatorioImprimirTipo").value = "imprimirRelatorioEcxel";
-	$("#formRelatorioUser").submit();
-	return false;
+			for(let salario in json.salarios) {
+				media_salarios.push(json.salarios[salario].toFixed(2));
+			};
+			
+			myChart = new Chart(
+
+			    document.getElementById('myChart'),
+			   {
+				 type: 'line',
+				 data: {
+					  labels: json.perfils,
+					  datasets: [{
+					    label: 'Gráfico média salarial',
+					    backgroundColor: 'rgb(255, 99, 132)',
+					    borderColor: 'rgb(255, 99, 132)',
+					    data: media_salarios,
+					  }]
+					},
+				 options: {}
+				}
+			 );
+		}
+	
+	}).fail(function(xhr, status, errorThrow) {
+	
+		alert("Erro ao buscar dados para o gráfico" + xhr.responseText);
+	});
+
+	
 }
 	
 $(function() {

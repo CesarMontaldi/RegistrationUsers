@@ -1,10 +1,13 @@
 package servlets;
 
+import java.io.File;
 import java.io.IOException;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-
+import java.util.Locale;
 
 import org.apache.tomcat.jakartaee.commons.compress.utils.IOUtils;
 import org.apache.tomcat.util.codec.binary.Base64;
@@ -12,6 +15,7 @@ import org.apache.tomcat.util.http.fileupload.servlet.ServletFileUpload;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import beandto.DTOGraficoSalarioUser;
 import dao.DAOTelefoneRepository;
 import dao.DAOUsuarioRepository;
 import jakarta.servlet.RequestDispatcher;
@@ -23,6 +27,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.Part;
 import model.ModelTelefone;
 import model.ModelUsuario;
+import util.ReportUtil;
 
 
 
@@ -98,15 +103,12 @@ public class ServletUsuarioController extends ServletGenericUtil {
 				ModelUsuario user = daoUsuarioRepository.consultaUsuarioID(Long.parseLong(id));
 				ModelTelefone fone = daoTelefoneRepository.consultaFone(Long.parseLong(id));
 				
-				/* List<ModelUsuario> modelUsuarios = daoUsuarioRepository.consultaUsuarioList(super.getUserLogado(request));
-				request.setAttribute("modelUsuarios", modelUsuarios); */
-				
 				request.setAttribute("msg", "Usuário em edição");
 				request.setAttribute("totalPagina", daoUsuarioRepository.totalPaginas(this.getUserLogado(request)));
 				
 				
 				request.setAttribute("user", user);
-				request.setAttribute("foneuser", fone);
+				request.setAttribute("foneuser", fone.getNumero());
 				RequestDispatcher redireciona = request.getRequestDispatcher("principal/cadastroUsuario.jsp");
 				redireciona.forward(request, response);
 				
@@ -130,7 +132,10 @@ public class ServletUsuarioController extends ServletGenericUtil {
 				request.setAttribute("msg", "Usuários carregados");
 				
 				ModelUsuario user = daoUsuarioRepository.consultaUsuarioID(super.getUserLogado(request));
+				int paginaAtual = 1;
 				
+				
+				request.setAttribute("pagina", paginaAtual);
 				request.setAttribute("modelUsuario", user);
 				request.setAttribute("totalPagina", daoUsuarioRepository.totalPaginas(this.getUserLogado(request)));
 				request.getRequestDispatcher("principal/usuarios.jsp").forward(request, response);
@@ -148,14 +153,30 @@ public class ServletUsuarioController extends ServletGenericUtil {
 				}
 			}
 			
-			else if (acao != null && !acao.isEmpty() && acao.equalsIgnoreCase("paginar")) { /* Fazer Download de foto, arquivos */
+			else if (acao != null && !acao.isEmpty() && acao.equalsIgnoreCase("paginar")) { 
 				
-				Integer offset = Integer.parseInt(request.getParameter("pagina"));
+				int offset = 5;
+				int paginaAtual = Integer.parseInt(request.getParameter("pagina"));
+				String paginacao = request.getParameter("paginacao");	
+				int totalPagina = daoUsuarioRepository.totalPaginas(this.getUserLogado(request));
+				
+				
+				if (paginacao.equals("previous")) {
+					paginaAtual --;
+					offset = (offset * paginaAtual) - 5;
+				}
+				
+				else if (paginacao.equals("next")) {
+					offset *= paginaAtual;
+					paginaAtual ++;
+				}
 				
 				List<ModelUsuario> modelUsuarios = daoUsuarioRepository.consultaUsuarioListPaginada(super.getUserLogado(request), offset);
 				request.setAttribute("modelUsuarios", modelUsuarios);
+
 				
-				request.setAttribute("totalPagina", daoUsuarioRepository.totalPaginas(this.getUserLogado(request)));
+				request.setAttribute("pagina", paginaAtual);
+				request.setAttribute("totalPagina", totalPagina);
 				request.getRequestDispatcher("principal/usuarios.jsp").forward(request, response);
 			}
 			
@@ -180,6 +201,72 @@ public class ServletUsuarioController extends ServletGenericUtil {
 				
 			}
 			
+			else if (acao != null && !acao.isEmpty() && acao.equalsIgnoreCase("imprimirRelatorioPdf") || acao.equalsIgnoreCase("imprimirRelatorioEcxel")) {
+				
+				String dataInicial = request.getParameter("dataInicial");
+				String dataFinal = request.getParameter("dataFinal");
+				
+				List<ModelUsuario> modelUsuarios = null;
+				
+				if (dataInicial == null || dataInicial.isEmpty() & dataFinal == null || dataFinal.isEmpty()) {
+					
+					modelUsuarios = daoUsuarioRepository.consultaUsuariosRelatorio(super.getUserLogado(request));
+				}
+				else {
+					modelUsuarios = daoUsuarioRepository.consultaUsuariosRelatorioPorData(super.getUserLogado(request), dataInicial, dataFinal);
+					
+				}
+				
+				HashMap<String, Object> params = new HashMap<String, Object>();
+				params.put("PARAM_SUB_REPORT", request.getServletContext().getRealPath("relatorio") + File.separator);
+				
+				byte[] relatorio = null;
+				String extensao = "";
+				
+				if (acao.equalsIgnoreCase("imprimirRelatorioPdf")) {
+					relatorio = new ReportUtil().geraRelatorioPDF(modelUsuarios, "relatorio-user", params, request.getServletContext());
+					extensao = "pdf";
+				}
+				
+				if (acao.equalsIgnoreCase("imprimirRelatorioEcxel")) {
+					relatorio = new ReportUtil().geraRelatorioExcel(modelUsuarios, "relatorio-user", params, request.getServletContext());
+					extensao = "xls";
+				}
+				
+				response.setHeader("Content-Disposition", "attachment;filename=arquivo." + extensao);
+				response.getOutputStream().write(relatorio);
+			}
+			
+			else if (acao != null && !acao.isEmpty() && acao.equalsIgnoreCase("graficoSalario")) {
+				
+				String dataInicial = request.getParameter("dataInicial");
+				String dataFinal = request.getParameter("dataFinal");
+				
+				if (dataInicial == null || dataInicial.isEmpty() & dataFinal == null || dataFinal.isEmpty()) {
+					
+					DTOGraficoSalarioUser dtoGraficoSalarioUser = daoUsuarioRepository.montarGraficoMediaSalario(super.getUserLogado(request));
+				
+					ObjectMapper mapper = new ObjectMapper();
+					
+					String json = mapper.writeValueAsString(dtoGraficoSalarioUser);
+					
+					response.getWriter().write(json);
+					
+				}else {
+					
+					DTOGraficoSalarioUser dtoGraficoSalarioUser = daoUsuarioRepository.montarGraficoMediaSalarioPorData(super.getUserLogado(request), dataInicial, dataFinal);
+					
+					ObjectMapper mapper = new ObjectMapper();
+					
+					String json = mapper.writeValueAsString(dtoGraficoSalarioUser);
+					
+					response.getWriter().write(json);
+					
+				}
+				
+				
+			}
+			
 			else {
 				List<ModelUsuario> modelUsuarios = daoUsuarioRepository.consultaUsuarioList(super.getUserLogado(request));
 				request.setAttribute("modelUsuarios", modelUsuarios);
@@ -195,11 +282,9 @@ public class ServletUsuarioController extends ServletGenericUtil {
 			redirecionar.forward(request, response);
 		}
 		
-		
 
 	}
-
-
+	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		try { /* Salva ou atualiza usuário */
@@ -225,12 +310,8 @@ public class ServletUsuarioController extends ServletGenericUtil {
 			String dataNascimento = request.getParameter("dataNascimento");
 			String rendaMensal = request.getParameter("rendaMensal");
 			
-			rendaMensal = rendaMensal.replaceAll("\\.", "").replaceAll("R\\$ ", "").replaceAll("\\,", ".");
-			
-			
-			if (id != null && !id.isEmpty() && acao.equalsIgnoreCase("cadastrar")) {
-				acao = "atualizarCadastro";
-			};
+			rendaMensal = rendaMensal.split("\\ ")[1].replaceAll("\\.", "").replaceAll("\\,", ".");
+
 			
 			ModelUsuario modelUsuario = new ModelUsuario();
 			
@@ -249,6 +330,7 @@ public class ServletUsuarioController extends ServletGenericUtil {
 			modelUsuario.setNumero(numero);
 			modelUsuario.setDataNascimento(Date.valueOf(new SimpleDateFormat("yyyy-mm-dd").format(new SimpleDateFormat("dd/mm/yyyy").parse(dataNascimento))));
 			modelUsuario.setRendamensal(Double.valueOf(rendaMensal));
+
 			
 			if (ServletFileUpload.isMultipartContent(request)) {
 				
@@ -278,23 +360,30 @@ public class ServletUsuarioController extends ServletGenericUtil {
 			
 			modelUsuario = daoUsuarioRepository.consultaUsuario(email);
 			
-			ModelTelefone modelTelefone = new ModelTelefone();
+			/*if(daoTelefoneRepository.existeFone(telefone, modelUsuario.getId())) {
+				
+				request.setAttribute("foneuser", telefone);
+			}*/
 			
-			if (!daoTelefoneRepository.existeFone(telefone, Long.parseLong(id))) {
-			
+			if (!daoTelefoneRepository.existeFone(telefone, modelUsuario.getId())) {
+				ModelTelefone modelTelefone = new ModelTelefone();
+				
 				modelTelefone.setNumero(telefone);
 				modelTelefone.setUsuario_id(modelUsuario);
 				modelTelefone.setUsuario_cad(super.getUserLogadoObj(request));
 				
 				modelTelefone = daoTelefoneRepository.gravaTelefone(modelTelefone);
 				
+				//request.setAttribute("foneuser", modelTelefone.getNumero());
 			}
 			
-			if (acao == "cadastrar") {
+			 if (id != null && !id.isEmpty() && acao.equalsIgnoreCase("cadastrar") || acao == "atualizar") {
+				
+				 msg = "Usuário atualizado com sucesso!";
+			 } 
+			 else if (acao.equalsIgnoreCase("cadastrar")) {
 				msg = "Usuário cadastrado com sucesso!";
-			} else if (acao == "atualizarCadastro" || acao == "atualizar") {
-				msg = "Usuário atualizado com sucesso!";
-			}
+			 }
 			
 			
 			request.setAttribute("totalPagina", daoUsuarioRepository.totalPaginas(this.getUserLogado(request)));
@@ -303,7 +392,7 @@ public class ServletUsuarioController extends ServletGenericUtil {
 				
 				request.setAttribute("msg", msg);
 				request.setAttribute("user", modelUsuario);
-				request.setAttribute("foneuser", modelTelefone);
+				request.setAttribute("foneuser", telefone);
 				
 				RequestDispatcher redireciona = request.getRequestDispatcher("principal/cadastroUsuario.jsp");
 				redireciona.forward(request, response);
@@ -313,6 +402,7 @@ public class ServletUsuarioController extends ServletGenericUtil {
 				
 				request.setAttribute("msg", msg);
 				request.setAttribute("modelUsuario", modelUsuario);
+				request.setAttribute("foneuser", telefone);
 				
 				RequestDispatcher redireciona = request.getRequestDispatcher("principal/profile.jsp");
 				redireciona.forward(request, response);

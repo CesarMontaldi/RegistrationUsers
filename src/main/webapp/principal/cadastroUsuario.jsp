@@ -99,7 +99,7 @@
 													<label class="float-label ml-3">Data Nascimento:</label>
 												</div>
 												<div class="form-group form-default form-static-label col-4">
-													<input type="text" name="telefone" id="telefone" class="form-control" required="required" value="${foneuser.numero}">
+													<input type="text" name="telefone" id="telefone" class="form-control" value="${foneuser}">
 													<span class="form-bar"></span>
 													<label class="float-label ml-3">Telefone:</label>
 												</div>
@@ -190,7 +190,7 @@
 												
 															<div class="form-group form-default form-static-label ml-3" >
 														
-																<input class="mt-2" type="radio" name="sexo" value="MASCULINO" <% 
+																<input class="mt-2" type="radio" name="sexo" value="MASCULINO" required="required" <% 
 																
 																	user = (ModelUsuario) request.getAttribute("user");
 															
@@ -199,7 +199,7 @@
 																	out.print("checked=\"checked\"");
 																  	out.println(" ");
 																} %>> Masculino</>
-																<input class="ml-2 mt-2" type="radio" name="sexo" value="FEMININO" <% 
+																<input class="ml-2 mt-2" type="radio" name="sexo" value="FEMININO" required="required"<% 
 															
 																	user = (ModelUsuario) request.getAttribute("user");
 															
@@ -220,7 +220,7 @@
 															<button type="button" class="btn waves-effect waves-light btn-success ml-3" onclick="limparForm()"><i class="ti-brush-alt"></i>Limpar</button>
 															<button type="button" class="btn waves-effect waves-light btn-danger ml-3 d-flex align-items-center" onclick="deleteAjax()"><i class="ti-trash mr-2" style="font-size: 18px;"></i>Excluir</button>
 															<c:if test="${user.id > 0}">
-																<a href="<%=request.getContextPath()%>/ServletTelefone?iduser=${user.id}" class="btn waves-effect waves-light btn-primary ml-2"><img src="<%=request.getContextPath()%>/assets/images/telefone1.png" class="mr-2">Telefone</a>
+																<a href="<%=request.getContextPath()%>/ServletTelefone?iduser=${user.id}" class="btn waves-effect waves-light btn-primary ml-3"><img src="<%=request.getContextPath()%>/assets/images/telefone1.png" class="mr-2">Telefone</a>
 															</c:if>
 														</div>
 													</form>
@@ -389,7 +389,6 @@ function deleteAjax() {
 
 	if (confirm("Deseja realmente excluir os dados?")) {
 
-		<%-- var urlAction = "<%=request.getContextPath()%>/ServletUsuarioController"; --%>
 		var idUser = document.getElementById("id").value;
 
 		$.ajax({

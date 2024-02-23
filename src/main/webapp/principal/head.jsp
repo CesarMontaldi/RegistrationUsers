@@ -16,6 +16,7 @@
 		<meta name="description"content="Projeto de estudos feito em JSP" />
 		<meta name="author" content="Cesar Montaldi" />
 		<!-- Favicon icon -->
+		
 		<link rel="icon" href="<%=request.getContextPath()%>/assets/images/favicon.ico" type="image/x-icon">
 		<!-- Google font-->
 		<link href="https://fonts.googleapis.com/css?family=Roboto:400,500"rel="stylesheet">

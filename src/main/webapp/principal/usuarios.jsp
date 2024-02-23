@@ -75,8 +75,8 @@
 											<div class="d-flex justify-content-center row">
 												<nav aria-label="Page navigation example" class="mt-2">
 												  <ul class="pagination">
-												  
-												  	<% 
+												  	
+												  	<%-- <% 
 												  		int totalPagina = (int) request.getAttribute("totalPagina");
 												  		
 												  		for (int p = 0; p < totalPagina; p++) {
@@ -84,8 +84,25 @@
 												  			String url = request.getContextPath() + "/ServletUsuarioController?acao=paginar&pagina=" + (p * 5);
 												  			out.print("<li class='page-item'><a class='page-link' href=" + url + ">" + (p + 1) + "</a></li>");
 												  		}
-												  	%>
-												    
+												  	%> --%>
+												  	
+												    <c:choose>
+													    <c:when test="${pagina <= 1}">
+													    	<li class="page-item disabled"><a class="page-link" href="#"> Anterior </a></li>
+													    </c:when>
+													    <c:otherwise>
+													    	<li class="page-item"><a class="page-link" href="<%=request.getContextPath()%>/ServletUsuarioController?acao=paginar&pagina=${pagina}&paginacao=previous"> Anterior </a></li>
+													    </c:otherwise>
+												    </c:choose>
+												    <li class="page-item"><a class="page-link">${pagina}  de  ${totalPagina}</a></li>
+												    <c:choose>
+												    	<c:when test="${pagina == totalPagina}">
+												    		<li class="page-item disabled"><a class="page-link" href="#"> Próximo</a></li>
+												    	</c:when>
+												    	<c:otherwise>
+												    		<li class="page-item"><a class="page-link" href="<%=request.getContextPath()%>/ServletUsuarioController?acao=paginar&pagina=${pagina}&paginacao=next"> Próximo</a></li>
+												    	</c:otherwise>
+												    </c:choose>
 												  </ul>
 												</nav>
 												<span id="totalUsers"></span>
@@ -154,6 +171,7 @@
 	<script type="text/javascript">
 
 
+	
 function buscaUserPagAjax(url) {
 	
 
@@ -209,7 +227,7 @@ function buscaUserPagAjax(url) {
 
 /* Funcao para buscar usuarios utilizando Ajax  */
 function buscarUsuario() {
-	
+
 	var nomeBusca = document.getElementById("nomeBusca").value;
 	
 	if (nomeBusca != null && nomeBusca != '' && nomeBusca.trim() != '') { /* Validando que tem que ter valor para buscar no banco */
